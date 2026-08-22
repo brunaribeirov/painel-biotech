@@ -40,27 +40,28 @@
   .panel{display:none;} .panel.active{display:block;}
   .intro{color:var(--ink-2);font-size:13.5px;margin:14px 0 4px;max-width:80ch;}
   section{margin:24px 0;}
-  .sec-h{display:flex;align-items:baseline;gap:10px;border-bottom:2px solid var(--border);padding-bottom:7px;margin-bottom:12px;}
-  .sec-n{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--accent);}
+  .sec-h{display:flex;align-items:center;gap:11px;border-bottom:2px solid var(--border);padding-bottom:7px;margin-bottom:12px;}
+  .sec-n{flex:none;display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:transparent;border:2px solid var(--accent);box-shadow:0 0 0 3px var(--accent-wash);font-family:var(--mono);font-size:11.5px;font-weight:700;color:var(--accent-ink);letter-spacing:-.02em;}
   .sec-h h2{font-size:18px;margin:0;letter-spacing:-.01em;}
   .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:15px 17px;box-shadow:var(--shadow);margin:12px 0;}
   .card h3{margin:0 0 3px;font-size:12.5px;letter-spacing:.03em;text-transform:uppercase;color:var(--ink-2);font-weight:700;}
   .cap{font-size:11.5px;color:var(--muted);margin:0 0 8px;}
-  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;} @media(max-width:800px){.hipe{margin-left:0}.tl{grid-template-columns:26px 1fr}.tlwrap:before{left:9px}.tlwrap:after{left:4px}.tl:before{left:4px}.grid2{grid-template-columns:1fr;}}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;} @media(max-width:800px){.tl{grid-template-columns:26px 1fr}.tlwrap:before{left:9px}.tlwrap:after{left:4px}.tl:before{left:4px}.grid2{grid-template-columns:1fr;}}
   svg.v{width:100%;height:auto;display:block;}
   .refs{font-size:10.5px;color:var(--muted);border-top:1px solid var(--border-2);margin-top:10px;padding-top:7px;}
   .refs b{color:var(--ink-2);}
   .read{font-size:13.5px;color:var(--ink-2);} .read p{margin:9px 0;} .read b{color:var(--ink);} .read.tight p{margin:6px 0;}
-  .qa{border-left:3px solid var(--accent);padding:4px 0 4px 12px;margin:12px 0;}
+  .qa{border-left:3px solid var(--accent);background:var(--surface-2);border-radius:0 10px 10px 0;padding:9px 13px;margin:12px 0;}
   .qa .q{font-weight:700;color:var(--ink);font-size:13.5px;margin-bottom:3px;}
   .tag{display:inline-block;font-size:10.5px;padding:2px 7px;border-radius:5px;border:1px solid var(--border);background:var(--surface-2);color:var(--ink-2);white-space:nowrap;}
   .pill{font-size:10.5px;padding:2px 8px;border-radius:999px;border:1px solid var(--border);background:var(--surface-2);color:var(--ink-2);}
   .pill.up{background:var(--up-wash);color:var(--up);} .pill.dn{background:var(--down-wash);color:var(--down);} .pill.warn{background:var(--watch-wash);color:var(--watch);}
   .pill.mat{background:var(--up-wash);color:var(--up);} .pill.eme{background:var(--watch-wash);color:var(--watch);} .pill.ini{background:var(--down-wash);color:var(--down);}
   table{width:100%;border-collapse:collapse;font-size:12.5px;} th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--border-2);vertical-align:top;}
-  th{font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:700;}
+  th{font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:700;border-bottom:1.5px solid var(--border);}
+  tr:hover td{background:var(--surface-2);}
   td.v{font-family:var(--mono);font-weight:700;white-space:nowrap;color:var(--accent-ink);}
-  ul.f{margin:6px 0;padding-left:18px;} ul.f li{margin:6px 0;font-size:13px;color:var(--ink-2);} ul.f li b{color:var(--ink);}
+  ul.f{margin:6px 0;padding-left:18px;} ul.f li::marker{color:var(--accent);} ul.f li{margin:6px 0;font-size:13px;color:var(--ink-2);} ul.f li b{color:var(--ink);}
   .cgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;} @media(max-width:820px){.cgrid{grid-template-columns:1fr;}}
   .case{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:13px 14px;box-shadow:var(--shadow);}
   .case.up{border-top:3px solid var(--up);} .case.down{border-top:3px solid var(--down);}
@@ -91,13 +92,13 @@
   .hiphead{display:flex;gap:12px;align-items:center;}
   .hipn{flex:none;display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;background:transparent;border:2px solid var(--accent);box-shadow:0 0 0 4px var(--accent-wash);font-family:var(--mono);font-weight:700;font-size:13.5px;color:var(--accent-ink);letter-spacing:-.02em;}
   .hipt{font-size:14.5px;font-weight:700;color:var(--ink);line-height:1.32;}
-  .hipe{margin:11px 0 0 50px;}
+  .hipe{margin:11px 0 0;}
   .tlwrap{position:relative;margin:12px 0 0;padding:4px 0 26px;}
   .tlwrap:before{content:"";position:absolute;left:12px;top:9px;bottom:20px;width:2px;border-radius:2px;background:linear-gradient(180deg,transparent,var(--accent) 9%,var(--accent) 100%);}
   .tlwrap:after{content:"";position:absolute;left:7px;bottom:5px;width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:11px solid var(--accent);}
   .tl{position:relative;display:grid;grid-template-columns:34px 1fr;padding:0 0 14px;}
-  .tl:before{content:"";position:absolute;left:7px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px var(--surface);transition:transform .16s ease,box-shadow .16s ease;}
-  .tl .yr{grid-column:2;justify-self:start;font-family:var(--mono);font-weight:700;font-size:13.5px;color:var(--accent-ink);background:var(--accent-wash);border:1px solid color-mix(in srgb,var(--accent) 42%,transparent);border-radius:999px;padding:1px 9px;margin-bottom:5px;white-space:nowrap;}
+  .tl:before{content:"";position:absolute;left:7px;top:8px;width:12px;height:12px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px var(--surface);transition:transform .16s ease,box-shadow .16s ease;}
+  .tl .yr{grid-column:2;justify-self:start;font-family:var(--mono);font-weight:700;font-size:15px;color:var(--accent-ink);background:var(--accent-wash);border:1px solid color-mix(in srgb,var(--accent) 42%,transparent);border-radius:999px;padding:1px 9px;margin-bottom:5px;white-space:nowrap;}
   .tl .ev{grid-column:2;font-size:12.5px;color:var(--ink-2);background:var(--surface-2);border:1px solid var(--border-2);border-left:3px solid color-mix(in srgb,var(--accent) 38%,transparent);border-radius:4px 10px 10px 4px;padding:9px 12px;transition:border-left-color .16s ease,transform .16s ease;}
   .tl .ev b{color:var(--ink);}
   .tl .tlx{margin-top:3px;}
@@ -253,7 +254,7 @@ function renderHip(){
    {n:3,t:"É um play de beta. Dentro de biotech, o índice amplo tende a funcionar melhor do que escolher subsetores.",s:"open",e:"O retorno de biotech se concentra em poucos <b>saltos binários</b>: uma aprovação, um dado de fase 3, uma aquisição com prêmio. Os saltos binários, apesar de conseguirem apresentar ganhos assimétricos, são mais difíceis de antecipar. Um <b>índice amplo</b> consegue diversificar a exposição em diferentes subsetores, limitar a queda de uma perda relevante e cobrir o crescimento da tese como um todo."},
   ];
   document.getElementById("hip").innerHTML=`
-  <p class="intro">A tese de biotech em três camadas: uma <b>estrutural</b>, a IA mudando a produtividade da descoberta (H1); uma <b>tática</b>, o cliff de patentes forçando M&amp;A nos próximos anos (H2); e a <b>forma de capturar as duas</b>, que é ficar no índice amplo em vez de escolher subsetores (H3).</p>
+  <p class="intro">A tese de biotech em três hipóteses: uma <b>estrutural</b>, a IA mudando a produtividade da descoberta (H1); uma <b>tática</b>, o cliff de patentes forçando M&amp;A nos próximos anos (H2); e a <b>forma de capturar as duas</b>, que é ficar no índice amplo em vez de escolher subsetores (H3).</p>
   ${H.map(h=>`<div class="card" style="border-left:4px solid ${COL[h.s]}">
     <div class="hiphead">
       <div class="hipn" style="border-color:${COL[h.s]}">H${h.n}</div>
@@ -310,7 +311,8 @@ function renderMkt(){
       ${blk("Aprovações de novas drogas (FDA/CDER), o fim da linha","2026 ainda é parcial (só o acumulado do ano); é um patamar alto e que oscila bastante",bars(M.fda,{partial:["2026"]}),R.fda)}
       ${blk("INDs recebidos pelo FDA, a entrada em Fase 1","com a variação ano a ano; 2020 e 2021 vieram inflados pela COVID e 2026 ainda não tem relatório",bars(M.ind,{highlight:["2020","2021"],partial:["2026"],yoyFrom:"2022",hl:"var(--ink)"}),"FDA/CDER, IND Receipts (relatórios oficiais)")}
     </div>
-    <div class="read tight"><p>Repare na dinâmica dos INDs: eles <b>caíram no pós-COVID</b> (de 2.068 em 2021 para 1.724 em 2023, com o fim da enxurrada de projetos de vacina), mas <b>voltaram a subir nos últimos dois anos</b>, 1.855 em 2024 e um <b>recorde não-pandêmico de 1.960 em 2025</b>. Essa retomada recente <b>coincide com o boom da IA na descoberta</b> e pode ter relação com ele. Ainda é cedo para cravar, mas a leitura importa: o que entra em Fase 1 hoje é o que vira <b>alvo de aquisição e aprovação daqui a alguns anos</b>. O funil está sendo carregado agora.</p></div>
+    <div class="read tight"><p>Repare na dinâmica dos INDs: eles <b>caíram no pós-COVID</b> (de 2.068 em 2021 para 1.724 em 2023, com o fim da enxurrada de projetos de vacina), mas <b>voltaram a subir nos últimos dois anos</b>, 1.855 em 2024 e um <b>recorde não-pandêmico de 1.960 em 2025</b>. Essa retomada recente <b>coincide com o boom da IA na descoberta</b> e pode ter relação com ele. Ainda é cedo para cravar, mas a leitura importa: o que entra em Fase 1 hoje é o que vira <b>alvo de aquisição e aprovação daqui a alguns anos</b>. O funil está sendo carregado agora.</p>
+      <p>E não é só volume, o relógio encurtou. Segundo a <b>BCG</b> (Jayatunga et al., Drug Discovery Today), a etapa pré-clínica, que vai de achar a molécula até o primeiro teste em pessoas, <b>costumava levar de 4 a 6 anos</b> e nos programas desenhados com IA já aparece em <b>menos de 30 meses</b>. É a parte do ciclo em que a IA de fato encostou a mão.</p></div>
     <div class="qa"><div class="q">2026 está fraco em aprovações, e por que a IA quase não mudou a velocidade?</div><div class="read"><b>2026 (~13) é ANO PARCIAL (YTD ~agosto)</b>, o ritmo é compatível com um ano normal de 40 a 50. Sobre a velocidade: o ciclo de um remédio é de <b>8 a 10 anos</b>, então qualquer efeito da IA só apareceria com muitos anos de defasagem. E a IA, por ora, mostra um impacto apenas na <b>largada</b>. Ou seja, a IA se mostrou promissora para <b>desenhar moléculas mais rapidamente</b>, mas seu impacto na eficácia da molécula <b>só será visto em alguns anos</b>. Vale um asterisco: o <b>FDA trocou muito de comando nos últimos meses</b> (rodízio de presidentes/lideranças), então <b>fatores políticos e regulatórios</b>, e não só a ciência, podem estar pesando no ritmo de aprovações de 2026.</div></div>
     <div class="qa"><div class="q">Moléculas feitas com IA: qual o índice de conversão em aprovações? alguma avançou? alguma morreu?</div><div class="read">O funil (ago/2026): <b>~117 a 175 moléculas de IA entraram na clínica → ~60 passaram da Fase 1 → só ~8 completaram a Fase 2 → um punhado em Fase 3 → <b>0 (zero)</b> totalmente aprovadas por IA</b>. A conversão ainda é <b>não comprovada no fim do funil</b>, os primeiros ativos só entraram na clínica em 2021 a 2023, cedo demais para chegar à aprovação (7 a 10 anos).</div></div>
     <div class="card"><h3>Conversão: moléculas de IA vs. biotech tradicional</h3>
