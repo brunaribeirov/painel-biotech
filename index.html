@@ -318,7 +318,7 @@ function renderMkt(){
     </div>
     <div class="read tight"><p>Repare na dinâmica dos INDs: eles <b>caíram no pós-COVID</b> (de 2.068 em 2021 para 1.724 em 2023, com o fim da enxurrada de projetos de vacina), mas <b>voltaram a subir nos últimos dois anos</b>, 1.855 em 2024 e um <b>recorde não-pandêmico de 1.960 em 2025</b>. Essa retomada recente <b>coincide com o boom da IA na descoberta</b> e pode ter relação com ele. Ainda é cedo para cravar, mas a leitura importa: o que entra em Fase 1 hoje é o que vira <b>alvo de aquisição e aprovação daqui a alguns anos</b>. O funil está sendo carregado agora.</p>
       <p>E não é só volume, o relógio encurtou. Segundo a <b>BCG</b> (Jayatunga et al., Drug Discovery Today), a etapa pré-clínica, que vai de achar a molécula até o primeiro teste em pessoas, <b>costumava levar de 4 a 6 anos</b> e nos programas desenhados com IA já aparece em <b>menos de 30 meses</b>. É a parte do ciclo em que a IA de fato encostou a mão.</p></div>
-    <div class="qa"><div class="q">2026 está fraco em aprovações, e por que a IA quase não mudou a velocidade?</div><div class="read"><b>2026 (~13) é ANO PARCIAL (YTD ~agosto)</b>, o ritmo é compatível com um ano normal de 40 a 50. Sobre a velocidade: o ciclo de um remédio é de <b>8 a 10 anos</b>, então qualquer efeito da IA só apareceria com muitos anos de defasagem. E a IA, por ora, mostra um impacto apenas na <b>largada</b>. Ou seja, a IA se mostrou promissora para <b>desenhar moléculas mais rapidamente</b>, mas seu impacto na eficácia da molécula <b>só será visto em alguns anos</b>. Tem um fator que pesa aqui: o <b>FDA trocou muito de comando nos últimos meses</b>, então questões políticas e regulatórias, e não só a ciência, podem estar mexendo no ritmo de aprovações de 2026.</div></div>
+    <div class="qa"><div class="q">2026 está fraco em aprovações, e por que a IA quase não mudou a velocidade?</div><div class="read"><b>2026 (~13) é ANO PARCIAL (YTD ~agosto)</b>, o ritmo é compatível com um ano normal de 40 a 50. Sobre a velocidade: o ciclo de um remédio é de <b>8 a 10 anos</b>, então qualquer efeito da IA só apareceria com muitos anos de defasagem. E a IA, por ora, mostra um impacto apenas na <b>largada</b>. Ou seja, a IA se mostrou promissora para <b>desenhar moléculas mais rapidamente</b>, mas seu impacto na eficácia da molécula <b>só será visto em alguns anos</b>. E tem um fator que pesa aqui: o <b>FDA trocou muito de comando nos últimos meses</b>, então questões políticas e regulatórias, e não só a ciência, podem estar mexendo no ritmo de aprovações de 2026.</div></div>
     <div class="qa"><div class="q">Moléculas feitas com IA: qual o índice de conversão em aprovações? alguma avançou? alguma morreu?</div><div class="read">O funil (ago/2026): <b>~117 a 175 moléculas de IA entraram na clínica → ~60 passaram da Fase 1 → só ~8 completaram a Fase 2 → um punhado em Fase 3 → <b>0 (zero)</b> totalmente aprovadas por IA</b>. A conversão ainda é <b>não comprovada no fim do funil</b>, os primeiros ativos só entraram na clínica em 2021 a 2023, cedo demais para chegar à aprovação (7 a 10 anos).</div></div>
     <div class="card"><h3>Conversão: moléculas de IA vs. biotech tradicional</h3>
       <div style="overflow-x:auto"><table>
@@ -431,9 +431,9 @@ function renderXBI(){
     <div class="card"><h3>Outros índices de biotech/saúde, base 100 desde 2015</h3><p class="cap">${A.macro.indices.map(s=>'<b style="color:'+s.col+'">'+s.name+'</b>').join(' · ')}, biotech (XBI/IBB/FBT), genômica (ARKG), saúde ampla (XLV)</p>${multiLine(A.macro.indices,{startTs:A.macro.start})}
       <div class="refs"><b>Fontes:</b> Yahoo Finance; SSGA/iShares/First Trust/Invesco/ARK. Nota: biotech é ultra concentrado nos EUA, então não existe bom índice GLOBAL puro. O que chega mais perto de uma visão global é um fundo de saúde global (tipo IXJ), que inclui Novo, Roche, Novartis e AZ.</div></div>
     <div class="card"><h3>Variação anual (%) por índice</h3>
-      <div style="overflow-x:auto"><table><tr><th>Índice</th>${[2017,2018,2019,2020,2021,2022,2023,2024,2025,2026].map(y=>'<th>'+(y===2026?'2026 (YTD)':y)+'</th>').join("")}</tr>
-      ${A.macro.indices.map(s=>{const a=A.idx_annual[s.name]||{};const c=y=>{const v=a[String(y)];return v==null?'<td>n/d</td>':('<td class="v" style="color:'+(v>=0?'var(--up)':'var(--down)')+'">'+(v>0?'+':'')+v+'%</td>');};return '<tr><td><b style="color:'+s.col+'">'+s.name+'</b></td>'+[2017,2018,2019,2020,2021,2022,2023,2024,2025,2026].map(c).join("")+'</tr>';}).join("")}
-      </table></div><div class="cap">2026 é parcial, fechamento de 21/ago. Fontes: Yahoo Finance (2017 a 2025); stockanalysis.com (2026).</div></div>
+      <div style="overflow-x:auto"><table><tr><th>Índice</th>${[2017,2018,2019,2020,2021,2022,2023,2024,2025,2026].map(y=>'<th>'+(y===2026?'2026 (YTD)':y)+'</th>').join("")}<th>Acum.</th></tr>
+      ${A.macro.indices.map(s=>{const a=A.idx_annual[s.name]||{};const yrs=[2017,2018,2019,2020,2021,2022,2023,2024,2025,2026];const c=y=>{const v=a[String(y)];return v==null?'<td>n/d</td>':('<td class="v" style="color:'+(v>=0?'var(--up)':'var(--down)')+'">'+(v>0?'+':'')+v+'%</td>');};let cum=1;yrs.forEach(y=>{const v=a[String(y)];if(v!=null)cum*=(1+v/100);});const cp=Math.round((cum-1)*100);const cumTd='<td class="v" style="color:'+(cp>=0?'var(--up)':'var(--down)')+';font-weight:800;border-left:2px solid var(--border)">'+(cp>0?'+':'')+cp+'%</td>';return '<tr><td><b style="color:'+s.col+'">'+s.name+'</b></td>'+yrs.map(c).join("")+cumTd+'</tr>';}).join("")}
+      </table></div><div class="cap">Acum. = retorno acumulado (composto) de 2017 até 2026 YTD. 2026 é parcial, fechamento de 21/ago. Fontes: Yahoo Finance (2017 a 2025); stockanalysis.com (2026).</div></div>
     <div class="card"><h3>As teses dos índices, o que cada um representa</h3><p class="cap">de biotech puro (XBI) a saúde global (IXJ)</p>
       <div style="overflow-x:auto"><table><tr><th>Ticker</th><th>Nome / tipo</th><th>Tese</th></tr>
       ${PE.indices.map(x=>`<tr><td class="v">${x.ticker}</td><td><b>${esc(x.nome)}</b><br><span class="tag">${x.tipo}</span></td><td>${x.o_que_pt}</td></tr>`).join("")}
@@ -494,18 +494,25 @@ function renderObes(){
   const ma=T.prior_ma.map(x=>`<tr><td><b>${esc(x.acquirer)}</b> → ${esc(x.target)}</td><td>${esc(x.value)}</td><td>${x.year}</td><td>${x.note_pt}</td></tr>`).join("");
   document.getElementById("obes").innerHTML=`
   <p class="intro">O caso de obesidade da Novo e da Lilly, o exemplo mais claro da tese do "beta" acontecendo na prática.</p>
-  <div class="card">
-    <h3>O tamanho da tese</h3>
-    <div class="read tight"><p>Em 2025, <b>dois remédios</b> (a tirzepatida da Lilly e a semaglutida da Novo) faturaram <b>US$ 71 bi</b> juntos. No mesmo ano, os dois maiores laboratórios de IA do mundo (OpenAI e Anthropic) somaram <b>US$ 29 bi</b>. Duas injeções renderam <b>~2,5x toda a fronteira da IA</b>.</p></div>
-    <div style="margin:8px 0"><span class="kpi"><span class="v">US$ 71 bi</span><span class="l">GLP-1 (Lilly + Novo, 2025)</span></span><span class="kpi"><span class="v">US$ 29 bi</span><span class="l">IA (OpenAI + Anthropic)</span></span></div>
-    <div class="read tight"><p>E a tese <b>mal começou</b>: nos EUA, <b>137 milhões de adultos</b> se enquadram (obesidade, diabetes ou prevenção cardíaca), mas <b>só ~6 milhões</b> tomam de fato o medicamento. No mundo, <b>menos de 2%</b> dos elegíveis foram alcançados.</p></div>
-    <div style="margin:8px 0"><span class="kpi"><span class="v">137 mi</span><span class="l">elegíveis (EUA)</span></span><span class="kpi"><span class="v">~6 mi</span><span class="l">tratados (EUA)</span></span><span class="kpi"><span class="v">&lt;2%</span><span class="l">penetração global</span></span></div>
-    <div class="refs"><b>Fontes:</b> resultados 2025 de Lilly e Novo; estimativas de receita de OpenAI/Anthropic; JAMA, AJMC, KFF.</div>
-  </div>
   <section><div class="sec-h"><span class="sec-n">01</span><h2>Novo &amp; Lilly</h2></div>
     <div class="card"><h3>Preço indexado (base 100) desde 2015, com os lançamentos marcados</h3><p class="cap">linhas tracejadas = lançamentos das drogas</p>
       ${multiLine(NVLLY.series,{startTs:NVLLY.startTs,marks:NVLLY.marks})}
       <div class="refs"><b>Fontes:</b> Yahoo Finance (semanal); FDA (datas).</div></div>
+    <div class="card">
+      <div style="overflow-x:auto"><table><tr><th>Marca</th><th>Molécula</th><th>Dona</th><th>Uso (lançamento)</th></tr>
+      <tr><td><b>Ozempic</b></td><td>semaglutida</td><td>Novo Nordisk</td><td>diabetes (2017)</td></tr>
+      <tr><td><b>Wegovy</b></td><td>semaglutida</td><td>Novo Nordisk</td><td>obesidade (2021)</td></tr>
+      <tr><td><b>Mounjaro</b></td><td>tirzepatida</td><td>Eli Lilly</td><td>diabetes (2022)</td></tr>
+      <tr><td><b>Zepbound</b></td><td>tirzepatida</td><td>Eli Lilly</td><td>obesidade (2023)</td></tr>
+      </table></div>
+      <div class="read tight" style="margin-top:8px"><p>São só <b>duas empresas e duas moléculas</b>: Ozempic e Wegovy são <b>a mesma molécula da Novo</b> (semaglutida), com nomes diferentes para diabetes e obesidade; Mounjaro e Zepbound, idem para a <b>Lilly</b> (tirzepatida). A ação disparou <b>2 a 3 anos DEPOIS</b> do lançamento, quando três coisas se confirmaram: <b>(1) capacidade de produção</b> (no início havia escassez, pouca receita entrava), <b>(2) o estudo SELECT (2023)</b>, que provou <b>~20% menos eventos cardiovasculares</b> e destravou a cobertura dos planos, e <b>(3) a explosão da demanda</b>, de "diabéticos" para <b>centenas de milhões com sobrepeso</b>. Foi quando a fila virou receita nos balanços de 2023 e 2024 que o preço re-precificou.</p></div>
+      <div class="refs"><b>Fontes:</b> FDA; IR Novo Nordisk e Eli Lilly.</div></div>
+    <div class="card"><h3>O tamanho da tese</h3>
+      <div class="read tight"><p>Em 2025, <b>dois remédios</b> (a tirzepatida da Lilly e a semaglutida da Novo) faturaram <b>US$ 71 bi</b> juntos. No mesmo ano, os dois maiores laboratórios de IA do mundo (OpenAI e Anthropic) somaram <b>US$ 29 bi</b>. Duas injeções renderam <b>~2,5x toda a fronteira da IA</b>.</p></div>
+      <div style="margin:8px 0"><span class="kpi"><span class="v">US$ 71 bi</span><span class="l">GLP-1 (Lilly + Novo, 2025)</span></span><span class="kpi"><span class="v">US$ 29 bi</span><span class="l">IA (OpenAI + Anthropic)</span></span></div>
+      <div class="read tight"><p>E a tese <b>mal começou</b>: nos EUA, <b>137 milhões de adultos</b> se enquadram (obesidade, diabetes ou prevenção cardíaca), mas <b>só ~6 milhões</b> tomam de fato o medicamento. No mundo, <b>menos de 2%</b> dos elegíveis foram alcançados.</p></div>
+      <div style="margin:8px 0"><span class="kpi"><span class="v">137 mi</span><span class="l">elegíveis (EUA)</span></span><span class="kpi"><span class="v">~6 mi</span><span class="l">tratados (EUA)</span></span><span class="kpi"><span class="v">&lt;2%</span><span class="l">penetração global</span></span></div>
+      <div class="refs"><b>Fontes:</b> resultados 2025 de Lilly e Novo; estimativas de receita de OpenAI/Anthropic; JAMA, AJMC, KFF.</div></div>
   </section>
   <section><div class="sec-h"><span class="sec-n">02</span><h2>A ciência que se acumulou por 30 anos</h2></div>
     ${blk("Publicações sobre GLP-1 por ano (PubMed, aprox.)","saiu de umas 40 em 1990 para cerca de 5.800 em 2025; a tese foi estudada por décadas antes de estourar",bars(G.glp1_pubs,{color:"var(--accent)",fmt:v=>v>=1000?(v/1000).toFixed(1)+"k":Math.round(v)}),"PubMed/MEDLINE")}
@@ -516,11 +523,29 @@ function renderObes(){
     <div class="qa"><div class="q">A obesidade era buscada antes, ou foi acidental?</div><div class="read"><b>Começou "por acaso" e se tornou proposital.</b> Os GLP-1 nasceram para <b>diabetes</b>, e a perda de peso apareceu como um <b>efeito colateral</b> que perceberam cedo nos ensaios (o GLP-1 age no cérebro reduzindo apetite). A Novo então <b>apostou de propósito</b>: subiu a dose e desenhou estudos (STEP) com perda de peso como alvo, <b>Saxenda (2014)</b> e depois <b>Wegovy (2021)</b>. O ponto de virada foi a eficácia atingir nível "quase cirurgia bariátrica".</div></div>
     <div class="qa"><div class="q">Antes de 2021, qual era a perda de peso máxima?</div><div class="read">${esc(G.pre2021_max_wl_pt)}</div></div>
   </section>
-  <section><div class="sec-h"><span class="sec-n">04</span><h2>O cemitério da obesidade &amp; M&amp;A anteriores</h2></div>
+  <section><div class="sec-h"><span class="sec-n">04</span><h2>A cascata de indicações e o M&amp;A</h2></div>
+    <div class="read tight"><p>Cada aprovação foi revelando a próxima. O mesmo remédio começou no <b>diabetes</b> e foi <b>abrindo mercado atrás de mercado</b>, e cada nova indicação <b>soma dezenas de milhões de pacientes</b>.</p></div>
+    <div class="flow">
+      <div class="fbox"><span class="fk">Diabetes</span><span class="fy">2017</span><span class="fv">a porta de entrada (Ozempic)</span></div>
+      <span class="farr">&#8594;</span>
+      <div class="fbox"><span class="fk">Obesidade</span><span class="fy">2021</span><span class="fv">14,9% de perda de peso (Wegovy)</span></div>
+      <span class="farr">&#8594;</span>
+      <div class="fbox"><span class="fk">Cardiovascular</span><span class="fy">2023</span><span class="fv">-20% em eventos (SELECT)</span></div>
+      <span class="farr">&#8594;</span>
+      <div class="fbox"><span class="fk">Renal</span><span class="fy">2024</span><span class="fv">-24% em eventos renais (FLOW)</span></div>
+      <span class="farr">&#8594;</span>
+      <div class="fbox"><span class="fk">Apneia do sono</span><span class="fy">2024</span><span class="fv">63% dos pacientes resolveram (SURMOUNT-OSA)</span></div>
+      <span class="farr">&#8594;</span>
+      <div class="fbox"><span class="fk">Fígado (MASH)</span><span class="fy">2025</span><span class="fv">62,9% de resolução (ESSENCE)</span></div>
+    </div>
+    <div class="read tight"><p>Para a tese do ETF, o efeito é forte: quanto <b>maior o mercado endereçável</b>, mais caro e disputado fica o pipeline, e a big pharma que ficou <b>de fora do setor</b> corre para entrar via <b>aquisição</b>. Só em 2025, a <b>Pfizer comprou a Metsera</b> e a <b>Roche fechou com a Zealand</b>, duas biotechs <b>focadas em tecnologias para o mercado de obesidade</b>, por valores bilionários (<b>até US$ 7,3 bi e US$ 5,3 bi</b>). É o mesmo <b>motor que move o XBI</b>: mercado maior, prêmio de aquisição maior.</p></div>
+    <div class="refs"><b>Fontes:</b> NEJM (SELECT, FLOW, SURMOUNT-OSA, ESSENCE); CNBC, BioPharma Dive (deals).</div>
+  </section>
+  <section><div class="sec-h"><span class="sec-n">05</span><h2>O cemitério da obesidade &amp; M&amp;A anteriores</h2></div>
     <div class="card"><h3>O ceticismo no setor de obesidade</h3><div style="overflow-x:auto"><table><tr><th>Droga</th><th>Empresa</th><th>Ano</th><th>Destino</th></tr>${gy}</table></div></div>
     <div class="card"><h3>M&amp;A no setor antes da tese</h3><div style="overflow-x:auto"><table><tr><th>Negócio</th><th>Valor</th><th>Ano</th><th>Nota</th></tr>${ma}</table></div></div>
   </section>
-  <section><div class="sec-h"><span class="sec-n">05</span><h2>O "antes" da tese</h2></div>
+  <section><div class="sec-h"><span class="sec-n">06</span><h2>O "antes" da tese</h2></div>
     <div class="card"><h3>Os sinais que anteciparam a tese</h3><div class="read tight"><ul class="f">
       <li>A <b>"escada" de perda de peso</b> vinha subindo <b>geração após geração desde 2017</b>: cada molécula nova batia a anterior.</li>
       <li>Os estudos <b>STEP</b> (do Wegovy) traziam <b>perda de peso perto de cirurgia bariátrica</b>, um nível que ninguém tinha visto antes.</li>
@@ -534,7 +559,7 @@ function renderObes(){
       <li>Quem enxergava a <b>plataforma</b>, e não só o produto isolado, via essa <b>oportunidade barata antes de todo mundo</b>.</li>
     </ul></div></div>
   </section>
-  <section><div class="sec-h"><span class="sec-n">06</span><h2>A vantagem do in-house</h2></div>
+  <section><div class="sec-h"><span class="sec-n">07</span><h2>A vantagem do in-house</h2></div>
     <div class="read tight"><p>Tanto a Lilly (com a tirzepatida) quanto a Novo (com a semaglutida) desenvolveram tudo dentro de casa, e por isso ficaram com quase todo o valor.</p></div>
     <div class="grid2">
       <div class="card"><h3>Por que o in-house capturou o valor</h3><div class="read tight"><ul class="f">
@@ -550,32 +575,14 @@ function renderObes(){
     </div>
     <div class="refs"><b>Fontes:</b> BioPharma Dive, FierceBiotech, PharmaManufacturing, PRs (Pfizer/Metsera, Roche/Carmot, Novo/Catalent, AZ/Eccogene)</div>
   </section>
-  <section><div class="sec-h"><span class="sec-n">07</span><h2>As moléculas de dentro de casa</h2></div>
+  <section><div class="sec-h"><span class="sec-n">08</span><h2>As moléculas de dentro de casa</h2></div>
     <div class="read tight"><p>Dentro de cada empresa, a geração nova foi "melhorando" a antiga, o que mostra bem que a eficácia subia de degrau em degrau na mesma casa.</p></div>
     <div class="grid2">
       <div class="card"><h3>Novo: da Victoza para Ozempic e Wegovy</h3><div class="read tight"><p>A Victoza (liraglutida, 2010) era injeção diária. A Ozempic (semaglutida, 2017) foi reengenhada para durar uns 7 dias, virou uma aplicação por semana e ficou bem mais potente, tanto no controle da glicose quanto na perda de peso. A semaglutida deixou a liraglutida obsoleta e ainda abriu caminho para a versão oral (Rybelsus) e para a dose alta de obesidade, a Wegovy.</p></div></div>
       <div class="card"><h3>Lilly: da Trulicity para a tirzepatida</h3><div class="read tight"><p>A Trulicity (dulaglutida, 2014) é um GLP-1 puro. Já a tirzepatida (Mounjaro em 2022, Zepbound em 2023) é dupla: ativa o GIP e o GLP-1 ao mesmo tempo, e entrega perda de peso maior que qualquer molécula pura, inclusive a semaglutida em estudos diretos. Foi esse salto que colocou a Lilly na frente em eficácia.</p></div></div>
     </div>
   </section>
-  <section><div class="sec-h"><span class="sec-n">08</span><h2>A cascata de indicações e o M&amp;A</h2></div>
-    <div class="read tight"><p>Cada aprovação foi revelando a próxima. O mesmo remédio começou no <b>diabetes</b> e foi <b>abrindo mercado atrás de mercado</b>, e cada nova indicação <b>soma dezenas de milhões de pacientes</b>.</p></div>
-    <div class="flow">
-      <div class="fbox"><span class="fk">Diabetes</span><span class="fy">2017</span><span class="fv">a porta de entrada (Ozempic)</span></div>
-      <span class="farr">&#8594;</span>
-      <div class="fbox"><span class="fk">Obesidade</span><span class="fy">2021</span><span class="fv">14,9% de perda de peso (Wegovy)</span></div>
-      <span class="farr">&#8594;</span>
-      <div class="fbox"><span class="fk">Cardiovascular</span><span class="fy">2023</span><span class="fv">-20% em eventos (SELECT)</span></div>
-      <span class="farr">&#8594;</span>
-      <div class="fbox"><span class="fk">Renal</span><span class="fy">2024</span><span class="fv">-24% em eventos renais (FLOW)</span></div>
-      <span class="farr">&#8594;</span>
-      <div class="fbox"><span class="fk">Apneia do sono</span><span class="fy">2024</span><span class="fv">63% dos pacientes resolveram (SURMOUNT-OSA)</span></div>
-      <span class="farr">&#8594;</span>
-      <div class="fbox"><span class="fk">Fígado (MASH)</span><span class="fy">2025</span><span class="fv">62,9% de resolução (ESSENCE)</span></div>
-    </div>
-    <div class="read tight"><p>Para a tese do ETF, o efeito pode ser forte: quanto <b>maior o mercado endereçável</b>, mais caro e movimentado fica o aquecimento do pipeline por parte das big pharmas. A big pharma que tiver ficado <b>de fora do setor</b> vai correr atrás via <b>aquisição</b>. Só em 2025, a <b>Pfizer adquiriu a Metsera</b> e a <b>Roche fechou com a Zealand</b>, duas biotechs focadas em tecnologias de obesidade, por valores bilionários (<b>até US$ 7,3 bi e US$ 5,3 bi</b>, respectivamente). O movimento se encaixa no "motor" do XBI: <b>mercado maior, logo prêmio de aquisição maior</b>.</p></div>
-    <div class="refs"><b>Fontes:</b> NEJM (SELECT, FLOW, SURMOUNT-OSA, ESSENCE); CNBC, BioPharma Dive (deals).</div>
-  </section>
-  <div class="card keybox"><div class="read"><b>O mesmo padrão de "beta" pode estar se repetindo na vacina de câncer de mRNA da Moderna</b> (uma plataforma madura mais uma prova de conceito num uso vizinho, abrindo um mercado enorme). O curioso é como isso também se repetiu no <b>Case da vacina da Moderna</b>.</div></div>`;
+  <div class="card keybox"><div class="read">O curioso é como isso também se repetiu no <b>case da vacina de mRNA para câncer da Moderna</b>. Uma plataforma madura + uma prova de conceito num uso vizinho, resultando na abertura de um mercado enorme.</div></div>`;
 }
 
 /* ===== TAB 5: vacina de câncer ===== */
