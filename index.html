@@ -159,14 +159,16 @@ function esc(s){return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;");}
 /* ===== bar chart ===== */
 function bars(data,opts){
   opts=opts||{};const years=Object.keys(data),vals=years.map(y=>data[y]);
-  const max=Math.max(...vals.filter(v=>v!=null)),W=560,H=190,padL=42,padR=8,padT=14,padB=22;
+  const ex=opts.expected||{};
+  const max=Math.max(...vals.filter(v=>v!=null),...Object.values(ex)),W=560,H=190,padL=42,padR=8,padT=14,padB=22;
   const plotW=W-padL-padR,plotH=H-padT-padB,n=years.length,gap=plotW/n,bw=gap*0.66;
   const Y=v=>padT+(1-v/max)*plotH;const hl=new Set(opts.highlight||[]),pt=new Set(opts.partial||[]);
   let g="";
   for(let i=0;i<=3;i++){const v=max*i/3,y=Y(v).toFixed(1);g+=`<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" stroke="var(--border-2)"/><text x="${padL-5}" y="${(+y+3).toFixed(1)}" text-anchor="end" font-size="9" fill="var(--muted)" font-family="var(--mono)">${opts.fmt?opts.fmt(v):Math.round(v)}</text>`;}
-  years.forEach((yr,i)=>{const v=data[yr];if(v==null)return;const x=padL+gap*i+(gap-bw)/2,y=Y(v),h=padT+plotH-y;
+  years.forEach((yr,i)=>{const v=data[yr];if(v==null&&ex[yr]==null)return;const x=padL+gap*i+(gap-bw)/2;
     let f=hl.has(yr)?(opts.hl||"var(--down)"):(opts.color||"var(--accent)");let o=pt.has(yr)?' opacity="0.5"':"";
-    g+=`<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(h,0).toFixed(1)}" rx="2" fill="${f}"${o}/>`;
+    if(ex[yr]!=null){const ye=Y(ex[yr]),he=padT+plotH-ye;g+=`<rect x="${x.toFixed(1)}" y="${ye.toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(he,0).toFixed(1)}" rx="2" fill="${f}" opacity="0.22" stroke="${f}" stroke-dasharray="3 2"/>`;}
+    if(v!=null){const y=Y(v),h=padT+plotH-y;g+=`<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(h,0).toFixed(1)}" rx="2" fill="${f}"${o}/>`;}
     if(n<=13||i%2===0||i===n-1)g+=`<text x="${(x+bw/2).toFixed(1)}" y="${H-8}" text-anchor="middle" font-size="8.5" fill="var(--muted)">'${yr.slice(2)}</text>`;});
   if(opts.yoyFrom){years.forEach((yr,i)=>{if(i===0||+yr< +opts.yoyFrom)return;const a=data[years[i-1]],b=data[yr];if(a==null||b==null)return;const pct=(b/a-1)*100,x=padL+gap*i+gap/2,y=Y(b)-9;g+=`<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="middle" font-size="9" font-weight="700" fill="${pct>=0?'var(--up)':'var(--down)'}">${pct>0?'+':''}${pct.toFixed(0)}%</text>`;});}
   return `<svg class="v" viewBox="0 0 ${W} ${H}">${g}</svg>`;
@@ -520,10 +522,6 @@ function renderXBI(){
         <p><span class="cap">A série ano a ano de P/E de biotech e do IBB não é pública (fica em terminais tipo Bloomberg/MSCI/FactSet), então aqui vai o retrato atual mais a âncora de 2023, não uma linha do tempo completa.</span></p></div>
         <div class="refs"><b>Fontes:</b> MSCI USA Pharma/Biotech/Life Sciences (15,92x, set/2025); Yardeni (dez/2023); iShares; Zacks.</div></div>
     </div>
-    <div class="card"><h3>Forward P/E do S&amp;P 500, ano a ano</h3><p class="cap">o P/E do mercado como régua de comparação; a biotech comercial vem negociando abaixo disso</p>
-      ${bars({"2016":17.1,"2017":18.4,"2018":14.2,"2019":18.0,"2020":22.1,"2021":21.2,"2022":17.1,"2023":19.3,"2024":22.3,"2025":21.8},{fmt:v=>v.toFixed(1),hl:"var(--ink)"})}
-      <div class="read tight" style="margin-top:6px"><p>Essa é a régua do mercado. A biotech comercial fica <b>abaixo</b> dela: no ponto mais bem datado que encontramos, dez/2023, o índice de pharma/biotech grande estava em <b>15,8x</b> contra os <b>19,3x</b> do S&amp;P no mesmo momento. O prêmio que a biotech já teve no passado saiu do preço. Não montei a linha da biotech ano a ano porque esse dado não é público (só o do S&amp;P é).</p></div>
-      <div class="refs"><b>Fontes:</b> FactSet Earnings Insight (S&amp;P 500 fwd P/E, fim de cada ano; 2015 e 2026 sem valor fechado); Yardeni e MSCI (pontos da biotech).</div></div>
     <div class="card"><h3>Biotechs abaixo do caixa (EV negativo) vs o XBI</h3><p class="cap"><b style="color:var(--accent)">▬ XBI</b> vs <b style="color:var(--down)">● nº de biotechs negociando abaixo do caixa</b>. Quando muitas estão abaixo do caixa, costuma ser fundo de ciclo, com o XBI no chão</p>
       ${dualAxis(A.macro.xbi,[[Date.UTC(2015,11,1)/1000,5],[Date.UTC(2016,11,1)/1000,8],[Date.UTC(2017,11,1)/1000,7],[Date.UTC(2018,11,1)/1000,20],[Date.UTC(2019,11,1)/1000,34],[Date.UTC(2020,11,1)/1000,22],[Date.UTC(2021,11,1)/1000,173],[Date.UTC(2022,5,1)/1000,210],[Date.UTC(2023,11,1)/1000,232],[Date.UTC(2024,11,1)/1000,180]],{startTs:A.macro.start,rightColor:"var(--down)",dots:true,rZero:true,rfmt:v=>Math.round(v)})}
       <div class="read tight" style="margin-top:6px"><p>Os dois andam ao contrário um do outro. Até 2020 quase nenhuma biotech valia menos que o próprio caixa. Isso mudou de vez a partir de 2021: o número disparou (de ~34 em 2019 para o recorde de ~232 no fim de 2023), bem na época em que o XBI estava lá embaixo. Depois, conforme o XBI se recuperou, a contagem foi caindo. É a leitura que a gente usa: muita gente abaixo do caixa costuma ser hora de barganha, e pouca gente quer dizer que o desconto já foi embora, que é mais ou menos onde estamos hoje.</p></div>
@@ -707,10 +705,10 @@ function renderMacro(){
     </div>
   </section>
   <section><div class="sec-h"><span class="sec-n">02</span><h2>Onde entram wellness e longevidade</h2></div>
-    <div class="read tight"><p>O que dentro do XBI chega perto da tese de longevidade e metabolismo são as biotechs que <b>desenvolvem molécula pra isso</b>: as de <b>obesidade/GLP-1 de nova geração</b> (como a Viking, VKTX) e as de <b>preservação muscular</b> (como a Scholar Rock, SRRK). O resto da tese, o wellness de consumo e a demografia do envelhecimento, não está no XBI, é outra praia. E vale separar três coisas que costumam ser vendidas juntas como "longevidade":</p></div>
+    <div class="read tight"><p>O que dentro do XBI chega perto da tese de longevidade e metabolismo são as biotechs que <b>desenvolvem molécula pra isso</b>: as de <b>obesidade/GLP-1 de nova geração</b> (como a Viking, VKTX) e as de <b>preservação muscular</b> (como a Scholar Rock, SRRK). O resto da tese, o wellness de consumo e a demografia do envelhecimento, não está no XBI, é outro tipo de investimento. E vale separar três coisas que costumam ser vendidas juntas como "longevidade":</p></div>
     <div class="grid2">
       <div class="card"><h3>1. Ciência do envelhecimento</h3><div class="read tight"><p>Atacar o mecanismo do envelhecer (senolíticos, reprogramação celular). É a parte mais "moonshot" e quase tudo é <b>empresa fechada</b> (Altos Labs, Calico, Retro); listada pura quase não existe (Unity/UBX). <b>Não há ETF</b> disso, só dá para entrar via venture.</p></div></div>
-      <div class="card"><h3>2. Wellness de consumo</h3><div class="read tight"><p>Fitness, suplementos, nutrição, roupa de treino. É tese de <b>consumo</b>, não de saúde. O ETF que existia (BFIT) foi <b>fechado em 2024</b>.</p></div></div>
+      <div class="card"><h3>2. Wellness de consumo</h3><div class="read tight"><p>Fitness, suplementos, nutrição, roupa de treino. É tese de <b>consumo</b>, não de saúde. O ETF que existia (BFIT) foi <b>fechado em 2024</b>: a Global X liquidou 19 fundos pequenos de uma vez, por falta de patrimônio e de demanda.</p></div></div>
       <div class="card keybox"><h3>3. Demografia do envelhecimento</h3><div class="read tight"><p>Empresas que <b>lucram com a população idosa</b>: saúde, pharma, dispositivos, senior living, previdência. É a tese mais <b>sólida e líquida</b>, defensiva, e é onde existem ETFs de verdade.</p></div></div>
     </div>
   </section>
@@ -719,6 +717,11 @@ function renderMacro(){
       ${multiLine(etfLines,{startTs:1464739200})}
       <div style="margin-top:8px"><span class="kpi"><span class="v">0,70</span><span class="l">corr. AGNG × XBI</span></span><span class="kpi"><span class="v">0,49</span><span class="l">corr. AGED × XBI</span></span></div>
       <div class="refs"><b>Fontes:</b> Yahoo Finance (mensal); correlação de retornos mensais calculada por nós.</div></div>
+    <div class="grid2">
+      <div class="card"><h3>AGNG · Global X Aging Population</h3><div class="read tight"><p>Cerca de 85 empresas, foco em <b>saúde e farma</b> que ganham com o envelhecer (as maiores: Wellcome Trust, Lilly, AstraZeneca, Regeneron), mais dispositivos e senior living. Taxa 0,50%. Por ser quase todo de saúde, <b>anda mais junto com o XBI</b> (correlação 0,70). Em 2025 rendeu ~20%, na esteira do rali de saúde e pharma.</p></div></div>
+      <div class="card"><h3>AGED · iShares Ageing Population</h3><div class="read tight"><p>Cerca de 350 empresas, global, e com uma diferença que importa: além de saúde (~48%), carrega muito <b>serviço financeiro</b> (~43%, bancos e seguradoras que lucram com aposentadoria e previdência). Taxa 0,40%. Esse mix o deixa <b>mais descolado do XBI</b> (correlação 0,49) e foi o que rendeu mais em 2025 (~+27%), puxado pelos dois lados.</p></div></div>
+    </div>
+    <div class="read tight"><p>A diferença entre os dois, em uma linha: o <b>AGNG é uma aposta mais pura em saúde</b> (mais parecida com o setor que já olhamos no painel); o <b>AGED é mais amplo</b> (saúde + finanças), então oscila diferente e depende menos da biotech.</p></div>
     <div class="card"><h3>Retorno anual (%)</h3>
       <div style="overflow-x:auto"><table><tr><th>ETF</th>${yrsW.map(y=>'<th>'+(y===2026?'2026 (YTD)':y)+'</th>').join("")}</tr>
       ${MACROTESES.etfs.map(e=>'<tr><td><b>'+e.tk+'</b><br><span class="tag">'+esc(e.balde)+'</span></td>'+row(e.annual)+'</tr>').join("")}
@@ -771,23 +774,33 @@ function renderHang(){
   </section>
   <section><div class="sec-h"><span class="sec-n">04</span><h2>O mercado chinês como pipeline do Ocidente</h2></div>
     <div class="read tight"><p>Dá para ver a virada num número só: quantas vezes por ano uma biotech chinesa <b>licenciou um ativo para uma farmacêutica ocidental</b>. Era quase nada até 2019 (menos de 10 por ano) e virou uma enxurrada.</p></div>
-    <div class="card"><h3>Deals de licenciamento China → Ocidente, por ano</h3><p class="cap">nº de ativos chineses licenciados para farma global; 2026 é parcial (~5 meses)</p>
-      ${bars({"2016":5,"2017":6,"2018":7,"2019":8,"2020":39,"2021":50,"2022":51,"2023":70,"2024":94,"2025":157,"2026":39},{highlight:["2025"],partial:["2026"],hl:"var(--accent)"})}
-      <div class="read tight" style="margin-top:6px"><p>De <b>menos de 10 por ano</b> até 2019 para <b>157 em 2025</b>. E não é só volume: o valor desses deals saiu de ~US$ 14 bi (2021) para <b>~US$ 138 bi em 2025</b>. A China, que era ~3 a 5% do licenciamento global em 2020, virou <b>cerca de um terço de tudo</b> em 2024 e 2025. Foi assim que ela deixou de ser coadjuvante e virou a <b>principal fonte de pipeline pronto</b> para a big pharma ocidental, o combustível por trás do rali do índice.</p></div>
-      <div class="refs"><b>Fontes:</b> SCMP/Reuters, PharmCube, PharmExec, Clarivate, Nature Reviews Drug Discovery. Antes de 2020, "menos de 10 por ano" (sem contagem fechada); as definições de deal variam por fonte, então os números têm margem.</div></div>
+    <div class="grid2">
+      <div class="card"><h3>Deals de licenciamento China → Ocidente, por ano</h3><p class="cap">nº de ativos chineses licenciados para farma global. A parte cheia de 2026 é o realizado (~5 meses); a tracejada é o ritmo anualizado</p>
+        ${bars({"2016":5,"2017":6,"2018":7,"2019":8,"2020":39,"2021":50,"2022":51,"2023":70,"2024":94,"2025":157,"2026":39},{highlight:["2025"],expected:{"2026":94},hl:"var(--accent)"})}
+        <div class="refs"><b>Fontes:</b> SCMP/Reuters, PharmCube, PharmExec, Clarivate. Antes de 2020, "menos de 10 por ano" (ilustrativo).</div></div>
+      <div class="card"><h3>Valor dos deals (US$ bi/ano)</h3><p class="cap">o dinheiro por trás dos deals; a parte cheia de 2026 é o realizado, a tracejada é o ritmo anualizado</p>
+        ${bars({"2020":5,"2021":14,"2022":32,"2023":35,"2024":52,"2025":138,"2026":60},{highlight:["2025"],expected:{"2026":144},hl:"var(--accent)",fmt:v=>Math.round(v)})}
+        <div class="refs"><b>Fontes:</b> Reuters, SCMP, PharmCube (valores divulgados; a definição varia por fonte).</div></div>
+    </div>
+    <div class="read tight"><p>De <b>menos de 10 deals por ano</b> até 2019 para <b>157 em 2025</b>, e o valor saiu de ~US$ 14 bi (2021) para <b>~US$ 138 bi em 2025</b>. A China, que era ~3 a 5% do licenciamento global em 2020, virou <b>cerca de um terço de tudo</b> em 2024 e 2025. Foi assim que ela deixou de ser coadjuvante e virou a <b>principal fonte de pipeline pronto</b> para a big pharma ocidental, o combustível por trás do rali do índice. E 2026, mesmo parcial, está no ritmo de repetir o recorde (as barras tracejadas mostram onde deve fechar).</p>
+      <p>Um detalhe sobre quem gera esses ativos: eles estão cada vez mais em <b>estágio inicial</b> (pré-clínico e Fase 1). Ou seja, a inovação vem sobretudo da <b>ponta clínica/startup</b> da China, não das grandes já comerciais, embora em 2025 tenha havido algum retorno a ativos mais maduros (Fase 2/3), que a big pharma paga mais caro por já virem de-riscados. <span class="cap">Não há um dado público limpo separando "startup vs empresa com receita" por ano, então isto é a leitura por estágio dos ativos, não uma contagem fechada.</span></p></div>
+    <div class="card"><h3>IPOs de biotech pré-receita em Hong Kong (Capítulo 18A), por ano</h3><p class="cap">o Capítulo 18A é a porta que Hong Kong abriu em 2018 para biotech sem receita abrir capital; antes disso não existia</p>
+      ${bars({"2016":0,"2017":0,"2018":5,"2019":9,"2020":14,"2021":20,"2022":8,"2023":7,"2024":12,"2025":14},{highlight:["2021"],hl:"var(--accent)"})}
+      <div class="read tight" style="margin-top:6px"><p>Foi por aqui que dezenas de biotechs chinesas chegaram à bolsa: o pico foi 2021 (20 aberturas), depois veio o inverno de 2022 e 2023, e agora uma retomada em 2024 e 2025. É a fábrica de novas empresas que alimenta o pipeline, mesmo que a maioria delas seja pequena demais para entrar no índice das 30 maiores.</p></div>
+      <div class="refs"><b>Fontes:</b> HKEX; Vision Lifesciences, Skadden, PharmaBoardroom (contagem de IPOs 18A; 2026 ainda sem número fechado).</div></div>
   </section>
   <section><div class="sec-h"><span class="sec-n">05</span><h2>Riscos e por que interessa</h2></div>
     <div class="grid2">
       <div class="card"><h3>Riscos</h3><div class="read tight"><ul class="f">
-        <li><b>China:</b> risco geopolítico e regulatório. As duas WuXi (~16% do índice) estão na mira do <b>Biosecure Act</b> nos EUA.</li>
-        <li><b>Concentração:</b> 30 nomes, top 10 ~68%, aposta muito mais direcional que o XBI.</li>
-        <li><b>Liquidez:</b> ETFs pequenos (~HK$ 1 bi cada) vs ~US$ 10 bi do XBI.</li>
-        <li><b>Volatilidade ~40% a.a.</b> e governança/transparência menores.</li>
+        <li><b>Geopolítica (o Biosecure Act):</b> é um projeto de lei nos EUA que proibiria empresas que recebem dinheiro do governo americano de contratar certas prestadoras de serviço chinesas de biotech, por medo de dependência da China e de acesso a dados genéticos de pacientes americanos. As duas <b>WuXi</b> (WuXi AppTec e WuXi Biologics, juntas ~16% do índice) estão exatamente na lista. Se virar lei, pode afastar clientes americanos delas. Passou na Câmara em 2024, mas ainda não é lei.</li>
+        <li><b>Concentração:</b> 30 nomes, as 10 maiores são ~68% do índice, uma aposta bem mais direcional que o XBI.</li>
+        <li><b>Liquidez:</b> os ETFs são pequenos (~HK$ 1 bi cada, uns <b>US$ 130 mi</b>) contra ~US$ 10 bi do XBI, o que significa menos negociação e spreads maiores.</li>
+        <li><b>Volatilidade de ~40% ao ano</b> e <b>governança mais fraca</b>: muitas empresas chinesas usam estruturas em que o investidor não é dono direto da companhia (as "VIE"), os padrões de contabilidade e de divulgação são menos rígidos que nos EUA, e há menos informação em inglês. Ou seja, menos transparência e menos proteção ao acionista minoritário.</li>
       </ul></div></div>
       <div class="card keybox"><h3>Por que interessa</h3><div class="read tight"><ul class="f">
         <li><b>Motor de retorno diferente</b> do XBI (out-licensing chinês vs ciclo americano), baixa sobreposição.</li>
         <li>Captura a tese de que a <b>China virou a fábrica de pipeline</b> do Ocidente.</li>
-        <li>Como <b>satélite pequeno</b> numa tese global de biotech, diversifica geografia. Não substitui o núcleo XBI, e o timing pede atenção (entrar depois de um rali de ~80%, em ano de digestão).</li>
+        <li>Como <b>satélite pequeno</b> numa tese global de biotech, diversifica geografia. Não substitui o núcleo XBI. E atenção ao momento: o grosso da alta (~80%) já aconteceu em 2025, e 2026 tem sido de <b>consolidação</b> (o preço andando de lado, "digerindo" o salto). Ou seja, quem entrasse agora estaria comprando <b>depois</b> da disparada, não no começo dela.</li>
       </ul></div></div>
     </div>
   </section>`;
@@ -796,28 +809,39 @@ function renderHang(){
 /* ===== TAB: Células-tronco ===== */
 function renderCel(){
   document.getElementById("celulas").innerHTML=`
-  <p class="intro">O que são células-tronco e terapias celulares, como podem impactar a biotech, e como (e quanto) o XBI se expõe a isso.</p>
-  <section><div class="sec-h"><span class="sec-n">01</span><h2>O que são</h2></div>
-    <div class="read tight"><p>De forma simples: são células capazes de <b>virar outros tipos de célula ou reparar tecidos</b>. Para investir, o que importa é o guarda-chuva de <b>terapias celulares</b>, que hoje tem quatro sabores:</p>
+  <p class="intro">O que são as terapias com células, como podem impactar a biotech, e como (e quanto) o XBI se expõe a isso.</p>
+  <section><div class="sec-h"><span class="sec-n">01</span><h2>O mecanismo</h2></div>
+    <div class="read tight"><p>De forma simples: são células capazes de <b>virar outros tipos de célula ou reparar tecidos</b>. Para investir, o que importa é o guarda-chuva de <b>terapias celulares</b>, que hoje tem quatro tipos principais:</p>
       <ul class="f">
-        <li><b>CAR-T</b> (o subsetor comercial maduro): pega células de defesa do corpo e as reprograma para atacar o câncer. 6 produtos aprovados.</li>
-        <li><b>Terapia alogênica ("de prateleira"):</b> células de doador, escaláveis, mas <b>ainda sem nenhum produto aprovado</b>.</li>
-        <li><b>iPSC / medicina regenerativa:</b> células adultas reprogramadas para reparar tecido (coração, neurônios). Mais early-stage.</li>
-        <li><b>Células-tronco embrionárias:</b> o campo do debate ético/político, hoje mais restrito nos EUA. A indústria já migrou majoritariamente para os outros sabores.</li>
+        <li><b>CAR-T</b> (o subsetor comercial maduro): pega células de defesa do corpo e as reprograma para atacar o câncer. Já tem 6 produtos aprovados.</li>
+        <li><b>Terapia alogênica ("de prateleira"):</b> células de doador, mais fáceis de escalar, mas <b>ainda sem nenhum produto aprovado</b>.</li>
+        <li><b>iPSC / medicina regenerativa:</b> células adultas reprogramadas para reparar tecido (coração, neurônios). Mais inicial.</li>
+        <li><b>Células-tronco embrionárias:</b> o campo do debate ético e político, hoje mais restrito nos EUA. A indústria já migrou na maior parte para os outros três tipos.</li>
       </ul></div>
   </section>
   <section><div class="sec-h"><span class="sec-n">02</span><h2>Como pode impactar a biotech</h2></div>
-    <div class="card"><h3>O lado bom: é combustível do setor</h3><div class="read tight"><p>Terapia celular é uma das <b>frentes mais promissoras</b> do setor: está saindo da oncologia para as <b>doenças autoimunes</b> (a Kyverna quer a 1ª aprovação de CAR-T em autoimune) e se juntando com a <b>edição gênica</b>. Cada avanço desses abre um mercado novo, e a empresa que chega lá primeiro costuma valer muito.</p></div></div>
-    <div class="card keybox"><h3>O risco "bom demais"</h3><div class="read tight"><p>Existe um medo legítimo: uma tecnologia tão poderosa que <b>estraga o próprio negócio</b>. É o dilema <b>cura x tratamento crônico</b>: quando se cura de vez, o paciente para de comprar o remédio (aconteceu com a cura de hepatite C da Gilead, cujas vendas despencaram). <b>Mas isso reembaralha quem ganha, não destrói o setor</b>: a fila de doenças sem cura é enorme, o gargalo continua sendo provar eficácia na Fase 2/3, e num ETF pulverizado como o XBI você tende a carregar o vencedor junto. É risco de ação individual, não de índice.</p></div></div>
+    <div class="grid2">
+      <div class="card"><h3>Uma das promessas do setor</h3><div class="read tight"><p>Terapia celular é uma das <b>frentes mais promissoras</b> da biotech: está saindo da oncologia para as <b>doenças autoimunes</b> (a Kyverna quer a 1ª aprovação de CAR-T em autoimune) e se juntando com a <b>edição gênica</b>. Cada avanço desses abre um mercado novo, e a empresa que chega lá primeiro costuma valer muito.</p></div></div>
+      <div class="card keybox"><h3>O risco</h3><div class="read tight"><p>Como essas terapias podem oferecer <b>cura de verdade</b> para algumas doenças, aparece um dilema: curar de vez é ótimo para o paciente, mas ruim para quem vende o <b>tratamento contínuo</b> (foi o que aconteceu com a cura de hepatite C da Gilead, cujas vendas caíram depois que os pacientes se curaram). Só que, no nível do índice, isso preocupa menos do que parece: o XBI é <b>pulverizado</b> e tende a carregar justamente as biotechs que desenvolvem essas curas; a lista de <b>doenças sem cura é enorme</b>, sempre há um próximo alvo; e é um processo <b>lento</b>, provar e escalar uma cura leva muitos anos. No fim, é um risco de uma empresa específica, não do índice inteiro.</p></div></div>
+    </div>
+    <div class="card"><h3>Empresas do XBI expostas à tese</h3><div class="read tight"><ul class="f">
+      <li><b>CRISPR Therapeutics (CRSP):</b> co-dona (com a Vertex) do <b>Casgevy</b>, a 1ª terapia de edição genética aprovada no mundo (anemia falciforme); também desenvolve CAR-T alogênico.</li>
+      <li><b>Intellia (NTLA):</b> líder em <b>edição gênica dentro do corpo</b> (CRISPR aplicado direto no paciente), com programas para amiloidose e angioedema.</li>
+      <li><b>Beam (BEAM):</b> <b>base editing</b>, uma edição "letra a letra" do DNA, mais precisa que o CRISPR clássico.</li>
+      <li><b>Legend Biotech (LEGN):</b> dona do <b>Carvykti</b>, um CAR-T de mieloma múltiplo já aprovado e vendendo bem.</li>
+      <li><b>Arcellx (ACLX):</b> CAR-T de mieloma em parceria com a Gilead.</li>
+      <li><b>Kyverna (KYTX):</b> CAR-T apontado para <b>doenças autoimunes</b>, a nova fronteira da tecnologia.</li>
+      <li><b>Allogene (ALLO):</b> aposta no CAR-T <b>alogênico</b> ("de prateleira"), ainda sem produto aprovado.</li>
+    </ul></div><div class="refs"><b>Fontes:</b> IR das empresas; FDA; holdings do XBI (SSGA).</div></div>
   </section>
   <section><div class="sec-h"><span class="sec-n">03</span><h2>Como o XBI captura (e quanto)</h2></div>
-    <div class="read tight"><p>O XBI pega o tema muito mais via <b>CAR-T e edição gênica</b> (nomes como Intellia, CRISPR, Beam, Allogene, Legend, Arcellx, Kymera, Kyverna) do que via "célula-tronco embrionária" no sentido estrito. E o peso de cada um é pequeno: como o ETF é equal-weight, <b>cada nome desses vale ~0,5% a 1%</b>, e o bloco todo soma um dígito baixo a médio do índice. Na prática, a exposição existe mas fica bem diluída, então um tropeço de uma empresa isolada quase não aparece no índice.</p></div>
+    <div class="read tight"><p>O XBI pega o tema muito mais via <b>CAR-T e edição gênica</b> (as empresas do bloco acima) do que via "célula-tronco embrionária" no sentido estrito. E o peso de cada uma é pequeno: como o ETF é equal-weight, <b>cada nome vale ~0,5% a 1%</b>, e o bloco todo soma um dígito baixo a médio do índice. Ou seja, a exposição existe mas fica bem diluída, e o problema de uma empresa sozinha quase não mexe no índice.</p></div>
     <div class="card"><h3>Os riscos reais do subsetor</h3><div class="read tight"><ul class="f">
-      <li><b>Segurança de classe:</b> em 2024 a FDA exigiu aviso de câncer secundário nos CAR-T; em 2025 <b>afrouxou o acesso</b> (removeu o REMS). Saldo recente positivo.</li>
-      <li><b>Político (2026):</b> o NIH pausou o registro de células-tronco embrionárias e o uso de tecido fetal, mas isso pega <b>pesquisa acadêmica</b>, não a receita das empresas do ETF.</li>
-      <li><b>Reembolso e manufatura:</b> terapia celular custa ~US$ 1 mi por paciente e é cara/lenta de produzir, o que freia a adoção.</li>
+      <li><b>Segurança:</b> em 2024 a FDA adicionou um aviso sobre um risco raro de câncer secundário nas terapias CAR-T. Mas em 2025 ela <b>relaxou as exigências de monitoramento</b> (tirou um programa de controle chamado REMS), sinal de que ficou mais confortável com a segurança. No saldo, o regulador <b>afrouxou, não apertou</b>.</li>
+      <li><b>Política (2026):</b> o <b>NIH</b> (a agência do governo americano que financia pesquisa em saúde) pausou o financiamento da pesquisa com células-tronco de embrião. Mas isso atinge a <b>pesquisa acadêmica/universitária</b>, não a receita das empresas do ETF, que já trabalham com outras abordagens.</li>
+      <li><b>Reembolso e manufatura:</b> terapia celular custa ~US$ 1 mi por paciente e é cara e lenta de produzir, o que segura a adoção.</li>
     </ul></div>
-      <div class="refs"><b>Fontes:</b> FDA, AJMC, FierceBiotech, Cell Stem Cell, NIH (2024-2026).</div></div>
+      <div class="refs"><b>Fontes:</b> FDA, AJMC, FierceBiotech, Cell Stem Cell, NIH (2024 a 2026).</div></div>
   </section>`;
 }
 
