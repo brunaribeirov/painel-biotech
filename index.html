@@ -292,16 +292,14 @@ function renderHip(){
   ];
   const q1v={"Q1/25":898,"Q2/25":891,"Q3/25":981,"Q4/25":747,"Q1/26":1087,"Q2/26":1036};
   const qlabs=["Q1/25","Q2/25","Q3/25","Q4/25","Q1/26","Q2/26"];
-  const rt12=[[1752537600,64.4],[1755216000,64.9],[1757894400,69.2],[1760486400,70.6],[1763164800,70.7],[1765756800,72.2],[1768435200,72.3],[1771113600,72.6],[1773532800,75.6],[1776211200,77.8],[1778803200,79.3],[1781481600,83.2]];
+  const rt36=[[1689379200,65.3],[1692057600,61.7],[1694736000,59.8],[1697328000,58.3],[1700006400,62.5],[1702598400,65.7],[1705276800,65.1],[1707955200,71.9],[1710460800,69.1],[1713139200,66.6],[1715731200,66.5],[1718409600,67.6],[1721001600,67],[1723680000,68.4],[1726358400,67.8],[1728950400,69.1],[1731628800,70.3],[1734220800,68],[1736899200,66.7],[1739577600,64.7],[1741996800,63.3],[1744675200,65.4],[1747267200,64.9],[1749945600,65.4],[1752537600,64.4],[1755216000,64.9],[1757894400,69.2],[1760486400,70.6],[1763164800,70.7],[1765756800,72.2],[1768435200,72.3],[1771113600,72.6],[1773532800,75.6],[1776211200,77.8],[1778803200,79.3],[1781481600,83.2]];
   const accWrap=(sub,inner)=>`<details class="acc"><summary>Acompanhamento trimestral <span class="accq">${sub}</span></summary><div class="accbody">${inner}</div></details>`;
   const ACC={
    1:accWrap("fechamento Q2/26 · jun/26",`
      <div class="ind"><h4>Novos trials de Fase 1 no trimestre</h4><span class="big">1.036</span> <span class="accq">registrados no ClinicalTrials.gov em abr–jun/26 (Fase 1 pura; registro global, ~220 países)</span>
        ${bars(q1v,{labels:qlabs,color:"var(--ink-2)",highlight:["Q1/26","Q2/26"],hl:"var(--accent)"})}
        <p class="accnote">Os dois trimestres de 2026 são os mais altos da série: o volume de moléculas entrando em clínica está subindo, não caindo. É o proxy de "a IA está enchendo o funil da descoberta".</p></div>
-     <div class="ind"><h4>Moléculas "AI-enabled" passando de fase</h4>
-       <p class="accnote">Pesquisamos e ainda não há um número fechado deste trimestre, nem uma série dos trimestres anteriores: não existe base pública que marque "esse ativo é de IA" trimestre a trimestre. O que dá pra citar é um retrato pontual: no levantamento da ASCO (2026) havia <b>117 ativos "AI-enabled" em ensaios clínicos</b>, dos quais só ~6,8% tinham passado da Fase 2. Vamos trazendo o número assim que virar dado periódico.</p></div>
-     <div class="refs"><b>Fonte:</b> ClinicalTrials.gov API v2 (query reproduzível por data de registro + fase); ASCO 2026 (contagem de ativos AI-enabled).</div>`),
+     <div class="refs"><b>Fonte:</b> ClinicalTrials.gov API v2 (query reproduzível por data de registro + fase).</div>`),
    2:accWrap("acumulado de 2026 · até jun/26",`
      <p class="accnote">Aqui o dado limpo e gratuito fecha por semestre, não por trimestre isolado — então acompanhamos o <b>acumulado no ano</b>.</p>
      <div class="ind"><h4>M&amp;A de biotech ≥ US$ 1 bi (acum. no ano)</h4><span class="big">33 deals · ~US$ 134 bi</span>
@@ -315,8 +313,8 @@ function renderHip(){
      <div class="refs"><b>Fontes:</b> STAT News, CNBC (M&amp;A ≥US$1bi, 1º sem/26); BioPharma Dive (IPOs). Cada deal deve ser confirmado no release antes de virar número oficial.</div>`),
    3:accWrap("fechamento Q2/26 · jun/26",`
      <div class="ind"><h4>Razão XBI / IBB <span class="accq">apetite small-cap vs large-cap</span></h4><span class="big">83,2</span>
-       ${sline(rt12,{H:150,bandLast:3,bandLabel:"último trimestre"})}
-       <p class="accnote">Últimos 12 meses; a faixa sombreada é o último trimestre. Subiu de ~64 para 83: quanto mais alta, mais o mercado está disposto a pagar pelas small-caps (XBI) em vez das gigantes (IBB), o coração da tese de beta.</p></div>
+       ${sline(rt36,{H:150,bandLast:3,bandLabel:"último trimestre"})}
+       <p class="accnote">Últimos 36 meses; a faixa sombreada é o último trimestre. Depois de quase dois anos de lado na casa dos 60-70, disparou para 83 nos últimos meses: quanto mais alta, mais o mercado está disposto a pagar pelas small-caps (XBI) em vez das gigantes (IBB), o coração da tese de beta.</p></div>
      <div class="ind"><h4>XBI vs S&amp;P 500 no trimestre</h4><span class="big">+24,0% <span class="accq">vs +15,1% do S&amp;P</span></span>
        ${qgroup(["Q2/25","Q3/25","Q4/25","Q1/26","Q2/26"],{name:"XBI",col:"var(--accent)",vals:[2.3,20.9,22.1,4.8,24.0]},{name:"S&P 500",col:"var(--ink-2)",vals:[10.8,8.1,2.7,-4.4,15.1]})}
        <p class="accnote">Incluí o Q2/25 pra dar contraste: naquele trimestre o S&amp;P bateu o XBI (+10,8% vs +2,3%). Depois o beta virou a favor: o XBI passou a andar bem mais que o índice geral (Q4/25, Q2/26), e também cai mais quando corrige (Q1/26).</p></div>
