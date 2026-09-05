@@ -278,6 +278,44 @@ function renderHip(){
    {n:2,t:"O cliff de patentes aquece o mercado de M&amp;As do setor. E esse é o lado tático para os próximos 3 anos.",s:"parc",e:"Entre <b>US$ 200 e 300 bilhões</b> de receita perdem patente até 2030. Para repor esse faturamento a big pharma precisa comprar pipeline, e isso já aparece nos números: o primeiro semestre de 2026, com uns <b>US$ 130 bilhões em deals</b>, empatou com 2025 inteiro, e a relação entre patente vencendo e número de aquisições grandes é <b>positiva e relevante</b>. O ponto é que o cliff <b>não é um evento, é um regime</b>, com o pico concentrado justamente nos próximos anos."},
    {n:3,t:"É um play de beta. Dentro de biotech, o índice amplo tende a funcionar melhor do que escolher subsetores.",s:"open",e:"O retorno de biotech se concentra em poucos <b>saltos binários</b>: uma aprovação, um dado de fase 3, uma aquisição com prêmio. Os saltos binários, apesar de conseguirem apresentar ganhos assimétricos, são mais difíceis de antecipar. Um <b>índice amplo</b> consegue diversificar a exposição em diferentes subsetores, limitar a queda de uma perda relevante e cobrir o crescimento da tese como um todo."},
   ];
+  const q1=[["Q1/25","898"],["Q2/25","891"],["Q3/25","981"],["Q4/25","747"],["Q1/26","1.087"],["Q2/26","1.036"]];
+  const rt=[["Q1/25","63,3"],["Q2/25","65,4"],["Q3/25","69,2"],["Q4/25","72,2"],["Q1/26","75,6"],["Q2/26","83,2"]];
+  const colsQ=arr=>`<table class="miniq"><tr><th>Trim.</th>${arr.map(r=>`<th>${r[0]}</th>`).join("")}</tr><tr><td>valor</td>${arr.map(r=>`<td>${r[1]}</td>`).join("")}</tr></table>`;
+  const accWrap=(sub,inner)=>`<details class="acc"><summary>Acompanhamento trimestral <span class="accq">${sub}</span></summary><div class="accbody">${inner}</div></details>`;
+  const ACC={
+   1:accWrap("fechamento Q2/26 · jun/26",`
+     <div class="ind"><h4>Novos trials de Fase 1 no trimestre</h4><span class="big">1.036</span> <span class="accq">registrados no ClinicalTrials.gov em abr–jun/26 (Fase 1 pura, global)</span>
+       ${colsQ(q1)}
+       <p class="accnote">Os dois trimestres de 2026 são os mais altos da série: o volume de moléculas entrando em clínica está subindo, não caindo. É o proxy de "a IA está enchendo o funil da descoberta".</p></div>
+     <div class="ind"><h4>Marco a observar: moléculas "AI-enabled" passando de fase <span class="accapx">aproximado</span></h4>
+       <p class="accnote">Não existe base pública que marque "esse ativo é de IA" de forma sistemática — isso só sai de levantamentos pontuais (ASCO). Acompanhamos de forma qualitativa/anual, como marco, não como número trimestral fixo.</p></div>
+     <div class="refs"><b>Fonte:</b> ClinicalTrials.gov API v2 (query reproduzível por data de registro + fase).</div>`),
+   2:accWrap("acumulado de 2026 · até jun/26",`
+     <p class="accnote">Aqui o dado limpo e gratuito fecha por semestre, não por trimestre isolado — então acompanhamos o <b>acumulado no ano</b>.</p>
+     <div class="ind"><h4>M&amp;A de biotech ≥ US$ 1 bi (acum. no ano)</h4><span class="big">33 deals · ~US$ 134 bi</span>
+       <p class="accnote">O 1º semestre de 2026 sozinho <b>já passou 2025 inteiro</b> (26 deals / US$ 112 bi). Maiores do trimestre: Sun Pharma/Organon ~12,6bi; Merck KGaA/Bio-Techne ~11,3bi; AbbVie/Apogee ~10,7bi; GSK/Nuvalent ~10,6bi.</p></div>
+     <div class="ind"><h4>IPOs de biotech (acum. no ano)</h4><span class="big">13 IPOs · ~US$ 5,0 bi</span>
+       <p class="accnote">Mais do que qualquer ano inteiro de 2022 a 2025. Sinal de que a janela de captação reabriu.</p></div>
+     <div class="refs"><b>Fontes:</b> STAT News, CNBC (M&amp;A ≥US$1bi, 1º sem/26); BioPharma Dive (IPOs). Cada deal deve ser confirmado no release antes de virar número oficial.</div>`),
+   3:accWrap("fechamento Q2/26 · jun/26",`
+     <div class="ind"><h4>Razão XBI / IBB <span class="accq">apetite small-cap vs large-cap</span></h4><span class="big">83,2</span>
+       ${colsQ(rt)}
+       <p class="accnote">Saiu do fundo (63,3 em Q1/25) para o topo da série. Quanto mais alta, mais o mercado está disposto a pagar pelas small-caps (XBI) em vez das gigantes (IBB) — o coração da tese de beta.</p></div>
+     <div class="ind"><h4>XBI vs S&amp;P 500 no trimestre</h4><span class="big">+24,0% <span class="accq">vs +15,1% do S&amp;P</span></span>
+       <table class="miniq"><tr><th>Trim.</th><th>XBI</th><th>S&amp;P 500</th></tr>
+       <tr><td>Q3/25</td><td>+20,9%</td><td>+8,1%</td></tr>
+       <tr><td>Q4/25</td><td>+22,1%</td><td>+2,7%</td></tr>
+       <tr><td>Q1/26</td><td>+4,8%</td><td>−4,4%</td></tr>
+       <tr><td>Q2/26</td><td>+24,0%</td><td>+15,1%</td></tr></table>
+       <p class="accnote">O beta aparece nos dois sentidos: quando anda, anda mais que o índice geral (Q4/25, Q2/26); quando corrige, também (Q1/26).</p></div>
+     <div class="ind"><h4>Biotechs no ETF com EV negativo <span class="accapx">aproximado</span></h4><span class="big">~23%</span> <span class="accq">das small/mid biotech, abaixo do caixa (Jefferies, 2026)</span>
+       <p class="accnote">Máxima de ~8 anos. É um dado que só sai em nota de analista e não tem série pública limpa, então entra como leitura de ponto no tempo, aproximada.</p></div>
+     <div class="ind"><h4>Composição e equal-weight <span class="accq">SSGA, 30/jun/26</span></h4>
+       <table class="miniq"><tr><th>Nº holdings</th><th>Maior peso</th><th>Top-10</th><th>Alvo EW</th></tr>
+       <tr><td>157</td><td>Apogee 1,48%</td><td>~13,3%</td><td>~0,64%</td></tr></table>
+       <p class="accnote">O maior nome pesa &lt;1,5% e o top-10 soma ~13%: segue bem pulverizado (equal-weight de verdade). Não há corte GICS gratuito de "biotech vs comercial" (99,89% cai em "Biotechnology"), então monitoramos a concentração pelo maior peso e pelo top-10.</p></div>
+     <div class="refs"><b>Fontes:</b> Yahoo Finance (XBI, IBB, S&amp;P — cálculo nosso); SSGA factsheet do XBI (30/jun/26); Jefferies (EV negativo, aproximado).</div>`),
+  };
   document.getElementById("hip").innerHTML=`
   <p class="intro">A tese de biotech em três hipóteses: uma <b>estrutural</b>, a IA mudando a produtividade da descoberta (H1); uma <b>tática</b>, o cliff de patentes forçando M&amp;A nos próximos anos (H2); e a <b>forma de capturar as duas</b>, que é ficar no índice amplo em vez de escolher subsetores (H3).</p>
   ${H.map(h=>`<div class="card" style="border-left:4px solid ${COL[h.s]}">
@@ -286,7 +324,25 @@ function renderHip(){
       <div class="hipt">${h.t}</div>
     </div>
     <div class="read hipe">${h.e}</div>
-  </div>`).join("")}`;
+    ${ACC[h.n]||""}
+  </div>`).join("")}
+  <style>
+  .acc{margin-top:12px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+  .acc>summary{cursor:pointer;padding:9px 12px;font-weight:600;font-size:13px;list-style:none;display:flex;align-items:center;gap:8px;color:var(--ink)}
+  .acc>summary::-webkit-details-marker{display:none}
+  .acc>summary::before{content:"▸";color:var(--accent);font-size:11px;transition:transform .15s}
+  .acc[open]>summary::before{transform:rotate(90deg)}
+  .acc .accq{color:var(--muted);font-weight:400;font-size:11px}
+  .acc .accapx{color:var(--muted);font-weight:600;font-size:10px;border:1px solid var(--border);border-radius:4px;padding:0 5px;margin-left:4px}
+  .accbody{padding:2px 13px 12px;border-top:1px solid var(--border-2)}
+  .ind{margin:12px 0 0}
+  .ind h4{margin:0 0 3px;font-size:12.5px;color:var(--ink)}
+  .ind .big{font-size:19px;font-weight:800;color:var(--ink)}
+  .accnote{font-size:12px;color:var(--ink-2);margin:5px 0 0;line-height:1.45}
+  .miniq{border-collapse:collapse;font-size:11px;margin:6px 0 0;font-family:var(--mono)}
+  .miniq th,.miniq td{padding:3px 9px;text-align:center;border:1px solid var(--border-2)}
+  .miniq th{color:var(--muted);font-weight:600}
+  </style>`;
 }
 
 /* ===== TAB 1: mercado ===== */
