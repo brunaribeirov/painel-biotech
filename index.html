@@ -196,7 +196,7 @@ function sline(series,opts){
   const gid="s"+Math.round(mn*13%9973)+(up?"u":"d");
   let yl="";[mn+(mx-mn)*.02,mx-(mx-mn)*.02].forEach(v=>{const y=Y(v).toFixed(1);yl+=`<text x="${padL-5}" y="${(+y+3).toFixed(1)}" text-anchor="end" font-size="8.5" fill="var(--muted)" font-family="var(--mono)">${v>=1000?(v/1000).toFixed(0)+'k':Math.round(v)}</text>`;});
   const band=opts.bandLast?(()=>{const step=(n>1?plotW/(n-1):0),i0=Math.max(0,n-opts.bandLast),bx0=X(i0)-step/2;return `<rect x="${bx0.toFixed(1)}" y="${padT}" width="${(W-padR-bx0).toFixed(1)}" height="${plotH}" fill="var(--accent)" opacity="0.12"/>`+(opts.bandLabel?`<text x="${((bx0+W-padR)/2).toFixed(1)}" y="${(padT+9).toFixed(1)}" text-anchor="middle" font-size="8" font-weight="700" fill="var(--accent-ink)">${opts.bandLabel}</text>`:"");})():"";
-  return `<svg class="v" viewBox="0 0 ${W} ${H}"><defs><linearGradient id="${gid}" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="${col}" stop-opacity="0.2"/><stop offset="100%" stop-color="${col}" stop-opacity="0"/></linearGradient></defs>${band}${yl}<path d="${area}" fill="url(#${gid})"/><path d="${ln}" fill="none" stroke="${col}" stroke-width="1.8"/><text x="${padL}" y="${H-5}" font-size="8.5" fill="var(--muted)">${fmtD(pts[0][0])}</text><text x="${W-padR}" y="${H-5}" text-anchor="end" font-size="8.5" fill="var(--muted)">${fmtD(pts[n-1][0])}</text></svg>`;
+  return `<svg class="v" viewBox="0 0 ${W} ${H}"><defs><linearGradient id="${gid}" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="${col}" stop-opacity="0.2"/><stop offset="100%" stop-color="${col}" stop-opacity="0"/></linearGradient></defs>${band}${yl}<path d="${area}" fill="url(#${gid})"/><path d="${ln}" fill="none" stroke="${col}" stroke-width="1.8"/>${(opts.marks||[]).map(mk=>{let mi=pts.findIndex(p=>p[0]>=mk.ts);if(mi<0)mi=n-1;const mmx=X(mi),mc=mk.color||"var(--ink-2)";return `<line x1="${mmx.toFixed(1)}" y1="${padT}" x2="${mmx.toFixed(1)}" y2="${padT+plotH}" stroke="${mc}" stroke-width="1" stroke-dasharray="3 2"/><text x="${mmx.toFixed(1)}" y="${(padT-2).toFixed(1)}" text-anchor="middle" font-size="7.5" font-weight="700" fill="${mc}">${mk.lab}</text>`;}).join("")}<text x="${padL}" y="${H-5}" font-size="8.5" fill="var(--muted)">${fmtD(pts[0][0])}</text><text x="${W-padR}" y="${H-5}" text-anchor="end" font-size="8.5" fill="var(--muted)">${fmtD(pts[n-1][0])}</text></svg>`;
 }
 /* ===== multi-line normalized w/ year axis + markers ===== */
 function multiLine(seriesList,opts){
@@ -472,6 +472,7 @@ function renderStock(){
   const ups=CASES.filter(c=>c.dir==="up").sort((a,b)=>b.step-a.step);
   const dns=CASES.filter(c=>c.dir==="down").sort((a,b)=>a.step-b.step);
   const watch=WATCH.slice().sort((a,b)=>(b.xbi_wt||0)-(a.xbi_wt||0));
+  const SPX={"VRTX":[[1555286400,168.98],[1557878400,166.18],[1560556800,183.38],[1563148800,166.62],[1565827200,180.02],[1568505600,169.42],[1571097600,195.48],[1573776000,221.75],[1576368000,218.95],[1579046400,227.05],[1581724800,224.03],[1584230400,237.95],[1586908800,251.2],[1589500800,287.96],[1592179200,290.31],[1594771200,272],[1597449600,279.12],[1600128000,272.12],[1602720000,208.36],[1605398400,227.75],[1607990400,236.34],[1610668800,229.08],[1613347200,212.55],[1615766400,214.89],[1618444800,218.2],[1621036800,208.63],[1623715200,201.63],[1626307200,201.58],[1628985600,200.29],[1631664000,181.39],[1634256000,184.93],[1636934400,186.94],[1639526400,219.6],[1642204800,243.05],[1644883200,230.02],[1647302400,260.97],[1649980800,273.22],[1652572800,268.65],[1655251200,281.79],[1657843200,280.41],[1660521600,281.76],[1663200000,289.54],[1665792000,312],[1668470400,316.4],[1671062400,288.78],[1673740800,323.1],[1676419200,290.29],[1678838400,315.07],[1681516800,340.73],[1684108800,323.57],[1686787200,351.91],[1689379200,352.34],[1692057600,348.34],[1694736000,347.74],[1697328000,362.11],[1700006400,354.81],[1702598400,406.89],[1705276800,433.38],[1707955200,420.74],[1710460800,418.01],[1713139200,392.81],[1715731200,455.34],[1718409600,468.72],[1721001600,495.72],[1723680000,495.89],[1726358400,465.08],[1728950400,475.98],[1731628800,468.13],[1734220800,402.7],[1736899200,461.68],[1739577600,479.79],[1741996800,484.82],[1744675200,509.5],[1747267200,442.05],[1749945600,445.2],[1752537600,456.87],[1755216000,391.02],[1757894400,391.64],[1760486400,425.57],[1763164800,433.61],[1765756800,453.36],[1768435200,469.9],[1771113600,496.83],[1773532800,446.54],[1776211200,427.38],[1778803200,447.54],[1781481600,496.73],[1784073600,477.1],[1786752000,544.52],[1789430400,557.96]],"MESO":[[1602720000,21.4],[1605398400,30.18],[1607990400,16.98],[1610668800,17.98],[1613347200,19.2],[1615766400,16.54],[1618444800,15.32],[1621036800,15.46],[1623715200,14.96],[1626307200,14],[1628985600,13.06],[1631664000,12.02],[1634256000,12.1],[1636934400,12.1],[1639526400,9.6],[1642204800,8.08],[1644883200,7.78],[1647302400,8.44],[1649980800,7.34],[1652572800,7.02],[1655251200,4.44],[1657843200,6.68],[1660521600,5.92],[1663200000,5.1],[1665792000,5.82],[1668470400,7.4],[1671062400,5.82],[1673740800,6.6],[1676419200,6.6],[1678838400,6.58],[1681516800,5.9],[1684108800,6.76],[1686787200,7.82],[1689379200,8],[1692057600,3.22],[1694736000,2.46],[1697328000,2.44],[1700006400,2.72],[1702598400,2.2],[1705276800,1.76],[1707955200,1.97],[1710460800,5.01],[1713139200,6.6],[1715731200,7.44],[1718409600,6.81],[1721001600,6.77],[1723680000,6.74],[1726358400,8.17],[1728950400,8.38],[1731628800,11.69],[1734220800,19.8],[1736899200,20.14],[1739577600,17.15],[1741996800,12.48],[1744675200,11.4],[1747267200,10.64],[1749945600,10.89],[1752537600,15.26],[1755216000,13.83],[1757894400,16.11],[1760486400,16.66],[1763164800,17.23],[1765756800,18.04],[1768435200,17.25],[1771113600,15.85],[1773532800,15.38],[1776211200,15.67],[1778803200,15.4],[1781481600,13.53],[1784073600,14.17],[1786752000,16.76],[1789430400,17.14]],"CAPR":[[1649980800,3.17],[1652572800,3.63],[1655251200,3.49],[1657843200,4.61],[1660521600,5.82],[1663200000,6],[1665792000,5.56],[1668470400,4.47],[1671062400,3.86],[1673740800,4.22],[1676419200,4.55],[1678838400,4.22],[1681516800,3.89],[1684108800,4.53],[1686787200,4.78],[1689379200,4.4],[1692057600,6.48],[1694736000,3.42],[1697328000,2.82],[1700006400,2.97],[1702598400,4.89],[1705276800,4.04],[1707955200,4.2],[1710460800,6.79],[1713139200,5.27],[1715731200,5.68],[1718409600,4.77],[1721001600,4.06],[1723680000,4.57],[1726358400,15.21],[1728950400,20.1],[1731628800,19.01],[1734220800,13.8],[1736899200,15.04],[1739577600,15.38],[1741996800,9.49],[1744675200,12.7],[1747267200,9.89],[1749945600,9.93],[1752537600,8.18],[1755216000,6.28],[1757894400,7.21],[1760486400,6.51],[1763164800,5.35],[1765756800,28.86],[1768435200,21.89],[1771113600,27.93],[1773532800,30.4],[1776211200,33.58],[1778803200,29.96],[1781481600,24.08],[1784073600,3.85],[1786752000,9.91],[1789430400,9.28]]};
   document.getElementById("stock").innerHTML=`
   <p class="intro">Aqui a gente olha o preço no nível de cada ação: os saltos binários que já aconteceram e a lista do que vem pela frente. É a parte mais interessante do setor e também a mais difícil de acertar.</p>
   <section><div class="sec-h"><span class="sec-n">A</span><h2>Degraus binários: Ganhos/Perdas assimétricos</h2></div>
@@ -490,7 +491,94 @@ function renderStock(){
       <div class="metrics"><span>US$ ${w.last}</span><span>52s ${w.lo52} a ${w.hi52}</span><span>${w.liq}</span></div>
       <div class="wnext"><b>Próximo:</b> ${esc(w.next_sem)}</div></div>`).join("")}</div>
     <div class="refs"><b>Fontes:</b> Yahoo Finance; IR, clinicaltrials.gov, calendário FDA. Anotações aproximadas.</div>
-  </section>`;
+  </section>
+  <section><div class="sec-h"><span class="sec-n">C</span><h2>Três empresas por dentro</h2></div>
+    <div class="read tight"><p>Um mergulho em três nomes que são quase o setor inteiro em miniatura: uma gigante lucrativa (VRTX), uma small-cap que acabou de virar comercial (MESO) e uma aposta binária de FDA (CAPR). Para cada uma: o que faz, os números, a linha do tempo, o preço e o caso dos dois lados.</p></div>
+    <div class="card deep">
+      <div class="dhead"><div><span class="tk">VRTX</span> <span class="dnm">Vertex Pharmaceuticals</span></div><span class="dtag up">Large-cap · lucrativa</span></div>
+      <div class="dkpis"><span class="kpi"><span class="v">~US$558</span><span class="l">preço</span></span><span class="kpi"><span class="v">~US$140 bi</span><span class="l">valor de mercado</span></span><span class="kpi"><span class="v">US$12,0 bi</span><span class="l">receita 2025 (+9%)</span></span><span class="kpi"><span class="v">~US$13,6 bi</span><span class="l">caixa</span></span></div>
+      <div class="read tight"><p><b>O que é:</b> uma raridade no setor, uma biotech grande e <b>muito lucrativa</b> (a maioria queima caixa por anos). Ela construiu um <b>quase-monopólio em fibrose cística</b> (FC), uma doença genética grave do pulmão, e usa esse caixa pra se diversificar em edição gênica, dor sem opioide, doença renal e diabetes tipo 1.</p>
+        <p><b>O motor (fibrose cística):</b> é dona da FC, o único com remédios que tratam a <b>causa</b> da doença, não só o sintoma. Foi do Kalydeco ao Trikafta e agora o <b>Alyftrek</b> (uma pílula 1x/dia). As patentes do Trikafta vão até ~2037; em abr/2026 o FDA ampliou o rótulo pra alcançar <b>~95% dos pacientes de FC</b> nos EUA; e o principal rival (Sionna) <b>falhou na Fase 2</b> em ago/2026, tirando a ameaça, a ação subiu.</p>
+        <p><b>As 4 apostas novas:</b> <b>Casgevy</b>, a 1ª terapia de edição gênica CRISPR aprovada no mundo (anemia falciforme e beta-talassemia, com a CRISPR Therapeutics), ~US$2,2 mi por paciente e ramp lento; <b>Journavx</b>, o 1º analgésico não-opioide de uma nova classe (dor aguda, aprovado em jan/2025), sendo que a promessa maior é a dor crônica, que ainda não provou (a Fase 2 de ciática decepcionou); <b>inaxaplin</b> pra doença renal genética (Fase 3, dado só lá por 2030); e <b>zimislecel</b>, uma terapia celular que quer "curar" o diabetes tipo 1 (83% ficaram sem insulina em 1 ano na fase inicial). E o <b>povetacicept</b> (rim) tem decisão do FDA marcada pra 30/nov/2026.</p></div>
+      <div class="dchart"><h4>Preço (US$), 2019 a 2026</h4>${sline(SPX.VRTX,{H:170,marks:[{ts:Date.UTC(2023,11,8)/1000,lab:"Casgevy"},{ts:Date.UTC(2025,0,30)/1000,lab:"Journavx"}]})}</div>
+      <div class="mstones">
+        <div class="mst"><span class="mdate">out/2019</span><span>Trikafta aprovado, redefine o tratamento da FC e a base de receita.</span></div>
+        <div class="mst"><span class="mdate">dez/2023</span><span>Casgevy, a 1ª terapia de edição gênica CRISPR aprovada no mundo.</span></div>
+        <div class="mst"><span class="mdate">dez/2024</span><span>Alyftrek aprovado (FC 1x/dia); no mesmo mês, a Fase 2 de ciática do Journavx decepciona.</span></div>
+        <div class="mst"><span class="mdate">jan/2025</span><span>Journavx aprovado, 1º analgésico não-opioide de uma classe nova em 20+ anos.</span></div>
+        <div class="mst"><span class="mdate">abr/2026</span><span>Rótulo da FC ampliado para ~95% dos pacientes nos EUA.</span></div>
+        <div class="mst"><span class="mdate">ago/2026</span><span>A rival Sionna falha na FC; a ameaça some e a VRTX sobe.</span></div>
+      </div>
+      <div class="grid2">
+        <div class="bb bull"><b>A favor:</b> biotech lucrativa e rara, com monopólio protegido por patente gerando ~US$12 bi e crescendo dois dígitos, agora com quatro franquias novas (CRISPR, dor, rim, diabetes) que podem virar blockbusters, e acabou de ver o principal rival da FC fracassar.</div>
+        <div class="bb bear"><b>Contra:</b> paga-se ~US$140 bi (múltiplo alto) por uma empresa ainda ~95% dependente de uma doença só; a maior aposta de crescimento (dor crônica) já tropeçou uma vez, e a diversificação ainda é pequena perto do preço.</div>
+      </div>
+      <div class="refs"><b>Fontes:</b> Vertex (resultados e releases), FDA, STAT, BioPharma Dive; preço Yahoo Finance.</div>
+    </div>
+    <div class="card deep">
+      <div class="dhead"><div><span class="tk">MESO</span> <span class="dnm">Mesoblast</span></div><span class="dtag">Small-cap · recém-comercial</span></div>
+      <div class="dkpis"><span class="kpi"><span class="v">~US$17</span><span class="l">preço (ADS)</span></span><span class="kpi"><span class="v">~US$2,2 bi</span><span class="l">valor de mercado</span></span><span class="kpi"><span class="v">US$120 mi</span><span class="l">receita FY26 (1º ano)</span></span><span class="kpi"><span class="v">~US$103 mi</span><span class="l">caixa</span></span></div>
+      <div class="read tight"><p><b>O que é:</b> terapia celular <b>"de prateleira"</b> (alogênica): as células de um doador viram milhares de doses padronizadas, prontas pra usar, o oposto do CAR-T (feito célula a célula pra cada paciente). Ela usa células mesenquimais (MSC), que <b>não repõem tecido</b>, elas acalmam a inflamação e o sistema imune. Por isso o alvo é doença do enxerto e condições inflamatórias.</p>
+        <p><b>Ryoncil (o produto):</b> aprovado em dez/2024 pra <b>doença do enxerto contra o hospedeiro</b> (GvHD) aguda que não respondeu a corticoide, em crianças, uma condição rara e de alta mortalidade. É a <b>1ª terapia MSC alogênica aprovada pelo FDA</b>, o fim de ~20 anos sem nenhuma da classe passar. Preço de US$194 mil por infusão (o curso passa de US$1,5 mi). No 1º ano: <b>US$115 mi de vendas</b>, 50+ centros (14 dos 15 maiores), e o tempo até tratar caiu de 29 pra 8 dias.</p>
+        <p><b>A saga até aprovar:</b> foi <b>rejeitada duas vezes</b> (CRL em 2020 e 2023), mesmo depois de um comitê do FDA votar 9-1 a favor em 2020. Foram ~4 anos e várias diluições até chegar lá.</p>
+        <p><b>O que vem:</b> Revascor (coração, insuficiência cardíaca e LVAD, BLA em curso), Ryoncil pra <b>adultos</b> (mercado 3-4x maior) e dor lombar crônica (Fase 3, dado em 2027).</p></div>
+      <div class="dchart"><h4>Preço (US$, ADS ajustado), 2020 a 2026</h4>${sline(SPX.MESO,{H:170,marks:[{ts:Date.UTC(2024,11,18)/1000,lab:"Ryoncil aprovado",color:"var(--up)"}]})}</div>
+      <div class="mstones">
+        <div class="mst"><span class="mdate">ago/2020</span><span>Comitê do FDA vota 9-1 que os dados sustentam a eficácia.</span></div>
+        <div class="mst"><span class="mdate">out/2020</span><span>1º CRL (rejeição): FDA pede outro estudo.</span></div>
+        <div class="mst"><span class="mdate">ago/2023</span><span>2º CRL.</span></div>
+        <div class="mst"><span class="mdate">dez/2024</span><span>Ryoncil aprovado, a 1ª terapia MSC alogênica do FDA.</span></div>
+        <div class="mst"><span class="mdate">fev/2025</span><span>Preço definido (US$194 mil/infusão); começa o lançamento.</span></div>
+        <div class="mst"><span class="mdate">ago/2026</span><span>FY26: US$120 mi de receita, US$115 mi só de Ryoncil no 1º ano.</span></div>
+      </div>
+      <div class="grid2">
+        <div class="bb bull"><b>A favor:</b> destravou o FDA com a 1ª MSC alogênica, tem receita crescendo rápido e de alta margem (US$115 mi no 1º ano, acima do esperado), queima caindo, e várias opções grandes (GvHD em adultos, coração, dor lombar).</div>
+        <div class="bb bear"><b>Contra:</b> small-cap volátil apoiada num único produto de doença rara e público limitado, com histórico de diluição e de rejeições do FDA, e um valuation (~US$2,2 bi sobre ~US$120 mi de receita) que já embute sucesso do pipeline.</div>
+      </div>
+      <div class="refs"><b>Fontes:</b> Mesoblast (resultados FY26 e releases), FDA, GlobeNewswire; preço Yahoo Finance (ajustado ao grouping de jan/2024).</div>
+    </div>
+    <div class="card deep">
+      <div class="dhead"><div><span class="tk">CAPR</span> <span class="dnm">Capricor Therapeutics</span></div><span class="dtag down">Micro-cap · aposta binária de FDA</span></div>
+      <div class="dkpis"><span class="kpi"><span class="v">~US$9</span><span class="l">preço</span></span><span class="kpi"><span class="v">~US$540 mi</span><span class="l">valor de mercado</span></span><span class="kpi"><span class="v">~US$238 mi</span><span class="l">caixa</span></span><span class="kpi"><span class="v">clínica</span><span class="l">ainda sem receita</span></span></div>
+      <div class="read tight"><p><b>O que é:</b> terapias de célula e exossomo. A líder é o <b>deramiocel (CAP-1002)</b>, células derivadas do coração, mirando a <b>doença cardíaca da distrofia muscular de Duchenne (DMD)</b>, os meninos com DMD acabam morrendo de insuficiência cardíaca, e é aí que a Capricor aponta. Tem também uma plataforma de <b>exossomo</b> (vacinas), hoje em pausa pra economizar caixa.</p>
+        <p><b>A montanha-russa regulatória:</b> pediu aprovação (BLA) pra cardiomiopatia da DMD e levou um <b>CRL em 11/jul/2025</b> (o FDA disse que faltou evidência de eficácia, mais itens de fabricação). Reenviou com o estudo HOPE-3. Só que em <b>27/jul/2026 o FDA soltou documentos duros</b> questionando mudanças feitas na análise estatística do HOPE-3, e a ação <b>despencou ~64% num único dia</b>. Dois dias depois, o comitê do FDA votou <b>9-3 contra</b> a eficácia. A empresa então <b>mudou o pedido</b>: em vez de cardiomiopatia, passou a pedir aprovação só pra <b>função de braço</b> (onde o dado é mais forte), e o FDA remarcou a decisão pra <b>22/nov/2026</b>.</p>
+        <p><b>Complicação extra:</b> em mai/2026 a Capricor <b>processou a própria parceira comercial</b>, a Nippon Shinyaku, querendo rescindir o acordo dos EUA (alega que o preço combinado inviabiliza o lançamento). Isso põe em xeque os US$80 mi de marco na aprovação e a rota de venda.</p></div>
+      <div class="dchart"><h4>Preço (US$), 2022 a 2026</h4>${sline(SPX.CAPR,{H:170,marks:[{ts:Date.UTC(2025,6,11)/1000,lab:"CRL"},{ts:Date.UTC(2026,6,1)/1000,lab:"−64%",color:"var(--down)"}]})}</div>
+      <div class="mstones">
+        <div class="mst"><span class="mdate">2022</span><span>HOPE-2 publicado na Lancet; acordo comercial com a Nippon Shinyaku.</span></div>
+        <div class="mst"><span class="mdate">dez/2024</span><span>BLA submetido ao FDA.</span></div>
+        <div class="mst"><span class="mdate">jul/2025</span><span>CRL: FDA aponta falta de evidência de eficácia + fabricação.</span></div>
+        <div class="mst"><span class="mdate">out/2025</span><span>HOPE-3 dá positivo no topline; a empresa reenvia o pedido.</span></div>
+        <div class="mst"><span class="mdate">mai/2026</span><span>Capricor processa a Nippon Shinyaku pra rescindir o acordo dos EUA.</span></div>
+        <div class="mst"><span class="mdate">jul/2026</span><span>FDA questiona a estatística do HOPE-3, ação −64%; comitê vota 9-3 contra.</span></div>
+        <div class="mst"><span class="mdate">ago/2026</span><span>Muda o pedido pra função de braço; decisão do FDA vai pra 22/nov/2026.</span></div>
+      </div>
+      <div class="grid2">
+        <div class="bb bull"><b>A favor:</b> mira uma doença fatal com alta necessidade, o dado de função de braço é a parte mais forte do estudo, e ao estreitar o pedido a empresa ainda pode arrancar uma aprovação em 22/nov, com ~US$540 mi de valor e ~US$238 mi de caixa, uma aprovação re-rateia a ação com força.</div>
+        <div class="bb bear"><b>Contra:</b> um comitê do FDA já votou 9-3 contra, o FDA questionou a integridade da estatística do estudo, a empresa está processando a própria parceira, e é uma micro-cap queimando caixa com processos de acionistas em cima. Uma 2ª rejeição seria quase existencial. É aposta binária, não posição de núcleo.</div>
+      </div>
+      <div class="refs"><b>Fontes:</b> Capricor (releases e resultados), FDA (AdCom e CRL), AJMC, pharmaphorum; preço Yahoo Finance.</div>
+    </div>
+  </section>
+  <style>
+  .deep{margin-top:14px}
+  .dhead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;border-bottom:1px solid var(--border-2);padding-bottom:8px;margin-bottom:10px}
+  .dhead .tk{font-family:var(--mono);font-weight:800;font-size:16px;color:var(--ink)}
+  .dnm{font-size:13px;color:var(--ink-2)}
+  .dtag{font-size:11px;font-weight:700;padding:2px 9px;border-radius:5px;border:1px solid var(--border);color:var(--muted)}
+  .dtag.up{color:var(--up);border-color:var(--up)}
+  .dtag.down{color:var(--down);border-color:var(--down)}
+  .dkpis{display:flex;flex-wrap:wrap;gap:16px;margin:2px 0 10px}
+  .dchart{margin:12px 0 6px}
+  .deep h4{font-size:12px;margin:0 0 4px;color:var(--ink)}
+  .mstones{margin:8px 0 12px}
+  .mst{display:flex;gap:10px;padding:5px 0;font-size:12px;color:var(--ink-2);border-bottom:1px solid var(--border-2)}
+  .mst:last-child{border-bottom:none}
+  .mdate{flex:0 0 62px;font-family:var(--mono);font-weight:700;color:var(--accent-ink)}
+  .bb{font-size:12px;line-height:1.5;padding:9px 11px;border-radius:8px}
+  .bb.bull{border:1px solid var(--up)}
+  .bb.bear{border:1px solid var(--down)}
+  </style>`;
   // wire interactive charts + annotations
   watch.forEach(w=>{
     const host=document.getElementById("wc-"+w.tk);
