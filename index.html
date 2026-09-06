@@ -302,15 +302,13 @@ function renderHip(){
    2:accWrap("acumulado de 2026 · até jun/26",`
      <p class="accnote">(Aqui o dado limpo e gratuito fecha por semestre, não por trimestre isolado, então acompanhamos o <b>acumulado no ano</b>.)</p>
      <div class="ind"><h4>M&amp;A de biotech ≥ US$ 1 bi (acum. no ano)</h4><span class="big">33 deals · ~US$ 134 bi</span>
-       <div class="grid2" style="margin-top:6px">
-         <div><p class="accq" style="margin:0 0 2px">nº de deals ≥US$1bi</p>${bars({"a":7,"b":19,"c":33},{labels:["H1/25*","H2/25*","H1/26"],color:"var(--ink-2)",highlight:["c"],hl:"var(--accent)",fmt:v=>Math.round(v)})}</div>
-         <div><p class="accq" style="margin:0 0 2px">valor total (US$ bi)</p>${bars({"a":37,"b":75,"c":134},{labels:["H1/25*","H2/25*","H1/26"],color:"var(--ink-2)",highlight:["c"],hl:"var(--accent)",fmt:v=>Math.round(v)})}</div>
-       </div>
-       <p class="accnote"><b>Maiores deals do semestre:</b> Sun Pharma/Organon ~US$12,6bi; Merck KGaA/Bio-Techne ~11,3bi; AbbVie/Apogee ~10,7bi; GSK/Nuvalent ~10,6bi. <span class="accq">(* os semestres de 2025 são estimados; os trackers só publicam o acumulado)</span></p></div>
+       <div style="margin-top:6px"><p class="accq" style="margin:0 0 2px">nº de deals ≥US$1bi por trimestre</p>${bars({"a":4,"b":7,"c":9,"d":16,"e":17},{labels:["Q2/25*","Q3/25*","Q4/25*","Q1/26*","Q2/26"],color:"var(--ink-2)",highlight:["e"],hl:"var(--accent)",fmt:v=>Math.round(v)})}</div>
+       <div style="margin-top:10px"><p class="accq" style="margin:0 0 2px">valor (US$ bi) por trimestre</p>${bars({"a":17,"b":32,"c":48,"d":52,"e":79},{labels:["Q2/25*","Q3/25*","Q4/25*","Q1/26*","Q2/26"],color:"var(--ink-2)",highlight:["e"],hl:"var(--accent)",fmt:v=>Math.round(v)})}</div>
+       <p class="accnote"><b>Maiores deals do trimestre:</b> Sun Pharma/Organon ~US$12,6bi; Merck KGaA/Bio-Techne ~11,3bi; AbbVie/Apogee ~10,7bi; GSK/Nuvalent ~10,6bi. <span class="accq">(* a quebra por trimestre é estimada; os trackers só publicam o acumulado e o total do semestre)</span></p></div>
      <div class="ind"><h4>IPOs de biotech (acum. no ano)</h4><span class="big">15 IPOs · ~US$ 4,5 bi</span>
-       <div style="max-width:340px"><p class="accq" style="margin:0 0 2px">nº de IPOs</p>${bars({"a":7,"b":4,"c":15},{labels:["H1/25*","H2/25*","H1/26"],color:"var(--ink-2)",highlight:["c"],hl:"var(--accent)",fmt:v=>Math.round(v)})}</div>
-       <p class="accnote"><b>Maiores IPOs do 1º sem/26:</b> Parabilis ~US$770mi; Kailera ~US$719mi; Kardigan ~US$460mi. <span class="accq">(* semestres de 2025 estimados)</span></p></div>
-     <div class="refs"><b>Fontes:</b> STAT News, CNBC (M&amp;A ≥US$1bi, 1º sem/26); BioPharma Dive (IPOs). Cada deal deve ser confirmado no release antes de virar número oficial.</div>`),
+       <div style="margin-top:6px"><p class="accq" style="margin:0 0 2px">nº de IPOs por trimestre</p>${bars({"a":1,"b":2,"c":2,"d":6,"e":8},{labels:["Q2/25*","Q3/25*","Q4/25*","Q1/26","Q2/26*"],color:"var(--ink-2)",highlight:["e"],hl:"var(--accent)",fmt:v=>Math.round(v)})}</div>
+       <p class="accnote"><b>Maiores IPOs do 1º sem/26:</b> Parabilis ~US$770mi; Kailera ~US$719mi; Kardigan ~US$460mi. <span class="accq">(* trimestres estimados; só o Q1/26 é número fechado)</span></p></div>
+     <div class="refs"><b>Fontes:</b> STAT News, CNBC, DealForma, GlobalData (M&amp;A ≥US$1bi); BioPharma Dive (IPOs). Totais de semestre/ano são firmes; a divisão por trimestre é estimada a partir dos deals divulgados.</div>`),
    3:accWrap("fechamento Q2/26 · jun/26",`
      <div class="ind"><h4>Razão XBI / IBB <span class="accq">apetite small-cap vs large-cap</span></h4><span class="big">80,1</span> <span class="accq">média do Q2/26</span>
        ${sline(rt36,{H:150,bandLast:3,bandLabel:"último trimestre"})}
@@ -476,8 +474,8 @@ function renderStock(){
   const SPX={"VRTX":[[1555286400,168.98],[1557878400,166.18],[1560556800,183.38],[1563148800,166.62],[1565827200,180.02],[1568505600,169.42],[1571097600,195.48],[1573776000,221.75],[1576368000,218.95],[1579046400,227.05],[1581724800,224.03],[1584230400,237.95],[1586908800,251.2],[1589500800,287.96],[1592179200,290.31],[1594771200,272],[1597449600,279.12],[1600128000,272.12],[1602720000,208.36],[1605398400,227.75],[1607990400,236.34],[1610668800,229.08],[1613347200,212.55],[1615766400,214.89],[1618444800,218.2],[1621036800,208.63],[1623715200,201.63],[1626307200,201.58],[1628985600,200.29],[1631664000,181.39],[1634256000,184.93],[1636934400,186.94],[1639526400,219.6],[1642204800,243.05],[1644883200,230.02],[1647302400,260.97],[1649980800,273.22],[1652572800,268.65],[1655251200,281.79],[1657843200,280.41],[1660521600,281.76],[1663200000,289.54],[1665792000,312],[1668470400,316.4],[1671062400,288.78],[1673740800,323.1],[1676419200,290.29],[1678838400,315.07],[1681516800,340.73],[1684108800,323.57],[1686787200,351.91],[1689379200,352.34],[1692057600,348.34],[1694736000,347.74],[1697328000,362.11],[1700006400,354.81],[1702598400,406.89],[1705276800,433.38],[1707955200,420.74],[1710460800,418.01],[1713139200,392.81],[1715731200,455.34],[1718409600,468.72],[1721001600,495.72],[1723680000,495.89],[1726358400,465.08],[1728950400,475.98],[1731628800,468.13],[1734220800,402.7],[1736899200,461.68],[1739577600,479.79],[1741996800,484.82],[1744675200,509.5],[1747267200,442.05],[1749945600,445.2],[1752537600,456.87],[1755216000,391.02],[1757894400,391.64],[1760486400,425.57],[1763164800,433.61],[1765756800,453.36],[1768435200,469.9],[1771113600,496.83],[1773532800,446.54],[1776211200,427.38],[1778803200,447.54],[1781481600,496.73],[1784073600,477.1],[1786752000,544.52],[1789430400,557.96]],"MESO":[[1602720000,21.4],[1605398400,30.18],[1607990400,16.98],[1610668800,17.98],[1613347200,19.2],[1615766400,16.54],[1618444800,15.32],[1621036800,15.46],[1623715200,14.96],[1626307200,14],[1628985600,13.06],[1631664000,12.02],[1634256000,12.1],[1636934400,12.1],[1639526400,9.6],[1642204800,8.08],[1644883200,7.78],[1647302400,8.44],[1649980800,7.34],[1652572800,7.02],[1655251200,4.44],[1657843200,6.68],[1660521600,5.92],[1663200000,5.1],[1665792000,5.82],[1668470400,7.4],[1671062400,5.82],[1673740800,6.6],[1676419200,6.6],[1678838400,6.58],[1681516800,5.9],[1684108800,6.76],[1686787200,7.82],[1689379200,8],[1692057600,3.22],[1694736000,2.46],[1697328000,2.44],[1700006400,2.72],[1702598400,2.2],[1705276800,1.76],[1707955200,1.97],[1710460800,5.01],[1713139200,6.6],[1715731200,7.44],[1718409600,6.81],[1721001600,6.77],[1723680000,6.74],[1726358400,8.17],[1728950400,8.38],[1731628800,11.69],[1734220800,19.8],[1736899200,20.14],[1739577600,17.15],[1741996800,12.48],[1744675200,11.4],[1747267200,10.64],[1749945600,10.89],[1752537600,15.26],[1755216000,13.83],[1757894400,16.11],[1760486400,16.66],[1763164800,17.23],[1765756800,18.04],[1768435200,17.25],[1771113600,15.85],[1773532800,15.38],[1776211200,15.67],[1778803200,15.4],[1781481600,13.53],[1784073600,14.17],[1786752000,16.76],[1789430400,17.14]],"CAPR":[[1649980800,3.17],[1652572800,3.63],[1655251200,3.49],[1657843200,4.61],[1660521600,5.82],[1663200000,6],[1665792000,5.56],[1668470400,4.47],[1671062400,3.86],[1673740800,4.22],[1676419200,4.55],[1678838400,4.22],[1681516800,3.89],[1684108800,4.53],[1686787200,4.78],[1689379200,4.4],[1692057600,6.48],[1694736000,3.42],[1697328000,2.82],[1700006400,2.97],[1702598400,4.89],[1705276800,4.04],[1707955200,4.2],[1710460800,6.79],[1713139200,5.27],[1715731200,5.68],[1718409600,4.77],[1721001600,4.06],[1723680000,4.57],[1726358400,15.21],[1728950400,20.1],[1731628800,19.01],[1734220800,13.8],[1736899200,15.04],[1739577600,15.38],[1741996800,9.49],[1744675200,12.7],[1747267200,9.89],[1749945600,9.93],[1752537600,8.18],[1755216000,6.28],[1757894400,7.21],[1760486400,6.51],[1763164800,5.35],[1765756800,28.86],[1768435200,21.89],[1771113600,27.93],[1773532800,30.4],[1776211200,33.58],[1778803200,29.96],[1781481600,24.08],[1784073600,3.85],[1786752000,9.91],[1789430400,9.28]]};
   const EVDEEP={
     VRTX:[{date:"2023-12-08",move:"~0%",reason_pt:"Casgevy aprovado (1ª terapia CRISPR); reação morna, já esperado."},{date:"2024-12-19",move:"-12%",reason_pt:"Fase 2 de ciática do Journavx decepciona (efeito ~igual ao placebo)."},{date:"2025-01-30",move:"+7%",reason_pt:"Journavx aprovado para dor aguda."},{date:"2026-08-10",move:"+7%",reason_pt:"Rival Sionna falha na fibrose cística; VRTX bate máxima histórica."}],
-    MESO:[{date:"2023-08-01",move:"-60%",reason_pt:"2ª rejeição do FDA (CRL) para o Ryoncil."},{date:"2024-12-18",move:"+69%",reason_pt:"Ryoncil aprovado, a 1ª terapia MSC alogênica; ação dispara."}],
-    CAPR:[{date:"2025-07-11",move:"-18%",reason_pt:"CRL do FDA: falta de evidência de eficácia + fabricação."},{date:"2026-07-27",move:"-64%",reason_pt:"FDA questiona a estatística do HOPE-3; comitê vota 9-3 contra."}]
+    MESO:[{date:"2023-08-04",move:"-61%",reason_pt:"2ª rejeição do FDA (CRL) para o Ryoncil; ação despenca."},{date:"2024-03-10",move:"+150%",reason_pt:"FDA sinaliza que os dados de Fase 3 bastam pra reenviar o pedido; ação dispara."},{date:"2024-12-10",move:"+40%",reason_pt:"Ryoncil aprovado, a 1ª terapia MSC alogênica do FDA."}],
+    CAPR:[{date:"2024-09-01",move:"~3x",reason_pt:"Reunião pré-BLA positiva + dados de 3 anos do HOPE-2; ação quase triplica."},{date:"2025-07-11",move:"-18%",reason_pt:"CRL do FDA: falta de evidência de eficácia + fabricação."},{date:"2025-12-03",move:"+370%",reason_pt:"HOPE-3 dá positivo no topline; ação dispara (o FDA depois contestaria esse resultado)."},{date:"2026-07-27",move:"-64%",reason_pt:"FDA questiona a estatística do HOPE-3; comitê vota 9-3 contra."}]
   };
   document.getElementById("stock").innerHTML=`
   <p class="intro">Aqui a gente olha o preço no nível de cada ação: os saltos binários que já aconteceram e a lista do que vem pela frente. É a parte mais interessante do setor e também a mais difícil de acertar.</p>
@@ -487,18 +485,7 @@ function renderStock(){
     <h3 style="font-size:12px;color:var(--down);margin:16px 0 4px">▼ QUEDAS</h3><div class="cgrid">${dns.map(caseCard).join("")}</div>
     <div class="refs"><b>Fontes:</b> Yahoo Finance (preços); IR das empresas, FierceBiotech, Endpoints, FDA (eventos).</div>
   </section>
-  <section><div class="sec-h"><span class="sec-n">B</span><h2>Catalisadores nos próximos meses</h2></div>
-    <div class="wgrid">${watch.map(w=>`
-      <div class="wcard"><div class="chead"><div><span class="tk">${w.tk}</span> <span class="nm">${esc(w.nm)}</span></div><div class="step ${w.ytd>=0?'up':'down'}" style="font-size:14px">${w.ytd>0?"+":""}${w.ytd}%<span style="font-size:9px;color:var(--muted)"> YTD</span></div></div>
-      <div class="ctags"><span class="tag">${w.stage}</span><span class="tag">${esc(w.sector)}</span><span class="tag">XBI ${w.xbi_wt}%</span></div>
-      ${w.tech?`<div class="wtech">${esc(w.tech)}</div>`:""}
-      <div class="wchart" id="wc-${w.tk}"></div>
-      <div class="wann" id="wa-${w.tk}"></div>
-      <div class="metrics"><span>US$ ${w.last}</span><span>52s ${w.lo52} a ${w.hi52}</span><span>${w.liq}</span></div>
-      <div class="wnext"><b>Próximo:</b> ${esc(w.next_sem)}</div></div>`).join("")}</div>
-    <div class="refs"><b>Fontes:</b> Yahoo Finance; IR, clinicaltrials.gov, calendário FDA. Anotações aproximadas.</div>
-  </section>
-  <section><div class="sec-h"><span class="sec-n">C</span><h2>Mais detalhes de: VRTX, MESO e CAPR</h2></div>
+  <section><div class="sec-h"><span class="sec-n">B</span><h2>Vale analisar: VRTX, MESO e CAPR?</h2></div>
     <div class="read tight"><p>Uma gigante lucrativa (VRTX), uma small-cap que acabou de virar comercial (MESO) e uma aposta binária de FDA (CAPR).</p></div>
     <div class="card deep">
       <div class="dhead"><div><span class="tk">VRTX</span> <span class="dnm">Vertex Pharmaceuticals</span></div><span class="dtag up">Large-cap · lucrativa</span></div>
@@ -603,6 +590,17 @@ function renderStock(){
       </div>
       <div class="refs"><b>Fontes:</b> Capricor (releases e resultados), FDA (AdCom e CRL), AJMC, STAT, pharmaphorum; preço Yahoo Finance.</div>
     </div>
+  </section>
+  <section><div class="sec-h"><span class="sec-n">C</span><h2>Catalisadores nos próximos meses</h2></div>
+    <div class="wgrid">${watch.map(w=>`
+      <div class="wcard"><div class="chead"><div><span class="tk">${w.tk}</span> <span class="nm">${esc(w.nm)}</span></div><div class="step ${w.ytd>=0?'up':'down'}" style="font-size:14px">${w.ytd>0?"+":""}${w.ytd}%<span style="font-size:9px;color:var(--muted)"> YTD</span></div></div>
+      <div class="ctags"><span class="tag">${w.stage}</span><span class="tag">${esc(w.sector)}</span><span class="tag">XBI ${w.xbi_wt}%</span></div>
+      ${w.tech?`<div class="wtech">${esc(w.tech)}</div>`:""}
+      <div class="wchart" id="wc-${w.tk}"></div>
+      <div class="wann" id="wa-${w.tk}"></div>
+      <div class="metrics"><span>US$ ${w.last}</span><span>52s ${w.lo52} a ${w.hi52}</span><span>${w.liq}</span></div>
+      <div class="wnext"><b>Próximo:</b> ${esc(w.next_sem)}</div></div>`).join("")}</div>
+    <div class="refs"><b>Fontes:</b> Yahoo Finance; IR, clinicaltrials.gov, calendário FDA. Anotações aproximadas.</div>
   </section>
   <style>
   .deep{margin-top:14px}
