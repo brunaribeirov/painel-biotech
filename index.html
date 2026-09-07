@@ -452,12 +452,14 @@ function interactiveLine(host, series, events, opts){
     tip.style.opacity="1";const lp=(px/st.W)*r.width;let tl=lp+10;if(tl>r.width-110)tl=lp-110;tip.style.left=Math.max(2,tl)+"px";tip.style.top="4px";}
   function leave(){const cr=document.getElementById("cx-"+opts.tk),dt=document.getElementById("cd-"+opts.tk);if(cr)cr.style.opacity="0";if(dt)dt.style.opacity="0";tip.style.opacity="0";}
   svg.addEventListener("pointermove",move);svg.addEventListener("pointerleave",leave);svg.addEventListener("touchmove",move,{passive:true});svg.addEventListener("touchend",leave);
-  if(opts.datePicker&&opts.daily){const D=opts.daily,d0=document.getElementById("pd0-"+opts.tk),d1=document.getElementById("pd1-"+opts.tk),pr=document.getElementById("pickr-"+opts.tk),clr=document.getElementById("pdc-"+opts.tk);
+  if(opts.datePicker&&opts.daily){const D=opts.daily,d0=document.getElementById("pd0-"+opts.tk),d1=document.getElementById("pd1-"+opts.tk),pr=document.getElementById("pickr-"+opts.tk),clr=document.getElementById("pdc-"+opts.tk),rect=document.getElementById("selr-"+opts.tk);
     const toStr=v=>{const s=String(v);return s.slice(0,4)+"-"+s.slice(4,6)+"-"+s.slice(6,8);};
     const minS=toStr(D[0][0]),maxS=toStr(D[D.length-1][0]);
     if(d0){d0.min=minS;d0.max=maxS;d0.value=minS;}if(d1){d1.min=minS;d1.max=maxS;d1.value=maxS;}
     function idx(val){if(!val)return -1;const nn=+val.replace(/-/g,"");let b=-1;for(let i=0;i<D.length;i++){if(D[i][0]<=nn)b=i;else break;}return b;}
-    function upd(){const a=idx(d0&&d0.value),b=idx(d1&&d1.value);if(a<0||b<0){if(pr)pr.innerHTML="";return;}const lo=Math.min(a,b),hi=Math.max(a,b),rr=(D[hi][1]/D[lo][1]-1)*100;if(pr)pr.innerHTML=`retorno: <b style="color:${rr>=0?'var(--up)':'var(--down)'}">${rr>=0?"+":""}${rr.toFixed(1)}%</b> <span class="wc2">(US$ ${D[lo][1]} → US$ ${D[hi][1]})</span>`;}
+    function xTs(t){if(t<=series[0][0])return X(0);if(t>=series[n-1][0])return X(n-1);let i=0;for(;i<n-1;i++){if(series[i+1][0]>=t)break;}const f=(t-series[i][0])/(series[i+1][0]-series[i][0]);return X(i)+f*(X(i+1)-X(i));}
+    function tOf(v){return Date.UTC(+v.slice(0,4),+v.slice(5,7)-1,+v.slice(8,10))/1000;}
+    function upd(){const a=idx(d0&&d0.value),b=idx(d1&&d1.value);if(a<0||b<0){if(pr)pr.innerHTML="";if(rect)rect.style.opacity="0";return;}const lo=Math.min(a,b),hi=Math.max(a,b),rr=(D[hi][1]/D[lo][1]-1)*100;if(pr)pr.innerHTML=`retorno: <b style="color:${rr>=0?'var(--up)':'var(--down)'}">${rr>=0?"+":""}${rr.toFixed(1)}%</b> <span class="wc2">(US$ ${D[lo][1]} → US$ ${D[hi][1]})</span>`;if(rect){if(d0.value===minS&&d1.value===maxS){rect.style.opacity="0";}else{const t0=tOf(d0.value),t1=tOf(d1.value),x0=xTs(Math.min(t0,t1)),x1=xTs(Math.max(t0,t1));rect.setAttribute("x",x0.toFixed(1));rect.setAttribute("width",Math.max(x1-x0,1.5).toFixed(1));rect.style.opacity="0.15";}}}
     if(d0)d0.addEventListener("change",upd);if(d1)d1.addEventListener("change",upd);
     if(clr)clr.addEventListener("click",function(){if(d0)d0.value=minS;if(d1)d1.value=maxS;upd();});
     upd();}
