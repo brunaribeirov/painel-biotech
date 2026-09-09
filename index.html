@@ -370,10 +370,10 @@ function renderHip(){
      <div class="refs"><b>Fontes:</b> STAT News, CNBC, DealForma, GlobalData (M&amp;A ≥US$1bi); BioPharma Dive (IPOs). Totais de semestre/ano são firmes; a divisão por trimestre é estimada a partir dos deals divulgados.</div>`),
    3:accWrap("fechamento Q2/26 · jun/26",`
      <div class="ind"><h4>Termômetro de entrada <span class="accq">Escala de 0-100, onde 100 representa um valor "caro"</span></h4>
-       ${(function(){var e=THERM.m.indexOf("2026-06"),s=e-31;var mo=THERM.m.slice(s,e+1),tt=THERM.t.slice(s,e+1),pp=THERM.px.slice(s,e+1);
-         var tiles='<div style="display:flex;gap:14px;justify-content:center;margin:0 0 4px"><div style="text-align:center"><span class="accq">início do tri</span><br><b style="font-family:var(--mono);font-size:14px;color:var(--up)">62</b></div><div style="text-align:center"><span class="accq">média</span><br><b style="font-family:var(--mono);font-size:14px;color:var(--watch)">72</b></div><div style="text-align:center"><span class="accq">fim do tri</span><br><b style="font-family:var(--mono);font-size:14px;color:var(--down)">86</b></div></div>';
-         return '<div style="max-width:230px;margin:2px auto 0">'+thermGauge(62,72,86)+'</div>'+tiles+thermLine(tt,pp,mo,{bandLastN:3,h:226});})()}
-       <p class="accnote">Termômetro calculado com base nas premissas apresentadas no bloco 07. da aba XBI US.</p></div>
+       ${(function(){var e=THERM.m.indexOf("2026-06"),s=e-31;var mo=THERM.m.slice(s,e+1),pp=THERM.px.slice(s,e+1),tt=[];for(var i=s;i<=e;i++){tt.push(Math.round(.6*THERM.sR[i]+.4*THERM.sEV[i]));}
+         var tiles='<div style="display:flex;gap:14px;justify-content:center;margin:0 0 4px"><div style="text-align:center"><span class="accq">início do tri</span><br><b style="font-family:var(--mono);font-size:14px;color:var(--down)">71</b></div><div style="text-align:center"><span class="accq">média</span><br><b style="font-family:var(--mono);font-size:14px;color:var(--down)">78</b></div><div style="text-align:center"><span class="accq">fim do tri</span><br><b style="font-family:var(--mono);font-size:14px;color:var(--down)">86</b></div></div>';
+         return '<div style="max-width:230px;margin:2px auto 0">'+thermGauge(71,78,86)+'</div>'+tiles+thermLine(tt,pp,mo,{bandLastN:3,h:226});})()}
+       <p class="accnote">Termômetro de valor: <b>60% razão XBI/IBB</b> (apetite por small-cap) + <b>40% empresas abaixo do caixa</b> (EV negativo). Faixas: verde barato, amarelo neutro, vermelho caro. A faixa laranja é o Q2/26, que fechou em <b style="color:var(--down)">86</b>: barganha fundamental escassa e small-caps caras. Premissas, método e backtest no bloco 07 da aba XBI US.</p></div>
      <div class="ind"><h4>Razão XBI / IBB <span class="accq">apetite small-cap vs large-cap</span></h4><span class="big">80,1</span> <span class="accq">média do Q2/26</span>
        ${sline(rt36,{H:150,bandLast:3,bandLabel:"últ. tri"})}
        <p class="accnote">Últimos 36 meses; a faixa sombreada é o último trimestre. A razão é XBI ÷ IBB × 100; quanto mais alta, mais o mercado paga relativamente pelas small-caps (XBI) do que pelas gigantes (IBB).</p></div>
@@ -826,45 +826,43 @@ function renderXBI(){
   </section>
   <section><div class="sec-h"><span class="sec-n">07</span><h2>Termômetro de entrada em biotech</h2></div>
     <div class="card"><h3>A ideia</h3>
-      <div class="read tight"><p>Como o P/E não serve para o XBI, montamos um <b>termômetro próprio de 0 a 100</b> que responde uma pergunta simples: em relação à sua própria história, a entrada em biotech está <b style="color:var(--up)">barata</b> ou <b style="color:var(--down)">cara</b> agora?</p>
+      <div class="read tight"><p>Como o P/E não serve para o XBI, montamos um <b>termômetro de valor de 0 a 100</b> que responde uma pergunta simples: em relação à sua própria história, a entrada em biotech está <b style="color:var(--up)">barata</b> ou <b style="color:var(--down)">cara</b> agora? A diferença para um sinal técnico comum é o foco: ele não pergunta "o preço caiu?", pergunta "ainda sobra barganha no setor?".</p>
         <ul class="f">
           <li><b>0 a 35 (verde):</b> historicamente barato, perto dos fundos de mercado.</li>
           <li><b>35 a 65 (amarelo):</b> zona neutra, preço médio.</li>
           <li><b>65 a 100 (vermelho):</b> historicamente caro, perto dos topos.</li>
         </ul></div>
-      <div class="refs"><b>Base:</b> Yahoo Finance (XBI, IBB, preços diários desde 2015); cálculo nosso.</div></div>
+      <div class="refs"><b>Base:</b> Yahoo Finance (XBI, IBB diários); Stifel, RA Capital (contagem de empresas abaixo do caixa); cálculo nosso.</div></div>
     <div class="card"><h3>Racional do Cálculo</h3>
-      <div class="read tight"><p>Cada sinal de preço vira um <b>percentil de 0 a 100</b> contra a própria história, sempre orientado para "quanto maior, mais caro". Depois é só uma <b>média ponderada</b> dos sinais. Os pesos não são iguais: vêm do quanto cada sinal ajudou a antecipar o retorno seguinte do XBI.</p>
-        <p><b>O que é esse percentil, na prática.</b> Pegue a razão XBI/IBB de hoje e compare com todos os valores que ela já teve desde 2016. Se hoje ela está mais alta do que em 80% dos meses do histórico, o percentil é 80, ou seja, só em 20% do tempo o XBI esteve relativamente mais caro que agora. Um percentil de 10 seria o oposto, um dos momentos mais baratos já vistos. Fazemos isso com cada sinal e tiramos a média usando os pesos abaixo.</p>
+      <div class="read tight"><p>Cada sinal vira um <b>percentil de 0 a 100</b> contra a própria história, sempre orientado para "quanto maior, mais caro". Depois é uma <b>média ponderada</b> de dois sinais, ambos de valor (não de momentum).</p>
+        <p><b>O que é esse percentil, na prática.</b> Pegue a razão XBI/IBB de hoje e compare com todos os valores que ela já teve. Se hoje ela está mais alta do que em 80% dos meses do histórico, o percentil é 80, ou seja, só em 20% do tempo o XBI esteve relativamente mais caro que agora. Um percentil de 10 seria o oposto, um dos momentos mais baratos já vistos.</p>
         <ul class="f">
-          <li><b>XBI / IBB, peso 50%.</b> Small caps (XBI) contra as gigantes (IBB). Quando o mercado paga pouco pelas small caps, o apetite por risco está baixo, e costuma ser hora barata. É o sinal mais forte.</li>
-          <li><b>Distância do topo (drawdown), peso 40%.</b> Quão longe o XBI está da própria máxima histórica. Quanto mais fundo o buraco, mais barata a entrada.</li>
-          <li><b>XBI vs média de 200 dias, peso 10%.</b> Quão esticado o preço está do próprio normal recente. Entra leve porque quase não prevê sozinho.</li>
-          <li><b>EV negativo, sinal de apoio.</b> Quantas biotechs valem menos que o caixa que têm. Confirma bem os extremos de medo, mas só é divulgado a cada seis meses e com atraso. Por isso o número principal do painel usa os três sinais de preço, que são diários e nos testes anteciparam igual ou melhor; o EV não sai da análise, entra como leitura de apoio e aparece no gráfico logo abaixo.</li>
+          <li><b>Razão XBI / IBB, peso 60%.</b> Small caps (XBI) contra as gigantes (IBB). Quando o mercado paga pouco pelas small caps, o apetite por risco está baixo, e costuma ser hora barata. É o sinal mais forte e tem histórico longo (desde 2016).</li>
+          <li><b>Empresas abaixo do caixa, peso 40%.</b> Quantas biotechs valem menos que o próprio caixa (EV negativo). É a única âncora de <b>valor de verdade</b> num setor sem lucro: mede preço contra o dinheiro real no balanço. Muitas abaixo do caixa (2022) = pânico e barganha; pouquíssimas (2021, hoje) = topo. Entra invertido, para que "poucas abaixo do caixa" puxe o termômetro para caro.</li>
         </ul>
-        <p><b>Validação fora da amostra.</b> O risco de qualquer indicador assim é escolher os pesos que teriam funcionado lindamente no passado e depois não valerem para frente (o chamado overfitting). Para evitar isso, cortamos a história em duas metades: calibramos os pesos usando só a primeira metade e, sem mexer mais neles, testamos na segunda metade, que o modelo nunca tinha visto. Como o resultado se sustentou nas duas, temos mais confiança de que não é só sorte de encaixe no passado.</p></div></div>
+        <p><b>Por que só esses dois.</b> Testamos também sinais de "quanto o preço caiu do topo" e "distância da média de 200 dias", mas eles são <b>reversão à média</b>: dizem que está barato só porque o preço caiu, o que é meio circular. Um drawdown de 40% só é barganha se o valor do setor não caiu junto. XBI/IBB e abaixo-do-caixa são diferentes: um mede preço relativo, o outro mede preço contra caixa. Por isso ficamos com esses dois.</p>
+        <p><b>Periodicidade.</b> O XBI/IBB é diário; a contagem de abaixo-do-caixa é <b>semestral e irregular</b> (Stifel/RA Capital divulgam a cada poucos meses), então mantemos o último valor até sair leitura nova. Nos trechos entre divulgações, quem move a linha é o XBI/IBB.</p></div></div>
     <div class="card"><h3>Cada sinal, sozinho, contra o XBI</h3><p class="cap">linha laranja = o sinal (percentil, eixo 0-100) · linha cinza = a cota do XBI, para comparar os movimentos</p>
       <div class="grid2">
-        <div><p class="accq" style="margin:0 0 2px"><b>XBI / IBB</b> · small vs large-cap · peso 50%</p>${sigMini(THERM.sR,THERM.px,THERM.m)}</div>
-        <div><p class="accq" style="margin:0 0 2px"><b>Distância do topo</b> · drawdown · peso 40%</p>${sigMini(THERM.sD,THERM.px,THERM.m)}</div>
-        <div><p class="accq" style="margin:0 0 2px"><b>XBI vs média 200d</b> · quão esticado · peso 10%</p>${sigMini(THERM.sP,THERM.px,THERM.m)}</div>
-        <div><p class="accq" style="margin:0 0 2px"><b>EV negativo</b> · opcional · orientado como os outros</p>${sigMini(THERM.sEV,THERM.px,THERM.m)}</div>
+        <div><p class="accq" style="margin:0 0 2px"><b>Razão XBI / IBB</b> · small vs large-cap · peso 60%</p>${sigMini(THERM.sR,THERM.px,THERM.m)}</div>
+        <div><p class="accq" style="margin:0 0 2px"><b>Empresas abaixo do caixa</b> · preço vs caixa · peso 40%</p>${sigMini(THERM.sEV,THERM.px,THERM.m)}</div>
       </div>
-      <div class="read tight" style="margin-top:6px"><p>Todos estão orientados do mesmo jeito: <b>alto = caro</b>. No sinal de EV isso significa <b>poucas</b> empresas abaixo do caixa (o oposto do medo). Repare como os três primeiros afundam junto nos fundos de 2018 e 2022, e sobem juntos nas altas, é essa coincidência que dá confiança em combiná-los.</p></div>
-      <div class="refs"><b>Fontes:</b> Yahoo Finance (XBI/IBB diários); Stifel/CapitalIQ (contagem de EV negativo). Cálculo nosso.</div></div>
-    <div class="card"><h3>O termômetro contra o XBI, série completa</h3><p class="cap"><b style="color:var(--accent)">▬ termômetro</b> (eixo esquerdo, 0-100) vs <b style="color:var(--ink-2)">▬ cota do XBI em US$</b> (eixo direito) · desde 2016</p>
-      ${thermLine(THERM.t,THERM.px,THERM.m,{h:250})}
-      <div class="read tight" style="margin-top:6px"><p>Os topos do termômetro (2018, início de 2021) vieram antes de quedas; os fundos na faixa verde (fim de 2018, 2022, meados de 2024) foram, no retrospecto, as melhores janelas de entrada. Hoje o termômetro está de novo na <b style="color:var(--down)">faixa cara</b> depois da corrida de 2026, um alerta para escalonar entrada em vez de comprar de uma vez.</p></div>
-      <div class="refs"><b>Fontes:</b> Yahoo Finance; cálculo nosso. É um guia de contexto, não recomendação de compra ou venda.</div></div>
-    <div class="card"><h3>O termômetro funcionou? O que veio depois de cada faixa</h3><p class="cap">retorno médio do XBI nos 12 meses seguintes, agrupado pela faixa em que o termômetro estava (jun/2016 a set/2025)</p>
+      <div class="read tight" style="margin-top:6px"><p>Os dois estão orientados como <b>alto = caro</b>. No sinal de caixa, "alto" quer dizer <b>poucas</b> empresas abaixo do caixa (o oposto do medo). Repare como os dois afundam no crash de 2022 (barganha máxima) e voltam a subir com a recuperação. Note também os degraus na linha de caixa: são os meses em que a leitura fica parada entre uma divulgação e outra.</p></div>
+      <div class="refs"><b>Fontes:</b> Yahoo Finance (XBI/IBB diários); Stifel, RA Capital (contagem de abaixo-do-caixa, desde 2021). Cálculo nosso.</div></div>
+    <div class="card"><h3>O termômetro de valor contra o XBI</h3><p class="cap"><b style="color:var(--accent)">▬ termômetro 60/40</b> (eixo esquerdo, 0-100) vs <b style="color:var(--ink-2)">▬ cota do XBI em US$</b> (eixo direito) · desde set/2021, quando a série de abaixo-do-caixa passou a existir</p>
+      ${(function(){var s=THERM.sEV.findIndex(function(x){return x!=null;}),mo=THERM.m.slice(s),pp=THERM.px.slice(s),tt=[];for(var i=s;i<THERM.m.length;i++){tt.push(Math.round(.6*THERM.sR[i]+.4*THERM.sEV[i]));}return thermLine(tt,pp,mo,{h:250});})()}
+      <div class="read tight" style="margin-top:6px"><p>O termômetro está perto de 80 no topo do fim de 2021, mergulha para o piso no fundo de maio de 2022 (barganha máxima), passa 2023 a 2025 quase todo nas faixas barato e neutro, e dispara em 2026 para a <b style="color:var(--down)">faixa cara</b>. Hoje o colchão de barganhas secou e as small caps estão caras contra as gigantes, um alerta para escalonar a entrada em vez de comprar de uma vez.</p></div>
+      <div class="refs"><b>Fontes:</b> Yahoo Finance; Stifel, RA Capital; cálculo nosso. É um guia de contexto, não recomendação de compra ou venda.</div></div>
+    <div class="card"><h3>O termômetro funcionou? O que veio depois de cada faixa</h3><p class="cap">retorno médio do XBI nos 12 meses seguintes, agrupado pela faixa em que o termômetro estava (set/2021 a set/2025)</p>
       <div style="overflow-x:auto"><table class="miniq">
         <tr><th>Faixa no mês</th><th>Retorno médio 12m depois</th><th>% de vezes que subiu</th><th>nº de meses</th></tr>
-        <tr><td><b style="color:var(--up)">Barato (0 a 35)</b></td><td><b>+20,5%</b></td><td>72%</td><td>43</td></tr>
-        <tr><td>Neutro (35 a 65)</td><td>+15,1%</td><td>69%</td><td>29</td></tr>
-        <tr><td><b style="color:var(--down)">Caro (65 a 100)</b></td><td><b>+2,9%</b></td><td>50%</td><td>40</td></tr>
+        <tr><td><b style="color:var(--up)">Barato (0 a 35)</b></td><td><b>+25,0%</b></td><td>83%</td><td>29</td></tr>
+        <tr><td>Neutro (35 a 65)</td><td>+4,6%</td><td>38%</td><td>16</td></tr>
+        <tr><td><b style="color:var(--down)">Caro (65 a 100)</b></td><td><b>−31,3%</b></td><td>0%</td><td>4</td></tr>
       </table></div>
-      <div class="read tight" style="margin-top:6px"><p>É exatamente o que se espera de um termômetro útil. Entrar quando ele apontava <b style="color:var(--up)">barato</b> rendeu, em média, <b>+20,5%</b> no ano seguinte, e o XBI subiu em quase 3 de cada 4 vezes. Entrar quando apontava <b style="color:var(--down)">caro</b> rendeu só <b>+2,9%</b>, e deu praticamente cara ou coroa (subiu 50% das vezes). A correlação entre o nível do termômetro e o retorno dos 12 meses seguintes é de cerca de <b>−0,3</b>, negativa como esperado: quanto mais alto o termômetro, menor tende a ser o retorno à frente. Não é bola de cristal, mas joga a probabilidade a favor de quem escalona a entrada nas faixas mais baixas.</p></div>
-      <div class="refs"><b>Método:</b> para cada mês de 2016 a 2025 com 12 meses de futuro disponíveis, medimos o retorno do XBI 12 meses depois e agrupamos pela faixa do termômetro naquele mês. Yahoo Finance; cálculo nosso.</div></div>
+      <div class="read tight" style="margin-top:6px"><p>A separação é forte: entrar quando o termômetro apontava <b style="color:var(--up)">barato</b> rendeu, em média, <b>+25%</b> no ano seguinte (subiu em 83% das vezes); quando apontava <b style="color:var(--down)">caro</b>, veio queda de <b>−31%</b>.</p>
+        <p><b>Aviso honesto de amostra.</b> Como a série de abaixo-do-caixa só existe desde set/2021 (antes disso o fenômeno era raro), este teste cobre <b>um único ciclo</b>: o topo de 2021, o crash de 2022 e a recuperação. A faixa "caro" tem só <b>4 meses</b> de amostra (o topo do fim de 2021), então o número dela é ilustrativo, não uma regra provada. O balde "barato", com 29 meses, é o mais confiável. Leia como uma boa evidência de um ciclo, não como uma lei.</p></div>
+      <div class="refs"><b>Método:</b> para cada mês de set/2021 a set/2025 com 12 meses de futuro disponíveis, medimos o retorno do XBI 12 meses depois e agrupamos pela faixa do termômetro naquele mês. Yahoo Finance; Stifel, RA Capital; cálculo nosso.</div></div>
   </section>`;
 }
 
