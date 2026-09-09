@@ -282,6 +282,62 @@ function scatter(pairs,opts){
   return `<svg class="v" viewBox="0 0 ${W} ${H}">${g}</svg>`;
 }
 
+/* ===== Termômetro de entrada (dados + helpers) ===== */
+const THERM={"m":["2016-06","2016-07","2016-08","2016-09","2016-10","2016-11","2016-12","2017-01","2017-02","2017-03","2017-04","2017-05","2017-06","2017-07","2017-08","2017-09","2017-10","2017-11","2017-12","2018-01","2018-02","2018-03","2018-04","2018-05","2018-06","2018-07","2018-08","2018-09","2018-10","2018-11","2018-12","2019-01","2019-02","2019-03","2019-04","2019-05","2019-06","2019-07","2019-08","2019-09","2019-10","2019-11","2019-12","2020-01","2020-02","2020-03","2020-04","2020-05","2020-06","2020-07","2020-08","2020-09","2020-10","2020-11","2020-12","2021-01","2021-02","2021-03","2021-04","2021-05","2021-06","2021-07","2021-08","2021-09","2021-10","2021-11","2021-12","2022-01","2022-02","2022-03","2022-04","2022-05","2022-06","2022-07","2022-08","2022-09","2022-10","2022-11","2022-12","2023-01","2023-02","2023-03","2023-04","2023-05","2023-06","2023-07","2023-08","2023-09","2023-10","2023-11","2023-12","2024-01","2024-02","2024-03","2024-04","2024-05","2024-06","2024-07","2024-08","2024-09","2024-10","2024-11","2024-12","2025-01","2025-02","2025-03","2025-04","2025-05","2025-06","2025-07","2025-08","2025-09","2025-10","2025-11","2025-12","2026-01","2026-02","2026-03","2026-04","2026-05","2026-06","2026-07","2026-08","2026-09"],"t":[23,37,33,54,32,49,38,52,59,57,63,55,73,71,78,83,83,78,82,89,85,80,80,92,88,83,89,78,54,54,45,59,71,75,69,64,73,72,62,53,57,76,80,69,70,47,67,78,90,81,85,83,85,98,93,98,86,76,76,68,70,45,56,54,54,45,42,34,32,29,6,2,6,16,27,21,14,13,14,25,18,5,9,24,21,21,8,4,1,8,29,23,45,37,25,28,33,35,38,34,35,39,29,28,17,9,17,12,18,17,22,40,45,48,50,52,53,56,62,69,86,70,76,75],"px":[53.31,61.18,59.23,65.37,55.37,61.8,58.39,64.02,69.26,68.42,70.49,66.81,76.28,77.25,82.85,85.59,82.7,82.25,83.95,92.36,89.38,86.83,86.09,93.7,94.27,94.37,99.17,95.02,78.41,80.92,71.12,82.87,88.36,89.75,84.46,78.75,86.94,84.93,79.67,75.59,80.92,92.84,94.28,88.35,88.41,76.77,92.58,102.66,110.99,108.4,110.86,110.56,111.89,132.16,139.85,151.87,147.03,134.79,135.76,127.29,134.55,122.63,132,124.92,124.02,115.54,111.25,92.84,89.26,89.31,73.36,68.35,73.8,80.62,83.17,78.82,81.63,83.09,82.48,88.34,82.33,75.73,79.69,83.39,82.68,83.76,78.7,72.56,65.81,75.05,88.74,86.9,97.82,94.31,84.1,88.58,92.26,98.58,100.77,98.33,96.57,99.15,89.64,92.23,88.29,80.72,82.57,78.82,82.55,85.27,89.44,99.77,112.23,122.63,121.81,124.63,127.25,127.6,131.2,136.56,158.25,147.01,162.5,160.99],"sR":[10,17,15,39,24,38,30,42,44,45,51,46,55,52,59,69,79,76,78,85,91,89,93,95,94,85,86,74,60,56,54,61,77,81,80,77,81,82,69,62,60,73,75,71,72,49,58,63,84,83,88,87,94,98,98,100,99,97,96,92,90,53,64,67,68,57,52,43,44,37,10,2,9,23,35,32,11,4,8,18,19,2,5,26,22,19,6,3,1,6,23,16,47,34,27,25,29,28,33,31,35,40,31,27,13,7,20,15,21,12,14,36,40,41,48,48,50,56,65,73,90,70,65,66],"sP":[17,58,53,85,34,60,35,60,78,68,71,49,82,80,90,90,74,63,65,85,67,51,39,64,59,56,66,48,7,14,6,24,37,44,32,21,50,43,27,16,30,70,73,52,47,15,61,86,94,81,77,73,69,96,95,99,89,55,52,29,36,15,28,18,20,11,10,3,2,5,2,1,4,9,23,19,35,44,45,69,41,22,31,40,38,40,27,12,6,26,75,62,91,79,42,57,65,76,72,56,46,54,25,33,23,8,13,10,19,31,48,81,97,100,98,94,93,87,84,83,98,77,92,88],"sD":[40,56,51,65,41,59,49,63,73,70,76,69,93,91,100,100,90,85,92,94,83,77,75,95,87,89,98,90,56,62,44,64,72,74,65,58,69,66,60,50,61,81,88,71,73,53,80,96,97,77,82,81,79,100,85,94,68,55,57,48,54,42,52,46,44,39,37,30,25,26,3,2,4,10,17,7,11,16,13,23,12,6,9,18,15,19,6,2,1,5,24,21,32,31,19,23,29,34,36,33,31,35,27,28,22,10,15,8,14,20,27,35,38,43,40,45,47,48,52,60,78,67,86,84],"sEV":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,97,97,93,93,70,70,41,41,3,3,3,3,0,0,20,20,20,20,10,10,10,10,10,10,33,33,20,20,20,20,59,59,59,59,59,59,48,48,48,52,52,52,52,36,36,36,44,44,69,74,74,74,74,80,80,80,80,80,80,80,80]};
+function thermGauge(ini,med,fim){
+  const cx=150,cy=140,r=112,sw=16;
+  const pt=v=>{const a=Math.PI*(1-v/100);return[cx+r*Math.cos(a),cy-r*Math.sin(a)];};
+  const arc=(v0,v1)=>{let d="";const st=Math.max(2,Math.round(v1-v0));for(let i=0;i<=st;i++){const v=v0+(v1-v0)*i/st;const[x,y]=pt(v);d+=(i?" L":"M")+x.toFixed(1)+" "+y.toFixed(1);}return d;};
+  const zc=v=>v>=65?"var(--down)":v>=35?"var(--watch)":"var(--up)";
+  let g="";
+  g+=`<path d="${arc(0,100)}" fill="none" stroke="var(--border-2)" stroke-width="${sw}" stroke-linecap="round"/>`;
+  g+=`<path d="${arc(0,35)}" fill="none" stroke="var(--up)" stroke-width="${sw}" stroke-linecap="round"/>`;
+  g+=`<path d="${arc(35,65)}" fill="none" stroke="var(--watch)" stroke-width="${sw}"/>`;
+  g+=`<path d="${arc(65,100)}" fill="none" stroke="var(--down)" stroke-width="${sw}" stroke-linecap="round"/>`;
+  [ini,med].forEach(v=>{const[x,y]=pt(v);g+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3.5" fill="var(--surface)" stroke="var(--ink-2)" stroke-width="1.5"/>`;});
+  const[nx,ny]=pt(fim);
+  g+=`<line x1="${cx}" y1="${cy}" x2="${nx.toFixed(1)}" y2="${ny.toFixed(1)}" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>`;
+  g+=`<circle cx="${cx}" cy="${cy}" r="6" fill="var(--ink)"/>`;
+  g+=`<circle cx="${nx.toFixed(1)}" cy="${ny.toFixed(1)}" r="5" fill="${zc(fim)}" stroke="var(--surface)" stroke-width="2"/>`;
+  g+=`<text x="${cx}" y="${cy-16}" text-anchor="middle" font-family="var(--mono)" font-weight="800" font-size="34" fill="${zc(fim)}">${fim}</text>`;
+  g+=`<text x="38" y="152" font-size="8.5" fill="var(--muted)" font-family="var(--mono)">0</text><text x="262" y="152" text-anchor="end" font-size="8.5" fill="var(--muted)" font-family="var(--mono)">100</text>`;
+  return `<svg class="v" viewBox="0 0 300 156">${g}</svg>`;
+}
+function thermLine(term,px,months,opts){
+  opts=opts||{};const W=680,H=opts.h||226,padL=34,padR=52,padT=14,padB=22,n=term.length,plotW=W-padL-padR,plotH=H-padT-padB;
+  const X=i=>padL+(n<=1?0:i/(n-1)*plotW),Y=v=>padT+(1-v/100)*plotH;
+  const pmin=Math.min(...px),pmax=Math.max(...px),pdd=(pmax-pmin)*0.06||1,lo=pmin-pdd,hi=pmax+pdd,YR=p=>padT+(1-(p-lo)/(hi-lo))*plotH;
+  let g="";
+  g+=`<rect x="${padL}" y="${Y(100).toFixed(1)}" width="${plotW}" height="${(Y(65)-Y(100)).toFixed(1)}" fill="var(--down)" opacity="0.07"/>`;
+  g+=`<rect x="${padL}" y="${Y(35).toFixed(1)}" width="${plotW}" height="${(Y(0)-Y(35)).toFixed(1)}" fill="var(--up)" opacity="0.07"/>`;
+  if(opts.bandLastN){const hs=(n>1?plotW/(n-1):0)/2,bx=Math.max(padL,X(n-opts.bandLastN)-hs);g+=`<rect x="${bx.toFixed(1)}" y="${padT}" width="${(W-padR-bx).toFixed(1)}" height="${plotH}" fill="var(--accent)" opacity="0.10"/>`;}
+  [0,35,65,100].forEach(v=>{const y=Y(v).toFixed(1);g+=`<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" stroke="var(--border-2)"/><text x="${padL-4}" y="${(+y+3).toFixed(1)}" text-anchor="end" font-size="8.5" font-family="var(--mono)" fill="var(--accent)">${v}</text>`;});
+  for(let k=0;k<=2;k++){const val=lo+(hi-lo)*k/2,y=YR(val).toFixed(1);g+=`<text x="${W-padR+5}" y="${(+y+3).toFixed(1)}" font-size="8.5" font-family="var(--mono)" fill="var(--ink-2)">${Math.round(val)}</text>`;}
+  let py="";months.forEach((m,i)=>{if(m.slice(5)==="01"){const yy=m.slice(0,4);if(yy!==py){py=yy;g+=`<text x="${X(i).toFixed(1)}" y="${H-6}" text-anchor="middle" font-size="8.5" font-family="var(--mono)" fill="var(--muted)">${yy}</text>`;}}});
+  let dp="";px.forEach((p,i)=>{dp+=(i?"L":"M")+X(i).toFixed(1)+" "+YR(p).toFixed(1)+" ";});
+  g+=`<path d="${dp}" fill="none" stroke="var(--ink-2)" stroke-width="1.4" opacity="0.5"/>`;
+  let d="";term.forEach((v,i)=>{d+=(i?"L":"M")+X(i).toFixed(1)+" "+Y(v).toFixed(1)+" ";});
+  g+=`<path d="${d}" fill="none" stroke="var(--accent)" stroke-width="2.2"/>`;
+  const li=n-1;g+=`<circle cx="${X(li).toFixed(1)}" cy="${Y(term[li]).toFixed(1)}" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>`;
+  return `<svg class="v" viewBox="0 0 ${W} ${H}">${g}</svg>`;
+}
+function sigMini(arr,px,months){
+  const W=440,H=150,padL=22,padR=8,padT=8,padB=16,n=arr.length,plotW=W-padL-padR,plotH=H-padT-padB;
+  const X=i=>padL+i/(n-1)*plotW,Y=v=>padT+(1-v/100)*plotH;
+  let g="";
+  g+=`<rect x="${padL}" y="${Y(100).toFixed(1)}" width="${plotW}" height="${(Y(65)-Y(100)).toFixed(1)}" fill="var(--down)" opacity="0.06"/>`;
+  g+=`<rect x="${padL}" y="${Y(35).toFixed(1)}" width="${plotW}" height="${(Y(0)-Y(35)).toFixed(1)}" fill="var(--up)" opacity="0.06"/>`;
+  [0,50,100].forEach(v=>{const y=Y(v).toFixed(1);g+=`<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" stroke="var(--border-2)"/>`;});
+  g+=`<text x="${padL-4}" y="${(Y(100)+7).toFixed(1)}" text-anchor="end" font-size="8" font-family="var(--mono)" fill="var(--muted)">100</text><text x="${padL-4}" y="${(Y(0)+1).toFixed(1)}" text-anchor="end" font-size="8" font-family="var(--mono)" fill="var(--muted)">0</text>`;
+  const pmn=Math.min(...px),pmx=Math.max(...px),YP=p=>padT+(1-(p-pmn)/(pmx-pmn))*plotH;
+  let dp="";px.forEach((p,i)=>{dp+=(i?"L":"M")+X(i).toFixed(1)+" "+YP(p).toFixed(1)+" ";});
+  g+=`<path d="${dp}" fill="none" stroke="var(--ink-2)" stroke-width="1" opacity="0.28"/>`;
+  let d="",st=false,li=-1;arr.forEach((v,i)=>{if(v==null)return;d+=(st?"L":"M")+X(i).toFixed(1)+" "+Y(v).toFixed(1)+" ";st=true;li=i;});
+  g+=`<path d="${d}" fill="none" stroke="var(--accent)" stroke-width="1.8"/>`;
+  months.forEach((m,i)=>{if(m.slice(5)==="01"&&["2018","2020","2022","2024","2026"].includes(m.slice(0,4)))g+=`<text x="${X(i).toFixed(1)}" y="${H-4}" text-anchor="middle" font-size="8" font-family="var(--mono)" fill="var(--muted)">'${m.slice(2,4)}</text>`;});
+  if(li>=0)g+=`<circle cx="${X(li).toFixed(1)}" cy="${Y(arr[li]).toFixed(1)}" r="3.5" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>`;
+  return `<svg class="v" viewBox="0 0 ${W} ${H}">${g}</svg>`;
+}
 /* ===== TAB 0: hipóteses ===== */
 function renderHip(){
   const COL={sup:"var(--accent)",parc:"var(--accent)",open:"var(--accent)",ref:"var(--accent)"};
@@ -310,6 +366,11 @@ function renderHip(){
        <p class="accnote"><b>Maiores IPOs do 1º sem/26:</b> Parabilis ~US$770mi; Kailera ~US$719mi; Kardigan ~US$460mi. <span class="accq">(* trimestres estimados; só o Q1/26 é número fechado)</span></p></div>
      <div class="refs"><b>Fontes:</b> STAT News, CNBC, DealForma, GlobalData (M&amp;A ≥US$1bi); BioPharma Dive (IPOs). Totais de semestre/ano são firmes; a divisão por trimestre é estimada a partir dos deals divulgados.</div>`),
    3:accWrap("fechamento Q2/26 · jun/26",`
+     <div class="ind"><h4>Termômetro de entrada <span class="accq">0 = historicamente barato · 100 = caro</span></h4>
+       ${(function(){var e=THERM.m.indexOf("2026-06"),s=e-31;var mo=THERM.m.slice(s,e+1),tt=THERM.t.slice(s,e+1),pp=THERM.px.slice(s,e+1);
+         var tiles='<div style="display:flex;gap:8px;justify-content:center;margin:2px 0 6px"><div style="text-align:center"><span class="accq">início do tri</span><br><b style="font-family:var(--mono);font-size:15px;color:var(--up)">62</b></div><div style="text-align:center"><span class="accq">média</span><br><b style="font-family:var(--mono);font-size:15px;color:var(--watch)">72</b></div><div style="text-align:center"><span class="accq">fim do tri</span><br><b style="font-family:var(--mono);font-size:15px;color:var(--down)">86</b></div></div>';
+         return thermGauge(62,72,86)+tiles+thermLine(tt,pp,mo,{bandLastN:3,h:226});})()}
+       <p class="accnote">Termômetro próprio de entrada (o P/E não funciona em biotech). Combina três sinais de preço, cada um virado em percentil contra a própria história: <b>XBI/IBB</b> (50%), <b>distância do topo</b> (40%) e <b>XBI vs média de 200 dias</b> (10%). A linha laranja é o termômetro (eixo esquerdo, 0-100); a cinza é a cota do XBI em US$ (eixo direito). Faixas: verde até 35 (barato), amarelo 35-65, vermelho acima de 65 (caro). A área sombreada é o Q2/26. O trimestre abriu em 62 e fechou em <b style="color:var(--down)">86</b>: a corrida de jun/26 encareceu bastante a entrada. Detalhamento na aba XBI US.</p></div>
      <div class="ind"><h4>Razão XBI / IBB <span class="accq">apetite small-cap vs large-cap</span></h4><span class="big">80,1</span> <span class="accq">média do Q2/26</span>
        ${sline(rt36,{H:150,bandLast:3,bandLabel:"últ. tri"})}
        <p class="accnote">Últimos 36 meses; a faixa sombreada é o último trimestre. A razão é XBI ÷ IBB × 100; quanto mais alta, mais o mercado paga relativamente pelas small-caps (XBI) do que pelas gigantes (IBB).</p></div>
@@ -759,6 +820,38 @@ function renderXBI(){
       ${dualAxis(A.macro.xbi,[[Date.UTC(2015,11,1)/1000,5],[Date.UTC(2016,11,1)/1000,8],[Date.UTC(2017,11,1)/1000,7],[Date.UTC(2018,11,1)/1000,20],[Date.UTC(2019,11,1)/1000,34],[Date.UTC(2020,11,1)/1000,22],[Date.UTC(2021,11,1)/1000,173],[Date.UTC(2022,5,1)/1000,210],[Date.UTC(2023,11,1)/1000,232],[Date.UTC(2024,11,1)/1000,180]],{startTs:A.macro.start,rightColor:"var(--down)",dots:true,rZero:true,rfmt:v=>Math.round(v)})}
       <div class="read tight" style="margin-top:6px"><p>Um <b>EV negativo</b> quer dizer que o Enterprise Value da empresa (valor de mercado + dívida − caixa) é <b>menor que o caixa que ela tem</b>, ou seja, a bolsa vale a empresa por menos do que o dinheiro parado no banco dela. Os dois andam ao contrário um do outro. Até 2020 quase nenhuma biotech estava nessa situação. Isso mudou de vez a partir de 2021: o número disparou (de ~34 em 2019 para o recorde de ~232 no fim de 2023), bem quando o XBI caiu. Depois, conforme o XBI se recuperou, a contagem foi caindo.</p></div>
       <div class="refs"><b>Fontes:</b> RA Capital, Stifel/Tim Opler, Evercore ISI, EY (contagens de 2019 a 2024). Antes de 2021 o fenômeno era raro (pontos ilustrativos); 2025 chegou a ~metade das biotechs listadas, sem contagem absoluta pública; 2026 ainda sem dado novo. Números aproximados.</div></div>
+  </section>
+  <section><div class="sec-h"><span class="sec-n">07</span><h2>Termômetro de entrada em biotech</h2></div>
+    <div class="card"><h3>A ideia</h3>
+      <div class="read tight"><p>Como o P/E não serve para o XBI, montamos um <b>termômetro próprio de 0 a 100</b> que responde uma pergunta simples: em relação à sua própria história, a entrada em biotech está <b style="color:var(--up)">barata</b> ou <b style="color:var(--down)">cara</b> agora? Ele não prevê o futuro; só situa o preço de hoje contra tudo que já vimos desde 2016.</p>
+        <ul class="f">
+          <li><b>0 a 35 (verde):</b> historicamente barato, perto dos fundos de mercado.</li>
+          <li><b>35 a 65 (amarelo):</b> zona neutra, preço médio.</li>
+          <li><b>65 a 100 (vermelho):</b> historicamente caro, perto dos topos.</li>
+        </ul></div>
+      <div class="refs"><b>Base:</b> Yahoo Finance (XBI, IBB, preços diários desde 2015); cálculo nosso.</div></div>
+    <div class="card"><h3>Como é calculado</h3>
+      <div class="read tight"><p>Cada sinal de preço vira um <b>percentil (0 a 100)</b> contra a própria história, orientado para "quanto maior, mais caro". Depois é só uma <b>média ponderada</b> dos sinais. Os pesos não são iguais: vêm do poder de cada sinal em antecipar o retorno seguinte do XBI, e foram <b>validados fora da amostra</b> (calibrados numa metade da história e testados na outra, para não viciar no passado).</p>
+        <ul class="f">
+          <li><b>XBI / IBB — peso 50%.</b> Small-caps (XBI) vs gigantes (IBB). Quando o mercado paga pouco pelas small caps, o apetite por risco está baixo, costuma ser barato. É o sinal mais forte.</li>
+          <li><b>Distância do topo (drawdown) — peso 40%.</b> Quão longe o XBI está da própria máxima histórica. Quanto mais fundo o buraco, mais barata a entrada.</li>
+          <li><b>XBI vs média de 200 dias — peso 10%.</b> Quão esticado o preço está do próprio "normal" recente. Entra leve porque quase não prevê sozinho.</li>
+          <li><b>EV negativo — sinal opcional.</b> Quantas biotechs valem menos que o caixa. Ajuda, mas é semestral e atrasado, então fica de fora da conta padrão.</li>
+        </ul>
+        <p><span class="cap">Versão padrão do painel: 3 sinais de preço (50/40/10). A correlação do termômetro com o retorno de 12 meses à frente do XBI é de cerca de −0,50: termômetro alto tende a preceder retorno menor, e vice-versa.</span></p></div></div>
+    <div class="card"><h3>Cada sinal, sozinho, contra o XBI</h3><p class="cap">linha laranja = o sinal (percentil, eixo 0-100) · linha cinza = a cota do XBI, para comparar os movimentos</p>
+      <div class="grid2">
+        <div><p class="accq" style="margin:0 0 2px"><b>XBI / IBB</b> · small vs large-cap · peso 50%</p>${sigMini(THERM.sR,THERM.px,THERM.m)}</div>
+        <div><p class="accq" style="margin:0 0 2px"><b>Distância do topo</b> · drawdown · peso 40%</p>${sigMini(THERM.sD,THERM.px,THERM.m)}</div>
+        <div><p class="accq" style="margin:0 0 2px"><b>XBI vs média 200d</b> · quão esticado · peso 10%</p>${sigMini(THERM.sP,THERM.px,THERM.m)}</div>
+        <div><p class="accq" style="margin:0 0 2px"><b>EV negativo</b> · opcional · orientado como os outros</p>${sigMini(THERM.sEV,THERM.px,THERM.m)}</div>
+      </div>
+      <div class="read tight" style="margin-top:6px"><p>Todos estão orientados do mesmo jeito: <b>alto = caro</b>. No sinal de EV isso significa <b>poucas</b> empresas abaixo do caixa (o oposto do medo). Repare como os três primeiros afundam junto nos fundos de 2018 e 2022, e sobem juntos nas altas, é essa coincidência que dá confiança em combiná-los.</p></div>
+      <div class="refs"><b>Fontes:</b> Yahoo Finance (XBI/IBB diários); Stifel/CapitalIQ (contagem de EV negativo). Cálculo nosso.</div></div>
+    <div class="card"><h3>O termômetro contra o XBI, série completa</h3><p class="cap"><b style="color:var(--accent)">▬ termômetro</b> (eixo esquerdo, 0-100) vs <b style="color:var(--ink-2)">▬ cota do XBI em US$</b> (eixo direito) · desde 2016</p>
+      ${thermLine(THERM.t,THERM.px,THERM.m,{h:250})}
+      <div class="read tight" style="margin-top:6px"><p>Os topos do termômetro (2018, início de 2021) vieram antes de quedas; os fundos na faixa verde (fim de 2018, 2022, meados de 2024) foram, no retrospecto, as melhores janelas de entrada. Hoje o termômetro está de novo na <b style="color:var(--down)">faixa cara</b> depois da corrida de 2026, um alerta para escalonar entrada em vez de comprar de uma vez.</p></div>
+      <div class="refs"><b>Fontes:</b> Yahoo Finance; cálculo nosso. É um guia de contexto, não recomendação de compra ou venda.</div></div>
   </section>`;
 }
 
