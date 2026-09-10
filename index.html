@@ -867,8 +867,14 @@ function renderXBI(){
 
     <div class="card"><h3>1 · A fatia com lucro, pelo P/E forward <span class="accq">contexto</span></h3><p class="cap">P/E forward do fundo ao longo do tempo · linha pontilhada = S&amp;P 500 (~22x)</p>
       ${rxPEChart()}
-      <div class="read tight" style="margin-top:6px"><p>Hoje o P/E forward do XBI é <b>~18,8x</b>, <b style="color:var(--up)">abaixo</b> do S&amp;P (~22x): a fatia comercial não está cara contra o mercado. Mas o P/E do XBI ao longo do tempo é <b>traiçoeiro</b> (esteve em 8,8x no topo de 2020 e 18x no fundo de 2023, andou ao contrário do que deveria). Por isso ele entra como <b>contexto de peso leve</b>, não como um sinal de barato/caro que balança.</p></div>
-      <div class="refs"><b>Fontes:</b> factsheets da SSGA (atual e via Wayback).</div></div>
+      <div style="display:flex;gap:8px;margin:8px 0 2px;flex-wrap:wrap">
+        <div style="flex:1;min-width:120px;text-align:center;background:var(--bg);border-radius:8px;padding:7px"><span style="font-family:var(--mono);font-size:16px;font-weight:600;color:var(--up)">~18,8x</span><br><span class="accq">XBI (biotech) · forward</span></div>
+        <div style="flex:1;min-width:120px;text-align:center;background:var(--bg);border-radius:8px;padding:7px"><span style="font-family:var(--mono);font-size:16px;font-weight:600">~21x</span><br><span class="accq">IBB (biotech grande) · trailing</span></div>
+        <div style="flex:1;min-width:120px;text-align:center;background:var(--bg);border-radius:8px;padding:7px"><span style="font-family:var(--mono);font-size:16px;font-weight:600">~22x</span><br><span class="accq">S&amp;P 500 · forward</span></div>
+      </div>
+      <div class="read tight" style="margin-top:6px"><p>A fatia comercial da biotech (XBI ~18,8x) negocia <b style="color:var(--up)">abaixo</b> do mercado e em linha com a biotech grande: não está cara. Mas o P/E do XBI ao longo do tempo é <b>traiçoeiro</b> (esteve em 8,8x no topo de 2020 e 18x no fundo de 2023, andou ao contrário do que deveria), por isso entra como <b>contexto de peso leve</b>.</p>
+        <p class="accq">Ressalva de comparação: o XBI publica P/E <b>forward</b> (lucro projetado), enquanto o IBB e o S&amp;P disponíveis são <b>trailing</b> (lucro passado). Um "por ano" perfeito dos três não sai limpo (as séries forward do S&amp;P e do IBB ficam em terminal pago), então acima é o retrato de hoje, com o tipo de cada P/E marcado.</p></div>
+      <div class="refs"><b>Fontes:</b> factsheets da SSGA (XBI, atual e via Wayback); iShares (IBB); multpl/consenso (S&amp;P).</div></div>
 
     <div class="card"><h3>2 · A cauda pré-lucro, pelo EV negativo <span class="accq">caro hoje</span></h3><p class="cap">% do setor negociando abaixo do próprio caixa (EV negativo)</p>
       <div style="display:flex;gap:10px;margin:2px 0 6px">
