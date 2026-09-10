@@ -853,24 +853,16 @@ function renderXBI(){
 
     <div class="card"><h3>3 · O pipeline em relação ao preço <span class="accq">caro hoje</span></h3><p class="cap"><b style="color:var(--accent)">▬ cota do XBI</b> vs <b style="color:var(--up)">▬ ensaios Fase 2/3 do setor</b> · base 100 em 2016</p>
       ${rxTwoLines(RX.priceIdx,RX.pipeIdx,'var(--accent)','var(--up)',90,225)}
-      <div class="read tight" style="margin-top:6px"><p>É o paralelo com o S&amp;P, ao contrário. No S&amp;P, o preço 4x veio <b>acompanhado</b> de lucro 4x (justificado). Aqui a cota subiu bem mais que o pipeline, então a alta foi mais <b>re-rating</b> do que mais remédios em fase avançada. Medindo "preço por programa em Fase 2/3", ficou caro no topo de 2020-21, barato no fundo de 2022-23, e hoje, com o preço em máxima, de novo <b style="color:var(--down)">esticado</b>. <span class="accq">Ensaio não é remédio; contagem de ensaios como proxy do vigor do pipeline do setor.</span></p></div>
+      <div class="read tight" style="margin-top:6px"><p><b>A ideia.</b> Uma biotech sem lucro não vale pelo que ganha, vale pelo <b>pipeline</b>: os remédios que ela tem em desenvolvimento. Os de <b>Fase 2 e 3</b> são os mais valiosos, porque já passaram dos testes iniciais e estão mais perto de virar produto. Então "está cara?" vira uma pergunta melhor: <b>você está pagando muito ou pouco por esse pipeline?</b></p>
+        <p><b>Como medimos.</b> Comparamos quanto a <b>cota do XBI</b> subiu com quanto o <b>pipeline</b> cresceu (o número de ensaios em Fase 2/3 do setor), os dois partindo de 100 em 2016. Se sobem juntos, a alta é <b>justificada</b>: você paga mais, mas há mais remédio por trás. Se a cota dispara e o pipeline anda de lado, você está pagando mais pela <b>mesma</b> quantidade de remédio, ou seja, ficou caro.</p>
+        <p><b>O que o gráfico mostra.</b> A cota (laranja) foi de 100 a ~160, enquanto o pipeline (verde) mal saiu de 100 a ~125. A distância entre as duas linhas é <b>o quanto ficou mais caro por remédio</b>. É o oposto do S&amp;P, onde o preço 4x veio <b>acompanhado</b> de lucro 4x (lá é justificado). Aqui a alta foi mais <b>re-rating</b> do que mais ciência. Nessa conta de "preço por programa em Fase 2/3", ficou caro no topo de 2020-21, barato no fundo de 2022-23, e hoje, com o preço em máxima, de novo <b style="color:var(--down)">esticado</b>.</p>
+        <p class="accq">Ressalva: um remédio pode ter vários ensaios, então é um proxy do vigor do pipeline do setor, não a contagem exata de ativos, nem só das holdings do XBI.</p></div>
       <div class="refs"><b>Fontes:</b> clinicaltrials.gov (Fase 2/3 industriais iniciados por ano); Yahoo Finance.</div></div>
 
     <div class="card"><h3>Juntando: o raio-X contra o XBI</h3><p class="cap"><b style="color:var(--accent)">▬ score de valuation</b> (0-100, alto = caro) vs <b style="color:var(--ink-2)">▬ cota do XBI</b> · a linha combina EV negativo e pipeline (a cauda pré-lucro)</p>
       ${rxScoreChart()}
       <div class="read tight" style="margin-top:6px"><p>Score <b style="color:var(--down)">alto/caro em 2020-2021</b>, e o XBI caiu nos anos seguintes. Score <b style="color:var(--up)">baixo/barato em 2022-2023</b>, e o XBI subiu forte. Hoje está de novo na <b style="color:var(--down)">faixa cara</b>. <span class="accq">A linha histórica é a valuation da cauda (pipeline o tempo todo, mais o EV a partir de 2021, quando ele passa a existir); o P/E entra só como contexto de hoje.</span></p></div>
       <div class="refs"><b>Fontes:</b> clinicaltrials.gov, Stifel/RA Capital, Yahoo Finance; cálculo nosso.</div></div>
-
-    <div class="card"><h3>Isso funcionou? O que veio depois de cada faixa</h3><p class="cap">retorno do XBI 2 anos depois, por faixa do score (perna pipeline, 10 anos, 2016 a 2023)</p>
-      <div style="overflow-x:auto"><table class="miniq">
-        <tr><th>Faixa do score</th><th>Retorno médio 2 anos</th><th>nº de anos</th></tr>
-        <tr><td><b style="color:var(--up)">Barato (0 a 35)</b></td><td><b>+28%</b></td><td>3</td></tr>
-        <tr><td>Neutro (35 a 65)</td><td>+33%</td><td>2</td></tr>
-        <tr><td><b style="color:var(--down)">Caro (65 a 100)</b></td><td><b>−14%</b></td><td>3</td></tr>
-      </table></div>
-      <div class="read tight" style="margin-top:6px"><p>Correlação do score com o retorno de 2 anos: <b>−0,69</b> (score alto/caro precede retorno menor). O contraste que vale é <b style="color:var(--up)">barato +28%</b> vs <b style="color:var(--down)">caro −14%</b>; o "+33% do neutro" é ruído de amostra pequena (2 anos só).</p>
-        <p><b>Avisos honestos.</b> É um sinal de <b>médio prazo</b> (2 anos; com 1 ano a correlação cai para −0,39). O backtest é da perna pipeline (10 anos, a única com história longa); o EV só existe desde 2021, então o combinado com EV é curto demais para ter o próprio teste. E os dados de EV e pipeline são proxies de setor, não das holdings exatas do XBI.</p></div>
-      <div class="refs"><b>Método:</b> score anual em percentil vs retorno do XBI 2 anos à frente. clinicaltrials.gov, Stifel/RA Capital, Yahoo Finance; cálculo nosso.</div></div>
   </section>
 `;
 }
