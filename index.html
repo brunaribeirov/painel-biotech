@@ -292,7 +292,7 @@ const RX={
   qprice:[100,114.9,121.7,140,141.9,153,156.2,164.4,131.3,148.7,142.6,136.9,152.6,144.4,174.5,187.9,218.8,247.2,226.5,216.2,199.8,154.7,122.7,138.3,140.9,140.3,140,133.8,130.8,159,150.9,169.6,162.6,148.9,139,156.4,203.2,216.2,242.7,268],
   qpipe:[100,99.3,96.4,96.4,97.9,97.8,101.4,105.2,106,107.6,110.1,106.6,105.5,98,92.4,103.6,111.1,124.2,134.9,133.8,136.5,133.7,132.9,132.4,123.3,123.5,118.7,113.2,116.3,113.5,112.3,112.7,111.8,114,118.3,123.8,125.5,130.4,136.4,141.3]
 };
-function yrTick(lab){return lab.slice(5)==="Q1"?lab.slice(0,4):(lab==="2016Q4"?"2016":"");}
+function yrTick(lab){return lab.slice(4)==="Q1"?lab.slice(0,4):(lab==="2016Q4"?"2016":"");}
 function rxGauge(val){
   var cx=150,cy=140,r=112,sw=16;
   function pt(v){var a=Math.PI*(1-v/100);return[cx+r*Math.cos(a),cy-r*Math.sin(a)];}
@@ -310,16 +310,14 @@ function rxGauge(val){
   g+='<text x="38" y="152" font-size="8.5" fill="var(--muted)" font-family="var(--mono)">0 barato</text><text x="262" y="152" text-anchor="end" font-size="8.5" fill="var(--muted)" font-family="var(--mono)">caro 100</text>';
   return '<svg class="v" viewBox="0 0 300 156">'+g+'</svg>';
 }
-function rxScoreChart(H){
-  H=H||210;var W=680,pL=30,pR=48,pT=16,pB=26,n=RX.qscore.length,pw=W-pL-pR,ph=H-pT-pB;
+function rxScoreChart(H,hl){
+  H=H||210;var W=680,pL=30,pR=48,pT=28,pB=26,n=RX.qscore.length,pw=W-pL-pR,ph=H-pT-pB;
   function X(i){return pL+i/(n-1)*pw;}function Y(v){return pT+(1-v/100)*ph;}
   var pmn=55,pmx=270;function YP(p){return pT+(1-(p-pmn)/(pmx-pmn))*ph;}
   var g="";
   g+='<rect x="'+pL+'" y="'+Y(100).toFixed(1)+'" width="'+pw+'" height="'+(Y(65)-Y(100)).toFixed(1)+'" fill="var(--down)" opacity="0.08"/>';
   g+='<rect x="'+pL+'" y="'+Y(35).toFixed(1)+'" width="'+pw+'" height="'+(Y(0)-Y(35)).toFixed(1)+'" fill="var(--up)" opacity="0.08"/>';
-  var hs=pw/(n-1)/2,bx=X(n-1)-hs;
-  g+='<rect x="'+bx.toFixed(1)+'" y="'+pT+'" width="'+(W-pR-bx).toFixed(1)+'" height="'+ph.toFixed(1)+'" fill="var(--accent)" opacity="0.13"/>';
-  g+='<text x="'+((bx+(W-pR))/2).toFixed(1)+'" y="'+(pT-3)+'" text-anchor="middle" font-size="8.5" font-family="var(--mono)" fill="var(--accent-ink)">últ. tri</text>';
+  if(hl){var hs=pw/(n-1)/2,bx=X(n-1)-hs;g+='<rect x="'+bx.toFixed(1)+'" y="'+pT+'" width="'+(W-pR-bx).toFixed(1)+'" height="'+ph.toFixed(1)+'" fill="var(--accent)" opacity="0.13"/><text x="'+((bx+(W-pR))/2).toFixed(1)+'" y="'+(pT-3)+'" text-anchor="middle" font-size="8.5" font-family="var(--mono)" fill="var(--accent-ink)">últ. tri</text>';}
   [0,35,65,100].forEach(function(v){g+='<line x1="'+pL+'" y1="'+Y(v).toFixed(1)+'" x2="'+(W-pR)+'" y2="'+Y(v).toFixed(1)+'" stroke="var(--border-2)"/><text x="'+(pL-4)+'" y="'+(Y(v)+3).toFixed(1)+'" text-anchor="end" font-size="8.5" font-family="var(--mono)" fill="var(--accent)">'+v+'</text>';});
   var dp="";RX.qpx.forEach(function(p,i){dp+=(i?"L":"M")+X(i).toFixed(1)+" "+YP(p).toFixed(1)+" ";});
   g+='<path d="'+dp+'" fill="none" stroke="var(--ink-2)" stroke-width="1.4" opacity="0.5"/>';
@@ -328,6 +326,7 @@ function rxScoreChart(H){
   var li=n-1;g+='<circle cx="'+X(li).toFixed(1)+'" cy="'+Y(RX.qscore[li]).toFixed(1)+'" r="4" fill="var(--accent)" stroke="var(--surface)" stroke-width="1.5"/>';
   RX.qlab.forEach(function(l,i){var t=yrTick(l);if(t)g+='<text x="'+X(i).toFixed(1)+'" y="'+(H-8)+'" text-anchor="middle" font-size="8.5" font-family="var(--mono)" fill="var(--muted)">'+t+'</text>';});
   g+='<text x="'+(W-pR+4)+'" y="'+(YP(pmx)+3).toFixed(1)+'" font-size="8.5" font-family="var(--mono)" fill="var(--ink-2)">$'+Math.round(pmx*0.6)+'</text><text x="'+(W-pR+4)+'" y="'+(YP(pmn)+3).toFixed(1)+'" font-size="8.5" font-family="var(--mono)" fill="var(--ink-2)">$'+pmn+'</text>';
+  g+='<line x1="'+pL+'" y1="11" x2="'+(pL+16)+'" y2="11" stroke="var(--accent)" stroke-width="2.4"/><text x="'+(pL+20)+'" y="14" font-size="9" font-family="var(--mono)" fill="var(--ink)">score (0-100)</text><line x1="'+(pL+128)+'" y1="11" x2="'+(pL+144)+'" y2="11" stroke="var(--ink-2)" stroke-width="1.6" opacity="0.6"/><text x="'+(pL+148)+'" y="14" font-size="9" font-family="var(--mono)" fill="var(--ink)">cota XBI (US$)</text>';
   return '<svg class="v" viewBox="0 0 '+W+' '+H+'">'+g+'</svg>';
 }
 function rxTwoLines(a,b,colA,colB,lo,hi,labs){
@@ -393,7 +392,7 @@ function renderHip(){
      <div class="refs"><b>Fontes:</b> STAT News, CNBC, DealForma, GlobalData (M&amp;A ≥US$1bi); BioPharma Dive (IPOs). Totais de semestre/ano são firmes; a divisão por trimestre é estimada a partir dos deals divulgados.</div>`),
    3:accWrap("fechamento Q2/26 · jun/26",`
      <div class="ind"><h4>Termômetro de valuation <span class="accq">raio-X do XBI · 0 = barato, 100 = caro</span></h4>
-       <div style="max-width:210px;margin:2px auto 0">${rxGauge(87)}</div>${rxScoreChart(150)}
+       <div style="max-width:210px;margin:2px auto 0">${rxGauge(87)}</div>${rxScoreChart(160,true)}
        <div style="display:flex;gap:6px;justify-content:center;margin:2px 0 4px;flex-wrap:wrap">
          <span class="accq" style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:2px 9px">P/E: <b style="color:var(--up)">barato vs mercado</b> (contexto)</span>
          <span class="accq" style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:2px 9px">EV negativo: <b style="color:var(--down)">caro</b></span>
@@ -895,9 +894,18 @@ function renderXBI(){
       <div class="refs"><b>Fontes:</b> clinicaltrials.gov (Fase 2/3 industriais iniciados por ano); Yahoo Finance.</div></div>
 
     <div class="card"><h3>Juntando: o raio-X contra o XBI</h3><p class="cap"><b style="color:var(--accent)">▬ score de valuation</b> (0-100, alto = caro) vs <b style="color:var(--ink-2)">▬ cota do XBI</b> · a linha combina EV negativo e pipeline (a cauda pré-lucro)</p>
-      ${rxScoreChart()}
+      ${rxScoreChart(210,false)}
       <div class="read tight" style="margin-top:6px"><p>Score <b style="color:var(--down)">alto/caro em 2020-2021</b>, e o XBI caiu nos anos seguintes. Score <b style="color:var(--up)">baixo/barato em 2022-2023</b>, e o XBI subiu forte. Hoje está de novo na <b style="color:var(--down)">faixa cara</b>. <span class="accq">A linha histórica é a valuation da cauda (pipeline o tempo todo, mais o EV a partir de 2021, quando ele passa a existir); o P/E entra só como contexto de hoje.</span></p></div>
       <div class="refs"><b>Fontes:</b> clinicaltrials.gov, Stifel/RA Capital, Yahoo Finance; cálculo nosso.</div></div>
+    <div class="card"><h3>Como o score é calculado, na conta exata</h3>
+      <div class="read tight"><p>O score de cada trimestre é a <b>média de duas pernas</b>, cada uma virada em <b>percentil de 0 a 100</b> contra a própria história trimestral, orientadas para "quanto maior, mais caro":</p>
+        <ul class="f">
+          <li><b>Preço por programa, peso 50%.</b> Divide o índice de preço do XBI pelo índice de pipeline (nº de ensaios em Fase 2/3 do setor nos últimos 12 meses), os dois em base 100 no fim de 2016. Esse "preço por programa" vira um percentil: se hoje ele está mais alto que em 90% dos trimestres, a perna dá 90.</li>
+          <li><b>Empresas abaixo do caixa, peso 50%.</b> O percentil de quão <b>poucas</b> empresas estão abaixo do caixa (invertido, porque poucas = caro).</li>
+        </ul>
+        <p><b>Exemplo com o trimestre atual:</b> preço por programa no percentil <b>~94</b> e abaixo-do-caixa em <b>~80</b>, então score = 0,5 × 94 + 0,5 × 80 = <b style="color:var(--down)">~87</b>. Antes de 2021 só existe a perna do pipeline (o abaixo-do-caixa não existia), então lá o score é só ela.</p>
+        <p class="accq">O P/E da fatia comercial não entra nessa conta (não tem história confiável); fica como contexto à parte, e é o que faz o ETF inteiro (~70) ficar abaixo do score da cauda (~87).</p></div>
+      <div class="refs"><b>Método:</b> percentil sobre a amostra trimestral 2016-2026, pesos 50/50 nas duas pernas de valor. clinicaltrials.gov, Stifel/RA Capital, Yahoo Finance.</div></div>
   </section>
 `;
 }
