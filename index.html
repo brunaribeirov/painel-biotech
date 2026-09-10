@@ -292,6 +292,23 @@ const RX={
   score:[5,45,65,55,95,88,13,28,63,53],
   xbi:[59.2,75.8,88.5,84.9,106.1,130.1,81.4,79.7,93.9,94.7]
 };
+function rxGauge(val){
+  var cx=150,cy=140,r=112,sw=16;
+  function pt(v){var a=Math.PI*(1-v/100);return[cx+r*Math.cos(a),cy-r*Math.sin(a)];}
+  function arc(a,b){var d="",st=Math.max(2,Math.round(b-a));for(var i=0;i<=st;i++){var v=a+(b-a)*i/st,p=pt(v);d+=(i?" L":"M")+p[0].toFixed(1)+" "+p[1].toFixed(1);}return d;}
+  var zc=val>=65?"var(--down)":val>=35?"var(--watch)":"var(--up)";
+  var g="";
+  g+='<path d="'+arc(0,35)+'" fill="none" stroke="var(--up)" stroke-width="'+sw+'" stroke-linecap="round"/>';
+  g+='<path d="'+arc(35,65)+'" fill="none" stroke="var(--watch)" stroke-width="'+sw+'"/>';
+  g+='<path d="'+arc(65,100)+'" fill="none" stroke="var(--down)" stroke-width="'+sw+'" stroke-linecap="round"/>';
+  var nn=pt(val);
+  g+='<line x1="'+cx+'" y1="'+cy+'" x2="'+nn[0].toFixed(1)+'" y2="'+nn[1].toFixed(1)+'" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>';
+  g+='<circle cx="'+cx+'" cy="'+cy+'" r="6" fill="var(--ink)"/>';
+  g+='<circle cx="'+nn[0].toFixed(1)+'" cy="'+nn[1].toFixed(1)+'" r="5" fill="'+zc+'" stroke="var(--surface)" stroke-width="2"/>';
+  g+='<text x="'+cx+'" y="'+(cy-16)+'" text-anchor="middle" font-family="var(--mono)" font-weight="800" font-size="34" fill="'+zc+'">'+val+'</text>';
+  g+='<text x="38" y="152" font-size="8.5" fill="var(--muted)" font-family="var(--mono)">0 barato</text><text x="262" y="152" text-anchor="end" font-size="8.5" fill="var(--muted)" font-family="var(--mono)">caro 100</text>';
+  return '<svg class="v" viewBox="0 0 300 156">'+g+'</svg>';
+}
 function rxScoreChart(){
   var W=680,H=210,pL=30,pR=48,pT=16,pB=26,n=RX.yr.length,pw=W-pL-pR,ph=H-pT-pB;
   function X(i){return pL+i/(n-1)*pw;}function Y(v){return pT+(1-v/100)*ph;}
@@ -371,6 +388,14 @@ function renderHip(){
        <p class="accnote"><b>Maiores IPOs do 1º sem/26:</b> Parabilis ~US$770mi; Kailera ~US$719mi; Kardigan ~US$460mi. <span class="accq">(* trimestres estimados; só o Q1/26 é número fechado)</span></p></div>
      <div class="refs"><b>Fontes:</b> STAT News, CNBC, DealForma, GlobalData (M&amp;A ≥US$1bi); BioPharma Dive (IPOs). Totais de semestre/ano são firmes; a divisão por trimestre é estimada a partir dos deals divulgados.</div>`),
    3:accWrap("fechamento Q2/26 · jun/26",`
+     <div class="ind"><h4>Termômetro de valuation <span class="accq">raio-X do XBI · 0 = barato, 100 = caro</span></h4>
+       <div style="max-width:230px;margin:2px auto 0">${rxGauge(70)}</div>
+       <div style="display:flex;gap:6px;justify-content:center;margin:2px 0 4px;flex-wrap:wrap">
+         <span class="accq" style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:2px 9px">P/E: <b style="color:var(--up)">barato vs mercado</b> (contexto)</span>
+         <span class="accq" style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:2px 9px">EV negativo: <b style="color:var(--down)">caro</b></span>
+         <span class="accq" style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:2px 9px">pipeline: <b style="color:var(--down)">caro</b></span>
+       </div>
+       <p class="accnote">Raio-X do XBI por dentro: <b>31% com lucro</b> (P/E vs mercado) + <b>69% pré-lucro</b> (empresas abaixo do caixa + pipeline vs preço). Hoje <b style="color:var(--down)">~70, caro</b>: a fatia comercial está barata, mas a cauda pré-lucro está sem barganha e com o preço esticado contra o pipeline. Atualizado a cada trimestre; método e história completa no bloco 07 da aba XBI US.</p></div>
      <div class="ind"><h4>Razão XBI / IBB <span class="accq">apetite small-cap vs large-cap</span></h4><span class="big">80,1</span> <span class="accq">média do Q2/26</span>
        ${sline(rt36,{H:150,bandLast:3,bandLabel:"últ. tri"})}
        <p class="accnote">Últimos 36 meses; a faixa sombreada é o último trimestre. A razão é XBI ÷ IBB × 100; quanto mais alta, mais o mercado paga relativamente pelas small-caps (XBI) do que pelas gigantes (IBB).</p></div>
@@ -662,7 +687,7 @@ function renderStock(){
       <h4>Riscos</h4>
       <div class="read tight"><ul class="f"><li><b>Risco binário total</b> na decisão de 22/nov/2026, depois de um comitê votar contra.</li><li>O FDA questionou a <b>integridade da estatística</b> do estudo, não só o tamanho do efeito.</li><li><b>Ativo único</b>; a plataforma de exossomo está em pausa.</li><li>Processo contra a própria parceira e <b>ações de acionistas</b> em cima.</li></ul></div>
       <div class="grid2">
-        <div class="bb bull"><b>A favor:</b> mira uma doença fatal com alta necessidade, o dado de função de braço é o mais forte, e ao estreitar o pedido ainda pode arrancar uma aprovação em 22/nov, com ~US$540 mi de valor e ~US$238 mi de caixa, uma aprovação re-rateia a ação com força.</div>
+        <div class="bb bull"><b>A favor:</b> mira uma doença fatal com alta necessidade, o dado de função de braço é o mais forte, e ao estreitar o pedido ainda pode arrancar uma aprovação em 22/nov, com ~US$540 mi de valor e ~US$238 mi de caixa, e uma aprovação destrava a ação com força.</div>
         <div class="bb bear"><b>Contra:</b> comitê votou 9-3 contra, FDA questionou a integridade do dado, a empresa processa a própria parceira e é uma micro-cap queimando caixa com processos em cima. Uma 2ª rejeição seria quase existencial. É aposta binária, não posição de núcleo.</div>
       </div>
       <div class="refs"><b>Fontes:</b> Capricor (releases e resultados), FDA (AdCom e CRL), AJMC, STAT, pharmaphorum; preço e liquidez Yahoo Finance.</div>
@@ -855,7 +880,7 @@ function renderXBI(){
       ${rxTwoLines(RX.priceIdx,RX.pipeIdx,'var(--accent)','var(--up)',90,225)}
       <div class="read tight" style="margin-top:6px"><p><b>A ideia.</b> Uma biotech sem lucro não vale pelo que ganha, vale pelo <b>pipeline</b>: os remédios que ela tem em desenvolvimento. Os de <b>Fase 2 e 3</b> são os mais valiosos, porque já passaram dos testes iniciais e estão mais perto de virar produto. Então "está cara?" vira uma pergunta melhor: <b>você está pagando muito ou pouco por esse pipeline?</b></p>
         <p><b>Como medimos.</b> Comparamos quanto a <b>cota do XBI</b> subiu com quanto o <b>pipeline</b> cresceu (o número de ensaios em Fase 2/3 do setor), os dois partindo de 100 em 2016. Se sobem juntos, a alta é <b>justificada</b>: você paga mais, mas há mais remédio por trás. Se a cota dispara e o pipeline anda de lado, você está pagando mais pela <b>mesma</b> quantidade de remédio, ou seja, ficou caro.</p>
-        <p><b>O que o gráfico mostra.</b> A cota (laranja) foi de 100 a ~160, enquanto o pipeline (verde) mal saiu de 100 a ~125. A distância entre as duas linhas é <b>o quanto ficou mais caro por remédio</b>. É o oposto do S&amp;P, onde o preço 4x veio <b>acompanhado</b> de lucro 4x (lá é justificado). Aqui a alta foi mais <b>re-rating</b> do que mais ciência. Nessa conta de "preço por programa em Fase 2/3", ficou caro no topo de 2020-21, barato no fundo de 2022-23, e hoje, com o preço em máxima, de novo <b style="color:var(--down)">esticado</b>.</p>
+        <p><b>O que o gráfico mostra.</b> A cota (laranja) foi de 100 a ~160, enquanto o pipeline (verde) mal saiu de 100 a ~125. A distância entre as duas linhas é <b>o quanto ficou mais caro por remédio</b>. Ou seja, a alta veio mais de <b>o mercado topar pagar mais pela mesma coisa</b> do que de mais remédios avançando de fase. Nessa conta de "preço por programa em Fase 2/3", ficou caro no topo de 2020-21, barato no fundo de 2022-23, e hoje, com o preço em máxima, de novo <b style="color:var(--down)">esticado</b>.</p>
         <p class="accq">Ressalva: um remédio pode ter vários ensaios, então é um proxy do vigor do pipeline do setor, não a contagem exata de ativos, nem só das holdings do XBI.</p></div>
       <div class="refs"><b>Fontes:</b> clinicaltrials.gov (Fase 2/3 industriais iniciados por ano); Yahoo Finance.</div></div>
 
@@ -1097,7 +1122,7 @@ function renderHang(){
       <div class="refs"><b>Fontes:</b> Yahoo Finance; retornos anuais calculados.</div></div>
   </section>
   <section><div class="sec-h"><span class="sec-n">03</span><h2>O ano de 2025</h2></div>
-    <div class="read tight"><p>2025 foi o ano em que a biotech chinesa virou a chave. O que mudou a cabeça do mercado foi o <b>out-licensing</b>: em vez de tentar vender remédio no mundo todo sozinhas, as biotechs de Hong Kong passaram a <b>licenciar seus ativos para a big pharma ocidental</b>, e vários desses ativos são bem competitivos. Foram ~US$ 137 bi em deals de licenciamento no ano. Quando esse dinheiro começou a entrar, o índice repricou.</p>
+    <div class="read tight"><p>2025 foi o ano em que a biotech chinesa virou a chave. O que mudou a cabeça do mercado foi o <b>out-licensing</b>: em vez de tentar vender remédio no mundo todo sozinhas, as biotechs de Hong Kong passaram a <b>licenciar seus ativos para a big pharma ocidental</b>, e vários desses ativos são bem competitivos. Foram ~US$ 137 bi em deals de licenciamento no ano. Quando esse dinheiro começou a entrar, o mercado passou a pagar bem mais caro pelo índice.</p>
       <p>No fundo, foi um encontro de interesses. A China ficou <b>muito boa, e barata, em criar remédios promissores</b>; mas o dinheiro grande está no <b>mercado americano</b>, onde elas não têm estrutura pra vender. Do outro lado, as gigantes ocidentais estão <b>correndo atrás de pipeline porque as próprias patentes estão vencendo</b> (o patent cliff). Uma tem o remédio, a outra tem onde vender e o caixa pra bancar. Foi esse encaixe que fez os deals estourarem.</p></div>
     <div class="card"><h3>Quem puxou a alta de 2025 (contribuição = peso × retorno)</h3><p class="cap">as 10 maiores contribuições para o índice em 2025, em pontos percentuais; o número à direita é o retorno da ação no ano</p>
       ${diverging([{tk:"3SBio",v:16.2,move:289},{tk:"Innovent",v:11.4,move:122},{tk:"WuXi Bio",v:10.4,move:91},{tk:"Sino Biopharm",v:9.7,move:139},{tk:"CSPC",v:7.1,move:121},{tk:"BeOne",v:7.1,move:69},{tk:"Akeso",v:6.9,move:94},{tk:"Hansoh",v:4.8,move:121},{tk:"WuXi AppTec",v:4.3,move:93}])}
