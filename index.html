@@ -165,7 +165,18 @@
     <div class="subpanel" id="sp-hangmkt"><div id="hangseng-mkt"></div></div>
   </div>
 
-  <div class="panel" id="p-stock"><div id="stock"></div></div>
+  <div class="panel" id="p-stock">
+    <div class="subtabs">
+      <button class="subtab" aria-selected="true" data-s="sdegraus">Degraus Binários</button>
+      <button class="subtab" aria-selected="false" data-s="svrtx">VRTX</button>
+      <button class="subtab" aria-selected="false" data-s="smeso">MESO</button>
+      <button class="subtab" aria-selected="false" data-s="scapr">CAPR</button>
+    </div>
+    <div class="subpanel active" id="sp-sdegraus"><div id="stock-degraus"></div></div>
+    <div class="subpanel" id="sp-svrtx"><div id="stock-vrtx"></div></div>
+    <div class="subpanel" id="sp-smeso"><div id="stock-meso"></div></div>
+    <div class="subpanel" id="sp-scapr"><div id="stock-capr"></div></div>
+  </div>
 
   <div class="panel" id="p-cases">
     <div class="subtabs">
@@ -610,7 +621,8 @@ function renderStock(){
     MESO:[{date:"2023-08-04",move:"-61%",reason_pt:"2ª rejeição do FDA (CRL) para o Ryoncil; ação despenca."},{date:"2024-03-10",move:"+150%",reason_pt:"FDA sinaliza que os dados de Fase 3 bastam pra reenviar o pedido; ação dispara."},{date:"2024-12-10",move:"+40%",reason_pt:"Ryoncil aprovado, a 1ª terapia MSC alogênica do FDA."}],
     CAPR:[{date:"2024-09-01",move:"~3x",reason_pt:"Reunião pré-BLA positiva + dados de 3 anos do HOPE-2; ação quase triplica."},{date:"2025-07-11",move:"-18%",reason_pt:"CRL do FDA: falta de evidência de eficácia + fabricação."},{date:"2025-12-03",move:"+370%",reason_pt:"HOPE-3 dá positivo no topline; ação dispara (o FDA depois contestaria esse resultado)."},{date:"2026-07-27",move:"-64%",reason_pt:"FDA questiona a estatística do HOPE-3; comitê vota 9-3 contra."}]
   };
-  document.getElementById("stock").innerHTML=`
+  document.getElementById("stock-degraus").innerHTML=`
+
   <p class="intro">Aqui a gente olha o preço no nível de cada ação: os saltos binários que já aconteceram e a lista do que vem pela frente. É a parte mais interessante do setor e também a mais difícil de acertar.</p>
   <section><div class="sec-h"><span class="sec-n">A</span><h2>Degraus binários: Ganhos/Perdas assimétricos</h2></div>
     <div class="read tight"><p>Em cada card, o número em destaque é a variação de um único pregão, o dia do evento; o gráfico mostra uns 90 pregões ao redor do degrau, não é o retorno acumulado. A etiqueta <span class="pill up">programada</span> quer dizer que a data já era conhecida (um readout ou uma decisão do FDA), e <span class="pill warn">surpresa</span> quer dizer que veio sem data marcada (uma questão de segurança ou uma aquisição). A linha tracejada marca o dia.</p></div>
@@ -618,117 +630,7 @@ function renderStock(){
     <h3 style="font-size:12px;color:var(--down);margin:16px 0 4px">▼ QUEDAS</h3><div class="cgrid">${dns.map(caseCard).join("")}</div>
     <div class="refs"><b>Fontes:</b> Yahoo Finance (preços); IR das empresas, FierceBiotech, Endpoints, FDA (eventos).</div>
   </section>
-  <section><div class="sec-h"><span class="sec-n">B</span><h2>Vale analisar: VRTX, MESO e CAPR?</h2></div>
-    <div class="read tight"><p>Uma gigante lucrativa (VRTX), uma small-cap que acabou de virar comercial (MESO) e uma aposta binária de FDA (CAPR).</p></div>
-    <div class="card deep">
-      <div class="dhead"><div><span class="tk">VRTX</span> <span class="dnm">Vertex Pharmaceuticals</span></div><span class="dtag up">Large-cap · lucrativa</span></div>
-      <div class="dkpis"><span class="kpi"><span class="v">~US$558</span><span class="l">preço</span></span><span class="kpi"><span class="v">~US$140 bi</span><span class="l">valor de mercado</span></span><span class="kpi"><span class="v">US$12,0 bi</span><span class="l">receita 2025</span></span><span class="kpi"><span class="v">~32x</span><span class="l">P/E</span></span><span class="kpi"><span class="v">~US$700 mi/dia</span><span class="l">liquidez</span></span><span class="kpi"><span class="v">+20,5%</span><span class="l">no ano</span></span></div>
-      <div class="read tight"><p><b>O que faz:</b> uma biotech grande e <b>muito lucrativa</b> (a maioria queima caixa por anos). Construiu um <b>quase-monopólio em fibrose cística</b> e usa esse caixa pra se diversificar em edição gênica, dor sem opioide, doença renal e diabetes tipo 1.</p></div>
-      <div class="jarg"><b>Fibrose cística:</b> doença genética em que um "canal de sal" defeituoso (a proteína CFTR) deixa o muco grosso e pegajoso, entupindo o pulmão (infecções de repetição) e o pâncreas (má digestão). Era fatal na infância; os remédios da Vertex corrigem a proteína e levaram a expectativa de vida de ~30 para ~68 anos. Atinge ~100 mil pessoas no mundo.</div>
-      <h4>No mercado hoje</h4>
-      <div class="read tight"><p>Sete remédios: a linha de <b>fibrose cística</b> (Kalydeco, Orkambi, Symdeko, o campeão <b>Trikafta</b> e o novo <b>Alyftrek</b>, de 1x/dia); o <b>Casgevy</b> (edição gênica pra anemia falciforme e beta-talassemia); e o <b>Journavx</b> (dor aguda não-opioide).</p>
-        <p><b>Quão bem funcionam:</b> o Trikafta melhora a função pulmonar em ~<b>+14 pontos</b>, derruba o sal no suor em ~42 (quase ao normal) e corta as crises pulmonares em ~<b>60-75%</b>. O Alyftrek empata com o Trikafta e ainda é 1x/dia.</p></div>
-      <div class="jarg"><b>Edição gênica CRISPR (Casgevy):</b> uma "tesoura molecular" que corta e reprograma o DNA das próprias células do paciente, fora do corpo, pra religar a produção de sangue saudável; depois reinfunde. É feita <b>uma vez só</b> (~US$2,2 mi) e tem potencial de cura.<br><b>Não-opioide (Journavx):</b> alivia a dor bloqueando um canal de sódio no nervo (NaV1.8), sem mexer nos receptores de opioide do cérebro, então <b>não vicia</b>, o grande problema dos analgésicos fortes.</div>
-      <h4>A empresa em números</h4>
-      <table class="fin"><tr><td>Receita 2025</td><td>US$ 12,0 bi (+9%)</td></tr><tr><td>Margem bruta (produto)</td><td>~88%</td></tr><tr><td>Margem operacional</td><td>~39%</td></tr><tr><td>Lucro líquido 2025</td><td>US$ 3,95 bi</td></tr><tr><td>Lucro por ação (LPA)</td><td>US$ 15,32</td></tr><tr><td>P/E (12m)</td><td>~32x</td></tr><tr><td>Liquidez</td><td>~US$ 700 mi/dia</td></tr><tr><td>Receita recorrente</td><td>~93% (fibrose cística, uso contínuo)</td></tr></table>
-      <h4>Pipeline (as apostas novas)</h4>
-      <div class="pipe"><b>Casgevy</b>: no mercado. ~35 mil pacientes elegíveis (EUA+Europa). A receita <b>deve ~triplicar em 2026</b>: mais centros de tratamento ativados, o rótulo foi ampliado pra crianças de 2+ anos (jul/2026) e a fila de pacientes que começaram o processo em 2025 está finalmente virando infusão (é uma terapia lenta e complexa).</div>
-      <div class="pipe"><b>Journavx</b>: no mercado (dor aguda). A aposta grande é a <b>dor crônica</b>. Relação com a neuropatia diabética: o remédio bloqueia o canal NaV1.8, que carrega o sinal de dor pelo nervo, então faz sentido testá-lo em dores de origem nervosa. Depois que a <b>Fase 2 de ciática decepcionou</b> (o remédio melhorou os pacientes, mas o placebo melhorou quase igual, ou seja, não provou que o ganho veio dele), a Vertex <b>pivotou</b>: focou na neuropatia diabética (onde o dado foi melhor) e na dor aguda (que aprovou), pra não apostar tudo na ciática. Fase 3 de neuropatia diabética com dado ~2027.</div>
-      <div class="pipe"><b>Inaxaplin</b>: doença renal genética (APOL1). Fase 3, dado interino no início de 2027; seria o 1º remédio da doença, sem concorrente aprovado; ~100 mil pacientes.</div>
-      <div class="pipe"><b>Zimislecel</b>: terapia celular que quer "curar" o diabetes tipo 1. Fase 3, submissão em 2026. Nos estudos iniciais (Fase 1/2) o resultado foi forte: <b>12 de 12 pacientes na dose cheia ficaram sem precisar de insulina em 1 ano</b>, com açúcar no sangue controlado (HbA1c &lt;7%, &gt;70% do tempo na faixa) e fim das quedas graves de glicose. O porém: ainda exige remédios de imunossupressão.</div>
-      <div class="pipe"><b>Povetacicept</b>: doença renal (nefropatia por IgA), veio da compra da Alpine (US$4,9 bi). A <b>Fase 3 (RAINIER) deu positivo</b>: bateu o objetivo principal e todos os secundários, com <b>−49,8% de proteína na urina</b> vs placebo (a Fase 2 também tinha sido positiva). Decisão do FDA em 30/nov/2026. Ressalva: o mercado de nefropatia por IgA <b>ficou concorrido</b> (vários remédios novos, como o iptacopan da Novartis), então não é campo livre.</div>
-      <h4>Concorrência: alguém tentando entrar?</h4>
-      <div class="read tight"><p>Na <b>fibrose cística</b>, sim, mas todos tropeçaram: a <b>Sionna</b> falhou na Fase 2 (ago/2026), a <b>Moderna</b> (mRNA inalado, numa parceria com a própria Vertex) foi descontinuada, e a <b>AbbVie</b> desistiu do setor. Na <b>anemia falciforme</b> divide com a Lyfgenia (bluebird), com Beam e Editas anos atrás. Em <b>dor não-opioide</b> é a 1ª da classe, sem concorrente direto aprovado. Em <b>diabetes tipo 1</b>, a Sana persegue, mas está atrás. <b style="color:var(--accent)">Resumo: é a melhor posicionada em quase tudo que toca.</b></p></div>
-      <div class="dchart"><h4>Preço (US$): passe o mouse pra ver data e variação; escolha duas datas abaixo pra ver o retorno entre elas. <span class="accq">+149% desde 2019 · +20,5% no ano</span></h4>
-        <div class="wchart" id="dc-VRTX"></div><div class="wann" id="da-VRTX"></div></div>
-      <h4>Marcos (bons e ruins)</h4>
-      <div class="mstones">
-        <div class="mst"><span class="mdate">out/2019</span><span><b>[+]</b> Trikafta aprovado: destrava ~90% dos pacientes de FC e puxa anos de alta na ação.</span></div>
-        <div class="mst"><span class="mdate">dez/2023</span><span><b>[+]</b> Casgevy, a 1ª terapia de edição gênica CRISPR aprovada no mundo.</span></div>
-        <div class="mst"><span class="mdate">dez/2024</span><span><b>[–]</b> Fase 2 de ciática do Journavx decepciona (−12%). O Alyftrek foi aprovado no dia seguinte, mas quase não moveu a ação por vir junto com a má notícia.</span></div>
-        <div class="mst"><span class="mdate">jan/2025</span><span><b>[+]</b> Journavx aprovado, 1º analgésico não-opioide de uma classe nova em 20+ anos.</span></div>
-        <div class="mst"><span class="mdate">ago/2026</span><span><b>[+]</b> A rival Sionna falha na FC; a ameaça some e a VRTX bate máxima histórica.</span></div>
-      </div>
-      <h4>Riscos</h4>
-      <div class="read tight"><ul class="f"><li>~93% da receita ainda vem de <b>uma doença só</b> (fibrose cística).</li><li>A maior aposta de crescimento, <b>dor crônica</b>, já tropeçou uma vez e só tem dado decisivo em ~2027.</li><li><b>Preço e política de saúde:</b> o Casgevy custa ~US$2,2 mi por paciente e os remédios de FC também são caríssimos; isso atrai pressão de governos e planos de saúde (nos EUA há debate político sobre preço de remédio), e um corte de preço mexeria direto na receita.</li><li>Patente da FC começa a expirar por volta de ~2037.</li></ul></div>
-      <div class="grid2">
-        <div class="bb bull"><b>A favor:</b> monopólio lucrativo e protegido gerando ~US$12 bi e crescendo dois dígitos, com quatro franquias novas que podem virar blockbusters, e o rival da FC acabou de fracassar.</div>
-        <div class="bb bear"><b>Contra:</b> ~US$140 bi (múltiplo alto) por uma empresa ainda ~95% dependente da FC; a diversificação é pequena perto do preço e a dor crônica ainda não se provou.</div>
-      </div>
-      <div class="refs"><b>Fontes:</b> Vertex (resultados e releases), FDA, stockanalysis, STAT, BioPharma Dive; preço e liquidez Yahoo Finance.</div>
-    </div>
-    <div class="card deep">
-      <div class="dhead"><div><span class="tk">MESO</span> <span class="dnm">Mesoblast</span></div><span class="dtag">Small-cap · recém-comercial</span></div>
-      <div class="dkpis"><span class="kpi"><span class="v">~US$17</span><span class="l">preço (ADS)</span></span><span class="kpi"><span class="v">~US$2,2 bi</span><span class="l">valor de mercado</span></span><span class="kpi"><span class="v">US$120 mi</span><span class="l">receita FY26</span></span><span class="kpi"><span class="v">~US$103 mi</span><span class="l">caixa</span></span><span class="kpi"><span class="v">~US$4 mi/dia</span><span class="l">liquidez (linha EUA)</span></span><span class="kpi"><span class="v">−5%</span><span class="l">no ano</span></span></div>
-      <div class="read tight"><p><b>O que faz:</b> pega células de doador saudável, multiplica em laboratório e transforma numa <b>"terapia de prateleira"</b>: doses padronizadas, congeladas, prontas pra usar em qualquer paciente. Acabou de lançar seu primeiro produto e teve a primeira receita de verdade em 2026.</p></div>
-      <div class="jarg"><b>Células mesenquimais (MSC):</b> um tipo de célula da medula óssea de um doador que <b>não vira tecido novo</b>: ela age como um "apagador de incêndio" do sistema imune, soltando substâncias que reduzem a inflamação. Como vêm de um doador e são multiplicadas em milhares de doses iguais, chamam de <b>"alogênica" ou "de prateleira"</b> (o contrário do CAR-T, que é fabricado do zero pra cada paciente, célula por célula).<br><b>GvHD (doença do enxerto contra o hospedeiro):</b> quem faz transplante de medula (pra curar leucemia, por exemplo) recebe células de defesa de um doador. Às vezes essas células novas "leem" o corpo do paciente como inimigo e o <b>atacam</b>: pele, intestino, fígado. É a GvHD. "Aguda e refratária a corticoide" = a versão grave que não melhorou com o 1º remédio (corticoide); em crianças, mata mais da metade.</div>
-      <h4>No mercado hoje</h4>
-      <div class="read tight"><p>Um produto: o <b>Ryoncil</b>, aprovado em dez/2024 pra GvHD aguda refratária a corticoide em crianças. É a <b>1ª terapia MSC alogênica aprovada pelo FDA</b> (o fim de ~20 anos sem nenhuma da classe passar).</p>
-        <p><b>Quão bem funciona:</b> no estudo, <b>70% das crianças responderam</b> em 28 dias (30% resposta completa, 41% parcial) e a <b>sobrevida em 6 meses foi ~69%</b> (sobrevida = a fração de pacientes que segue viva depois de um período; aqui, quantas crianças continuavam vivas 6 meses após o tratamento), num quadro que antes era quase sem saída.</p>
-        <p><b>Por que custa tanto:</b> o tratamento completo são <b>8 infusões</b> (2 por semana, durante 4 semanas), e cada infusão custa US$194 mil, então o <b>curso todo passa de US$1,5 milhão</b> por criança.</p></div>
-      <div class="jarg"><b>Curioso: foi rejeitada 2 vezes e mesmo assim aprovada.</b> O FDA deu dois "não" (CRL em 2020 e 2023) antes do "sim" em dez/2024. O que virou a chave: em mar/2024 o FDA concluiu que os dados da Fase 3 que <b>já existiam bastavam</b>: a empresa reenviou com mais tempo de acompanhamento e corrigiu as pendências de fabricação que o FDA apontava. Foi persistência + resolver o lado técnico, não um estudo novo. (A crítica de sempre: a Fase 3 era de <b>braço único</b>, sem grupo placebo pra comparar.)</div>
-      <h4>A empresa em números</h4>
-      <table class="fin"><tr><td>Receita FY26 (1º ano)</td><td>US$ 120 mi (Ryoncil ~US$115 mi)</td></tr><tr><td>Margem bruta</td><td>~93%</td></tr><tr><td>Prejuízo líquido</td><td>US$ 57,5 mi (melhorou 44%)</td></tr><tr><td>Queima de caixa (ano)</td><td>~US$ 44 mi</td></tr><tr><td>Caixa</td><td>~US$ 103 mi</td></tr><tr><td>Liquidez (linha EUA)</td><td>~US$ 4 mi/dia</td></tr><tr><td>Lucro previsto</td><td>FY2027 (guidance da empresa)</td></tr></table>
-      <h4>Pipeline</h4>
-      <div class="pipe"><b>Ryoncil em adultos</b>: mercado <b>3-4x maior</b> que o pediátrico; ensaio pivotal em parceria com o NIH (o <b>NIH</b> é a agência de pesquisa em saúde do governo dos EUA, que financia e conduz estudos).</div>
-      <div class="pipe"><b>Revascor</b> (coração): a Fase 3 mostrou ~60% menos infarto/AVC em pacientes de alto risco. Recebeu o número de BLA em jul/2026 e pediu uma revisão "modular" pro sangramento em pacientes com coração-artificial (LVAD), mas <b>ainda sem data de decisão (PDUFA) marcada</b>. Não aprovado.</div>
-      <div class="pipe"><b>Dor lombar crônica</b>: na Fase 2, os pacientes tratados foram <b>&gt;3x mais propensos a largar opioides</b> em 3 anos; a Fase 3 confirmatória terminou o tratamento em ago/2026, resultado em 2027.</div>
-      <h4>Concorrência</h4>
-      <div class="read tight"><p>No <b>GvHD pediátrico refratário, o Ryoncil é a única aprovada pra crianças abaixo de 12 anos</b> (o ruxolitinib/Jakafi só vale a partir de 12), então é best-in-class por ser a única no nicho. Já no <b>coração e na dor lombar</b>, a terapia com MSC ainda é <b>contestada</b> (vários estudos de célula no coração decepcionaram no passado), então o pipeline vale como opcionalidade, não certeza.</p></div>
-      <div class="dchart"><h4>Preço (US$, ADS ajustado): passe o mouse; escolha duas datas abaixo pra ver o retorno entre elas. <span class="accq">−5% no ano · desde 2020 ~−20% (mas bateu ~US$1,8 em 2024 e subiu ~10x de lá)</span></h4>
-        <div class="wchart" id="dc-MESO"></div><div class="wann" id="da-MESO"></div></div>
-      <h4>Marcos (bons e ruins)</h4>
-      <div class="mstones">
-        <div class="mst"><span class="mdate">ago/2020</span><span><b>[+]</b> Comitê do FDA vota 9-1 que os dados da Fase 3 (o estudo pivotal, de braço único) sustentam a eficácia.</span></div>
-        <div class="mst"><span class="mdate">2020 e 2023</span><span><b>[–]</b> Dois CRLs (rejeições) do FDA antes de aprovar.</span></div>
-        <div class="mst"><span class="mdate">mar/2024</span><span><b>[+]</b> FDA sinaliza que os dados existentes bastam pra reenviar; a ação dispara.</span></div>
-        <div class="mst"><span class="mdate">dez/2024</span><span><b>[+]</b> Ryoncil aprovado, a 1ª terapia MSC alogênica do FDA.</span></div>
-        <div class="mst"><span class="mdate">ago/2026</span><span><b>[+]</b> FY26: US$120 mi de receita, US$115 mi só de Ryoncil no 1º ano.</span></div>
-      </div>
-      <div class="jarg">Curioso: a <b>aprovação em si quase não moveu a ação</b> (subiu ~40% no after-hours e parou). O mercado já dava a aprovação como certa (a ação vinha subindo forte antes, na expectativa), a empresa <b>diluiu muito</b> pra se financiar no caminho, e o público pediátrico é pequeno. A alta grande veio <b>antes</b>, na aposta de que passaria.</div>
-      <h4>Riscos</h4>
-      <div class="read tight"><ul class="f"><li>Histórico de <b>diluição</b> pra se financiar (e um grouping de ações em 2024).</li><li>Depende de <b>um produto só</b>, num público pequeno (doença rara).</li><li>Reembolso de um curso &gt;US$1,5 mi precisa continuar aceito pelos planos.</li><li>Histórico de <b>rejeições</b> do FDA; o pipeline (coração, dor) pode não passar.</li></ul></div>
-      <div class="grid2">
-        <div class="bb bull"><b>A favor:</b> destravou o FDA com a 1ª MSC alogênica, receita crescendo rápido e de alta margem (US$115 mi no 1º ano, acima do esperado), queima caindo e opções grandes (GvHD adulto, coração, dor lombar).</div>
-        <div class="bb bear"><b>Contra:</b> small-cap volátil apoiada num único produto de público limitado, com histórico de diluição e rejeições, e valuation (~US$2,2 bi sobre ~US$120 mi de receita) que já embute sucesso do pipeline.</div>
-      </div>
-      <div class="refs"><b>Fontes:</b> Mesoblast (resultados FY26 e releases), FDA, GlobeNewswire, stockanalysis; preço e liquidez Yahoo Finance (ajustado ao grouping de jan/2024).</div>
-    </div>
-    <div class="card deep">
-      <div class="dhead"><div><span class="tk">CAPR</span> <span class="dnm">Capricor Therapeutics</span></div><span class="dtag down">Micro-cap · aposta binária de FDA</span></div>
-      <div class="dkpis"><span class="kpi"><span class="v">~US$9</span><span class="l">preço</span></span><span class="kpi"><span class="v">~US$540 mi</span><span class="l">valor de mercado</span></span><span class="kpi"><span class="v">~US$238 mi</span><span class="l">caixa</span></span><span class="kpi"><span class="v">~US$100 mi/dia</span><span class="l">liquidez</span></span><span class="kpi"><span class="v">−65%</span><span class="l">no ano</span></span><span class="kpi"><span class="v">sem receita</span><span class="l">fase clínica</span></span></div>
-      <div class="read tight"><p><b>O que faz:</b> terapias de célula e exossomo. Tudo depende de um único remédio, o <b>deramiocel</b>, e de uma decisão do FDA marcada pra <b>22/nov/2026</b>.</p></div>
-      <div class="jarg"><b>DMD (distrofia muscular de Duchenne):</b> doença genética que quase só afeta meninos; falta uma proteína (a distrofina) que protege o músculo, então o músculo vai se desfazendo. Eles param de andar na adolescência e, como <b>o coração também é músculo</b>, costumam morrer de insuficiência cardíaca.<br><b>O deramiocel, e como protege o coração:</b> são <b>células tiradas de coração de doador</b>, dadas na veia. Elas não viram músculo novo, soltam substâncias (inclusive exossomos) que <b>reduzem a inflamação e a formação de cicatriz (fibrose)</b> no músculo cardíaco. A ideia é <b>frear a deterioração</b> do coração, não reconstruí-lo.</div>
-      <h4>A eficácia e a montanha-russa do FDA</h4>
-      <div class="read tight"><p>Nos estudos <b>HOPE-2 (Fase 2)</b> e <b>HOPE-3 (Fase 3)</b>: "HOPE" é só o nome do programa; o 2 e o 3 são as fases, o deramiocel mostrou benefício principalmente na <b>função do braço</b>, medida por uma escala chamada <b>PUL</b> (Performance of Upper Limb: uma nota pra tarefas de braço e mão, tipo levantar e alcançar). Deu <b>p=0,021</b>: o "p" é a chance de o resultado ter sido sorte; abaixo de 0,05 conta como estatisticamente significativo, então 0,021 quer dizer "provavelmente é efeito real, não acaso".</p>
-        <p><b>Por que só o braço, se o alvo era o coração?</b> Porque foi no braço que o dado ficou forte e consistente. No <b>coração</b> (o alvo original), os números pareciam bons, mas o FDA achou a evidência frágil e, pior, <b>questionou mudanças feitas na conta estatística perto do fim do estudo</b>, o que derrubou a confiança no resultado cardíaco. Resultado: o comitê do FDA votou <b>9-3 contra</b> a alegação de coração, e a empresa recuou pra pedir aprovação só onde o dado se sustenta: o braço.</p></div>
-      <h4>A briga com a Nippon Shinyaku (a parceira)</h4>
-      <div class="read tight"><p>Em 2022 a Capricor deu à <b>Nippon Shinyaku</b> a distribuição exclusiva nos EUA: US$30 mi de entrada, até US$705 mi em marcos (US$80 mi na aprovação) e 30-50% da receita pra Capricor. Em <b>mai/2026 a Capricor processou a própria parceira</b>, alegando uma <b>"falha de preço"</b>: do jeito que o contrato define o preço, o <b>Medicare reembolsaria os hospitais menos do que custa comprar e aplicar a droga</b>, ou seja, o hospital <b>perderia dinheiro em cada paciente</b>, inviabilizando o lançamento. A Capricor quer <b>rescindir o acordo</b> e vender por conta própria. Em set/2026 a Justiça mandou o caso pra <b>arbitragem</b> (a Capricor perdeu essa rodada). Fica em aberto e ameaça os US$80 mi da aprovação e a rota de venda.</p></div>
-      <h4>A empresa em números</h4>
-      <table class="fin"><tr><td>Caixa</td><td>~US$ 238 mi</td></tr><tr><td>Receita</td><td>nenhuma (pré-aprovação)</td></tr><tr><td>Prejuízo (trimestre)</td><td>~US$ 41 mi</td></tr><tr><td>Queima (semestre)</td><td>~US$ 80 mi</td></tr><tr><td>Ações</td><td>~58 mi</td></tr><tr><td>Liquidez</td><td>~US$ 100 mi/dia (alta pra micro-cap, movida a evento)</td></tr><tr><td>Fôlego de caixa</td><td>até ~2027-2028</td></tr></table>
-      <h4>Concorrência (DMD em 2026)</h4>
-      <div class="read tight"><p>A <b>Elevidys</b> (Sarepta), a terapia gênica-estrela da DMD, está <b>em crise</b> (mortes por falência hepática, tarja preta, uso restrito). Há também os "exon-skippers" e o givinostat (Duvyzat), que atacam o <b>músculo esquelético</b>. O deramiocel é o <b>único focado no coração</b>, é a diferenciação dele. O problema: foi justamente a alegação cardíaca que o comitê do FDA rejeitou.</p></div>
-      <div class="dchart"><h4>Preço (US$): passe o mouse; escolha duas datas abaixo pra ver o retorno entre elas. <span class="accq">−65% no ano; foi de ~US$3 a US$40 e voltou pra ~US$9</span></h4>
-        <div class="wchart" id="dc-CAPR"></div><div class="wann" id="da-CAPR"></div></div>
-      <h4>Marcos (bons e ruins)</h4>
-      <div class="mstones">
-        <div class="mst"><span class="mdate">2022</span><span><b>[+]</b> HOPE-2 (Fase 2) publicado na Lancet; acordo comercial com a Nippon Shinyaku.</span></div>
-        <div class="mst"><span class="mdate">set/2024</span><span><b>[+]</b> Reunião pré-BLA positiva + dados de 3 anos do HOPE-2; ação quase triplica.</span></div>
-        <div class="mst"><span class="mdate">jul/2025</span><span><b>[–]</b> CRL: FDA aponta falta de evidência de eficácia + fabricação.</span></div>
-        <div class="mst"><span class="mdate">dez/2025</span><span><b>[+]</b> HOPE-3 (Fase 3) dá positivo no topline; ação +370% no dia.</span></div>
-        <div class="mst"><span class="mdate">jul/2026</span><span><b>[–]</b> FDA questiona a estatística do HOPE-3; comitê vota 9-3 contra; ação −64%.</span></div>
-        <div class="mst"><span class="mdate">nov/2026</span><span><b>[ ? ]</b> Decisão final do FDA (PDUFA) em 22/nov, o evento que define tudo.</span></div>
-      </div>
-      <h4>Riscos</h4>
-      <div class="read tight"><ul class="f"><li><b>Risco binário total</b> na decisão de 22/nov/2026, depois de um comitê votar contra.</li><li>O FDA questionou a <b>integridade da estatística</b> do estudo, não só o tamanho do efeito.</li><li><b>Ativo único</b>; a plataforma de exossomo está em pausa.</li><li>Processo contra a própria parceira e <b>ações de acionistas</b> em cima.</li></ul></div>
-      <div class="grid2">
-        <div class="bb bull"><b>A favor:</b> mira uma doença fatal com alta necessidade, o dado de função de braço é o mais forte, e ao estreitar o pedido ainda pode arrancar uma aprovação em 22/nov, com ~US$540 mi de valor e ~US$238 mi de caixa, e uma aprovação destrava a ação com força.</div>
-        <div class="bb bear"><b>Contra:</b> comitê votou 9-3 contra, FDA questionou a integridade do dado, a empresa processa a própria parceira e é uma micro-cap queimando caixa com processos em cima. Uma 2ª rejeição seria quase existencial. É aposta binária, não posição de núcleo.</div>
-      </div>
-      <div class="refs"><b>Fontes:</b> Capricor (releases e resultados), FDA (AdCom e CRL), AJMC, STAT, pharmaphorum; preço e liquidez Yahoo Finance.</div>
-    </div>
-  </section>
-  <section><div class="sec-h"><span class="sec-n">C</span><h2>Catalisadores nos próximos meses</h2></div>
+<section><div class="sec-h"><span class="sec-n">C</span><h2>Catalisadores nos próximos meses</h2></div>
     <div class="wgrid">${watch.map(w=>`
       <div class="wcard"><div class="chead"><div><span class="tk">${w.tk}</span> <span class="nm">${esc(w.nm)}</span></div><div class="step ${w.ytd>=0?'up':'down'}" style="font-size:14px">${w.ytd>0?"+":""}${w.ytd}%<span style="font-size:9px;color:var(--muted)"> YTD</span></div></div>
       <div class="ctags"><span class="tag">${w.stage}</span><span class="tag">${esc(w.sector)}</span><span class="tag">XBI ${w.xbi_wt}%</span></div>
@@ -773,6 +675,120 @@ function renderStock(){
   .pdclr{font-size:10px;padding:2px 8px;border:1px solid var(--border);border-radius:4px;background:var(--surface);color:var(--ink-2);cursor:pointer}
   .wc2{color:var(--muted)}
   </style>`;
+  document.getElementById("stock-vrtx").innerHTML=`
+      <div style="font-family:var(--mono);font-size:11px;color:var(--muted);margin:2px 0 6px;text-align:right">Análise de setembro de 2026</div>
+      <div class="card deep">
+      <div class="dhead"><div><span class="tk">VRTX</span> <span class="dnm">Vertex Pharmaceuticals</span></div><span class="dtag up">Large-cap · lucrativa</span></div>
+      <div class="dkpis"><span class="kpi"><span class="v">~US$558</span><span class="l">preço</span></span><span class="kpi"><span class="v">~US$140 bi</span><span class="l">valor de mercado</span></span><span class="kpi"><span class="v">US$12,0 bi</span><span class="l">receita 2025</span></span><span class="kpi"><span class="v">~32x</span><span class="l">P/E</span></span><span class="kpi"><span class="v">~US$700 mi/dia</span><span class="l">liquidez</span></span><span class="kpi"><span class="v">+20,5%</span><span class="l">no ano</span></span></div>
+      <div class="read tight"><p><b>O que faz:</b> uma biotech grande e <b>muito lucrativa</b> (a maioria queima caixa por anos). Construiu um <b>quase-monopólio em fibrose cística</b> e usa esse caixa pra se diversificar em edição gênica, dor sem opioide, doença renal e diabetes tipo 1.</p></div>
+      <div class="jarg"><b>Fibrose cística:</b> doença genética em que um "canal de sal" defeituoso (a proteína CFTR) deixa o muco grosso e pegajoso, entupindo o pulmão (infecções de repetição) e o pâncreas (má digestão). Era fatal na infância; os remédios da Vertex corrigem a proteína e levaram a expectativa de vida de ~30 para ~68 anos. Atinge ~100 mil pessoas no mundo.</div>
+      <h4>No mercado hoje</h4>
+      <div class="read tight"><p>Sete remédios: a linha de <b>fibrose cística</b> (Kalydeco, Orkambi, Symdeko, o campeão <b>Trikafta</b> e o novo <b>Alyftrek</b>, de 1x/dia); o <b>Casgevy</b> (edição gênica pra anemia falciforme e beta-talassemia); e o <b>Journavx</b> (dor aguda não-opioide).</p>
+        <p><b>Quão bem funcionam:</b> o Trikafta melhora a função pulmonar em ~<b>+14 pontos</b>, derruba o sal no suor em ~42 (quase ao normal) e corta as crises pulmonares em ~<b>60-75%</b>. O Alyftrek empata com o Trikafta e ainda é 1x/dia.</p></div>
+      <div class="jarg"><b>Edição gênica CRISPR (Casgevy):</b> uma "tesoura molecular" que corta e reprograma o DNA das próprias células do paciente, fora do corpo, pra religar a produção de sangue saudável; depois reinfunde. É feita <b>uma vez só</b> (~US$2,2 mi) e tem potencial de cura.<br><b>Não-opioide (Journavx):</b> alivia a dor bloqueando um canal de sódio no nervo (NaV1.8), sem mexer nos receptores de opioide do cérebro, então <b>não vicia</b>, o grande problema dos analgésicos fortes.</div>
+      <h4>A empresa em números</h4>
+      <table class="fin"><tr><td>Receita 2025</td><td>US$ 12,0 bi (+9%)</td></tr><tr><td>Margem bruta (produto)</td><td>~88%</td></tr><tr><td>Margem operacional</td><td>~39%</td></tr><tr><td>Lucro líquido 2025</td><td>US$ 3,95 bi</td></tr><tr><td>Lucro por ação (LPA)</td><td>US$ 15,32</td></tr><tr><td>P/E (12m)</td><td>~32x</td></tr><tr><td>Liquidez</td><td>~US$ 700 mi/dia</td></tr><tr><td>Receita recorrente</td><td>~93% (fibrose cística, uso contínuo)</td></tr></table>
+      <h4>Pipeline (as apostas novas)</h4>
+      <div class="pipe"><b>Casgevy</b>: no mercado. ~35 mil pacientes elegíveis (EUA+Europa). A receita <b>deve ~triplicar em 2026</b>: mais centros de tratamento ativados, o rótulo foi ampliado pra crianças de 2+ anos (jul/2026) e a fila de pacientes que começaram o processo em 2025 está finalmente virando infusão (é uma terapia lenta e complexa).</div>
+      <div class="pipe"><b>Journavx</b>: no mercado (dor aguda). A aposta grande é a <b>dor crônica</b>. Relação com a neuropatia diabética: o remédio bloqueia o canal NaV1.8, que carrega o sinal de dor pelo nervo, então faz sentido testá-lo em dores de origem nervosa. Depois que a <b>Fase 2 de ciática decepcionou</b> (o remédio melhorou os pacientes, mas o placebo melhorou quase igual, ou seja, não provou que o ganho veio dele), a Vertex <b>pivotou</b>: focou na neuropatia diabética (onde o dado foi melhor) e na dor aguda (que aprovou), pra não apostar tudo na ciática. Fase 3 de neuropatia diabética com dado ~2027.</div>
+      <div class="pipe"><b>Inaxaplin</b>: doença renal genética (APOL1). Fase 3, dado interino no início de 2027; seria o 1º remédio da doença, sem concorrente aprovado; ~100 mil pacientes.</div>
+      <div class="pipe"><b>Zimislecel</b>: terapia celular que quer "curar" o diabetes tipo 1. Fase 3, submissão em 2026. Nos estudos iniciais (Fase 1/2) o resultado foi forte: <b>12 de 12 pacientes na dose cheia ficaram sem precisar de insulina em 1 ano</b>, com açúcar no sangue controlado (HbA1c &lt;7%, &gt;70% do tempo na faixa) e fim das quedas graves de glicose. O porém: ainda exige remédios de imunossupressão.</div>
+      <div class="pipe"><b>Povetacicept</b>: doença renal (nefropatia por IgA), veio da compra da Alpine (US$4,9 bi). A <b>Fase 3 (RAINIER) deu positivo</b>: bateu o objetivo principal e todos os secundários, com <b>−49,8% de proteína na urina</b> vs placebo (a Fase 2 também tinha sido positiva). Decisão do FDA em 30/nov/2026. Ressalva: o mercado de nefropatia por IgA <b>ficou concorrido</b> (vários remédios novos, como o iptacopan da Novartis), então não é campo livre.</div>
+      <h4>Concorrência: alguém tentando entrar?</h4>
+      <div class="read tight"><p>Na <b>fibrose cística</b>, sim, mas todos tropeçaram: a <b>Sionna</b> falhou na Fase 2 (ago/2026), a <b>Moderna</b> (mRNA inalado, numa parceria com a própria Vertex) foi descontinuada, e a <b>AbbVie</b> desistiu do setor. Na <b>anemia falciforme</b> divide com a Lyfgenia (bluebird), com Beam e Editas anos atrás. Em <b>dor não-opioide</b> é a 1ª da classe, sem concorrente direto aprovado. Em <b>diabetes tipo 1</b>, a Sana persegue, mas está atrás. <b style="color:var(--accent)">Resumo: é a melhor posicionada em quase tudo que toca.</b></p></div>
+      <div class="dchart"><h4>Preço (US$): passe o mouse pra ver data e variação; escolha duas datas abaixo pra ver o retorno entre elas. <span class="accq">+149% desde 2019 · +20,5% no ano</span></h4>
+        <div class="wchart" id="dc-VRTX"></div><div class="wann" id="da-VRTX"></div></div>
+      <h4>Marcos (bons e ruins)</h4>
+      <div class="mstones">
+        <div class="mst"><span class="mdate">out/2019</span><span><b>[+]</b> Trikafta aprovado: destrava ~90% dos pacientes de FC e puxa anos de alta na ação.</span></div>
+        <div class="mst"><span class="mdate">dez/2023</span><span><b>[+]</b> Casgevy, a 1ª terapia de edição gênica CRISPR aprovada no mundo.</span></div>
+        <div class="mst"><span class="mdate">dez/2024</span><span><b>[–]</b> Fase 2 de ciática do Journavx decepciona (−12%). O Alyftrek foi aprovado no dia seguinte, mas quase não moveu a ação por vir junto com a má notícia.</span></div>
+        <div class="mst"><span class="mdate">jan/2025</span><span><b>[+]</b> Journavx aprovado, 1º analgésico não-opioide de uma classe nova em 20+ anos.</span></div>
+        <div class="mst"><span class="mdate">ago/2026</span><span><b>[+]</b> A rival Sionna falha na FC; a ameaça some e a VRTX bate máxima histórica.</span></div>
+      </div>
+      <h4>Riscos</h4>
+      <div class="read tight"><ul class="f"><li>~93% da receita ainda vem de <b>uma doença só</b> (fibrose cística).</li><li>A maior aposta de crescimento, <b>dor crônica</b>, já tropeçou uma vez e só tem dado decisivo em ~2027.</li><li><b>Preço e política de saúde:</b> o Casgevy custa ~US$2,2 mi por paciente e os remédios de FC também são caríssimos; isso atrai pressão de governos e planos de saúde (nos EUA há debate político sobre preço de remédio), e um corte de preço mexeria direto na receita.</li><li>Patente da FC começa a expirar por volta de ~2037.</li></ul></div>
+      <div class="grid2">
+        <div class="bb bull"><b>A favor:</b> monopólio lucrativo e protegido gerando ~US$12 bi e crescendo dois dígitos, com quatro franquias novas que podem virar blockbusters, e o rival da FC acabou de fracassar.</div>
+        <div class="bb bear"><b>Contra:</b> ~US$140 bi (múltiplo alto) por uma empresa ainda ~95% dependente da FC; a diversificação é pequena perto do preço e a dor crônica ainda não se provou.</div>
+      </div>
+      <div class="refs"><b>Fontes:</b> Vertex (resultados e releases), FDA, stockanalysis, STAT, BioPharma Dive; preço e liquidez Yahoo Finance.</div>
+    </div>`;
+  document.getElementById("stock-meso").innerHTML=`
+      <div style="font-family:var(--mono);font-size:11px;color:var(--muted);margin:2px 0 6px;text-align:right">Análise de setembro de 2026</div>
+      <div class="card deep">
+      <div class="dhead"><div><span class="tk">MESO</span> <span class="dnm">Mesoblast</span></div><span class="dtag">Small-cap · recém-comercial</span></div>
+      <div class="dkpis"><span class="kpi"><span class="v">~US$17</span><span class="l">preço (ADS)</span></span><span class="kpi"><span class="v">~US$2,2 bi</span><span class="l">valor de mercado</span></span><span class="kpi"><span class="v">US$120 mi</span><span class="l">receita FY26</span></span><span class="kpi"><span class="v">~US$103 mi</span><span class="l">caixa</span></span><span class="kpi"><span class="v">~US$4 mi/dia</span><span class="l">liquidez (linha EUA)</span></span><span class="kpi"><span class="v">−5%</span><span class="l">no ano</span></span></div>
+      <div class="read tight"><p><b>O que faz:</b> pega células de doador saudável, multiplica em laboratório e transforma numa <b>"terapia de prateleira"</b>: doses padronizadas, congeladas, prontas pra usar em qualquer paciente. Acabou de lançar seu primeiro produto e teve a primeira receita de verdade em 2026.</p></div>
+      <div class="jarg"><b>Células mesenquimais (MSC):</b> um tipo de célula da medula óssea de um doador que <b>não vira tecido novo</b>: ela age como um "apagador de incêndio" do sistema imune, soltando substâncias que reduzem a inflamação. Como vêm de um doador e são multiplicadas em milhares de doses iguais, chamam de <b>"alogênica" ou "de prateleira"</b> (o contrário do CAR-T, que é fabricado do zero pra cada paciente, célula por célula).<br><b>GvHD (doença do enxerto contra o hospedeiro):</b> quem faz transplante de medula (pra curar leucemia, por exemplo) recebe células de defesa de um doador. Às vezes essas células novas "leem" o corpo do paciente como inimigo e o <b>atacam</b>: pele, intestino, fígado. É a GvHD. "Aguda e refratária a corticoide" = a versão grave que não melhorou com o 1º remédio (corticoide); em crianças, mata mais da metade.</div>
+      <h4>No mercado hoje</h4>
+      <div class="read tight"><p>Um produto: o <b>Ryoncil</b>, aprovado em dez/2024 pra GvHD aguda refratária a corticoide em crianças. É a <b>1ª terapia MSC alogênica aprovada pelo FDA</b> (o fim de ~20 anos sem nenhuma da classe passar).</p>
+        <p><b>Quão bem funciona:</b> no estudo, <b>70% das crianças responderam</b> em 28 dias (30% resposta completa, 41% parcial) e a <b>sobrevida em 6 meses foi ~69%</b> (sobrevida = a fração de pacientes que segue viva depois de um período; aqui, quantas crianças continuavam vivas 6 meses após o tratamento), num quadro que antes era quase sem saída.</p>
+        <p><b>Por que custa tanto:</b> o tratamento completo são <b>8 infusões</b> (2 por semana, durante 4 semanas), e cada infusão custa US$194 mil, então o <b>curso todo passa de US$1,5 milhão</b> por criança.</p></div>
+      <div class="jarg"><b>Curioso: foi rejeitada 2 vezes e mesmo assim aprovada.</b> O FDA deu dois "não" (CRL em 2020 e 2023) antes do "sim" em dez/2024. O que virou a chave: em mar/2024 o FDA concluiu que os dados da Fase 3 que <b>já existiam bastavam</b>: a empresa reenviou com mais tempo de acompanhamento e corrigiu as pendências de fabricação que o FDA apontava. Foi persistência + resolver o lado técnico, não um estudo novo. (A crítica de sempre: a Fase 3 era de <b>braço único</b>, sem grupo placebo pra comparar.)</div>
+      <h4>A empresa em números</h4>
+      <table class="fin"><tr><td>Receita FY26 (1º ano)</td><td>US$ 120 mi (Ryoncil ~US$115 mi)</td></tr><tr><td>Margem bruta</td><td>~93%</td></tr><tr><td>Prejuízo líquido</td><td>US$ 57,5 mi (melhorou 44%)</td></tr><tr><td>Queima de caixa (ano)</td><td>~US$ 44 mi</td></tr><tr><td>Caixa</td><td>~US$ 103 mi</td></tr><tr><td>Liquidez (linha EUA)</td><td>~US$ 4 mi/dia</td></tr><tr><td>Lucro previsto</td><td>FY2027 (guidance da empresa)</td></tr></table>
+      <h4>Pipeline</h4>
+      <div class="pipe"><b>Ryoncil em adultos</b>: mercado <b>3-4x maior</b> que o pediátrico; ensaio pivotal em parceria com o NIH (o <b>NIH</b> é a agência de pesquisa em saúde do governo dos EUA, que financia e conduz estudos).</div>
+      <div class="pipe"><b>Revascor</b> (coração): a Fase 3 mostrou ~60% menos infarto/AVC em pacientes de alto risco. Recebeu o número de BLA em jul/2026 e pediu uma revisão "modular" pro sangramento em pacientes com coração-artificial (LVAD), mas <b>ainda sem data de decisão (PDUFA) marcada</b>. Não aprovado.</div>
+      <div class="pipe"><b>Dor lombar crônica</b>: na Fase 2, os pacientes tratados foram <b>&gt;3x mais propensos a largar opioides</b> em 3 anos; a Fase 3 confirmatória terminou o tratamento em ago/2026, resultado em 2027.</div>
+      <h4>Concorrência</h4>
+      <div class="read tight"><p>No <b>GvHD pediátrico refratário, o Ryoncil é a única aprovada pra crianças abaixo de 12 anos</b> (o ruxolitinib/Jakafi só vale a partir de 12), então é best-in-class por ser a única no nicho. Já no <b>coração e na dor lombar</b>, a terapia com MSC ainda é <b>contestada</b> (vários estudos de célula no coração decepcionaram no passado), então o pipeline vale como opcionalidade, não certeza.</p></div>
+      <div class="dchart"><h4>Preço (US$, ADS ajustado): passe o mouse; escolha duas datas abaixo pra ver o retorno entre elas. <span class="accq">−5% no ano · desde 2020 ~−20% (mas bateu ~US$1,8 em 2024 e subiu ~10x de lá)</span></h4>
+        <div class="wchart" id="dc-MESO"></div><div class="wann" id="da-MESO"></div></div>
+      <h4>Marcos (bons e ruins)</h4>
+      <div class="mstones">
+        <div class="mst"><span class="mdate">ago/2020</span><span><b>[+]</b> Comitê do FDA vota 9-1 que os dados da Fase 3 (o estudo pivotal, de braço único) sustentam a eficácia.</span></div>
+        <div class="mst"><span class="mdate">2020 e 2023</span><span><b>[–]</b> Dois CRLs (rejeições) do FDA antes de aprovar.</span></div>
+        <div class="mst"><span class="mdate">mar/2024</span><span><b>[+]</b> FDA sinaliza que os dados existentes bastam pra reenviar; a ação dispara.</span></div>
+        <div class="mst"><span class="mdate">dez/2024</span><span><b>[+]</b> Ryoncil aprovado, a 1ª terapia MSC alogênica do FDA.</span></div>
+        <div class="mst"><span class="mdate">ago/2026</span><span><b>[+]</b> FY26: US$120 mi de receita, US$115 mi só de Ryoncil no 1º ano.</span></div>
+      </div>
+      <div class="jarg">Curioso: a <b>aprovação em si quase não moveu a ação</b> (subiu ~40% no after-hours e parou). O mercado já dava a aprovação como certa (a ação vinha subindo forte antes, na expectativa), a empresa <b>diluiu muito</b> pra se financiar no caminho, e o público pediátrico é pequeno. A alta grande veio <b>antes</b>, na aposta de que passaria.</div>
+      <h4>Riscos</h4>
+      <div class="read tight"><ul class="f"><li>Histórico de <b>diluição</b> pra se financiar (e um grouping de ações em 2024).</li><li>Depende de <b>um produto só</b>, num público pequeno (doença rara).</li><li>Reembolso de um curso &gt;US$1,5 mi precisa continuar aceito pelos planos.</li><li>Histórico de <b>rejeições</b> do FDA; o pipeline (coração, dor) pode não passar.</li></ul></div>
+      <div class="grid2">
+        <div class="bb bull"><b>A favor:</b> destravou o FDA com a 1ª MSC alogênica, receita crescendo rápido e de alta margem (US$115 mi no 1º ano, acima do esperado), queima caindo e opções grandes (GvHD adulto, coração, dor lombar).</div>
+        <div class="bb bear"><b>Contra:</b> small-cap volátil apoiada num único produto de público limitado, com histórico de diluição e rejeições, e valuation (~US$2,2 bi sobre ~US$120 mi de receita) que já embute sucesso do pipeline.</div>
+      </div>
+      <div class="refs"><b>Fontes:</b> Mesoblast (resultados FY26 e releases), FDA, GlobeNewswire, stockanalysis; preço e liquidez Yahoo Finance (ajustado ao grouping de jan/2024).</div>
+    </div>`;
+  document.getElementById("stock-capr").innerHTML=`
+      <div style="font-family:var(--mono);font-size:11px;color:var(--muted);margin:2px 0 6px;text-align:right">Análise de setembro de 2026</div>
+      <div class="card deep">
+      <div class="dhead"><div><span class="tk">CAPR</span> <span class="dnm">Capricor Therapeutics</span></div><span class="dtag down">Micro-cap · aposta binária de FDA</span></div>
+      <div class="dkpis"><span class="kpi"><span class="v">~US$9</span><span class="l">preço</span></span><span class="kpi"><span class="v">~US$540 mi</span><span class="l">valor de mercado</span></span><span class="kpi"><span class="v">~US$238 mi</span><span class="l">caixa</span></span><span class="kpi"><span class="v">~US$100 mi/dia</span><span class="l">liquidez</span></span><span class="kpi"><span class="v">−65%</span><span class="l">no ano</span></span><span class="kpi"><span class="v">sem receita</span><span class="l">fase clínica</span></span></div>
+      <div class="read tight"><p><b>O que faz:</b> terapias de célula e exossomo. Tudo depende de um único remédio, o <b>deramiocel</b>, e de uma decisão do FDA marcada pra <b>22/nov/2026</b>.</p></div>
+      <div class="jarg"><b>DMD (distrofia muscular de Duchenne):</b> doença genética que quase só afeta meninos; falta uma proteína (a distrofina) que protege o músculo, então o músculo vai se desfazendo. Eles param de andar na adolescência e, como <b>o coração também é músculo</b>, costumam morrer de insuficiência cardíaca.<br><b>O deramiocel, e como protege o coração:</b> são <b>células tiradas de coração de doador</b>, dadas na veia. Elas não viram músculo novo, soltam substâncias (inclusive exossomos) que <b>reduzem a inflamação e a formação de cicatriz (fibrose)</b> no músculo cardíaco. A ideia é <b>frear a deterioração</b> do coração, não reconstruí-lo.</div>
+      <h4>A eficácia e a montanha-russa do FDA</h4>
+      <div class="read tight"><p>Nos estudos <b>HOPE-2 (Fase 2)</b> e <b>HOPE-3 (Fase 3)</b>: "HOPE" é só o nome do programa; o 2 e o 3 são as fases, o deramiocel mostrou benefício principalmente na <b>função do braço</b>, medida por uma escala chamada <b>PUL</b> (Performance of Upper Limb: uma nota pra tarefas de braço e mão, tipo levantar e alcançar). Deu <b>p=0,021</b>: o "p" é a chance de o resultado ter sido sorte; abaixo de 0,05 conta como estatisticamente significativo, então 0,021 quer dizer "provavelmente é efeito real, não acaso".</p>
+        <p><b>Por que só o braço, se o alvo era o coração?</b> Porque foi no braço que o dado ficou forte e consistente. No <b>coração</b> (o alvo original), os números pareciam bons, mas o FDA achou a evidência frágil e, pior, <b>questionou mudanças feitas na conta estatística perto do fim do estudo</b>, o que derrubou a confiança no resultado cardíaco. Resultado: o comitê do FDA votou <b>9-3 contra</b> a alegação de coração, e a empresa recuou pra pedir aprovação só onde o dado se sustenta: o braço.</p></div>
+      <h4>A briga com a Nippon Shinyaku (a parceira)</h4>
+      <div class="read tight"><p>Em 2022 a Capricor deu à <b>Nippon Shinyaku</b> a distribuição exclusiva nos EUA: US$30 mi de entrada, até US$705 mi em marcos (US$80 mi na aprovação) e 30-50% da receita pra Capricor. Em <b>mai/2026 a Capricor processou a própria parceira</b>, alegando uma <b>"falha de preço"</b>: do jeito que o contrato define o preço, o <b>Medicare reembolsaria os hospitais menos do que custa comprar e aplicar a droga</b>, ou seja, o hospital <b>perderia dinheiro em cada paciente</b>, inviabilizando o lançamento. A Capricor quer <b>rescindir o acordo</b> e vender por conta própria. Em set/2026 a Justiça mandou o caso pra <b>arbitragem</b> (a Capricor perdeu essa rodada). Fica em aberto e ameaça os US$80 mi da aprovação e a rota de venda.</p></div>
+      <h4>A empresa em números</h4>
+      <table class="fin"><tr><td>Caixa</td><td>~US$ 238 mi</td></tr><tr><td>Receita</td><td>nenhuma (pré-aprovação)</td></tr><tr><td>Prejuízo (trimestre)</td><td>~US$ 41 mi</td></tr><tr><td>Queima (semestre)</td><td>~US$ 80 mi</td></tr><tr><td>Ações</td><td>~58 mi</td></tr><tr><td>Liquidez</td><td>~US$ 100 mi/dia (alta pra micro-cap, movida a evento)</td></tr><tr><td>Fôlego de caixa</td><td>até ~2027-2028</td></tr></table>
+      <h4>Concorrência (DMD em 2026)</h4>
+      <div class="read tight"><p>A <b>Elevidys</b> (Sarepta), a terapia gênica-estrela da DMD, está <b>em crise</b> (mortes por falência hepática, tarja preta, uso restrito). Há também os "exon-skippers" e o givinostat (Duvyzat), que atacam o <b>músculo esquelético</b>. O deramiocel é o <b>único focado no coração</b>, é a diferenciação dele. O problema: foi justamente a alegação cardíaca que o comitê do FDA rejeitou.</p></div>
+      <div class="dchart"><h4>Preço (US$): passe o mouse; escolha duas datas abaixo pra ver o retorno entre elas. <span class="accq">−65% no ano; foi de ~US$3 a US$40 e voltou pra ~US$9</span></h4>
+        <div class="wchart" id="dc-CAPR"></div><div class="wann" id="da-CAPR"></div></div>
+      <h4>Marcos (bons e ruins)</h4>
+      <div class="mstones">
+        <div class="mst"><span class="mdate">2022</span><span><b>[+]</b> HOPE-2 (Fase 2) publicado na Lancet; acordo comercial com a Nippon Shinyaku.</span></div>
+        <div class="mst"><span class="mdate">set/2024</span><span><b>[+]</b> Reunião pré-BLA positiva + dados de 3 anos do HOPE-2; ação quase triplica.</span></div>
+        <div class="mst"><span class="mdate">jul/2025</span><span><b>[–]</b> CRL: FDA aponta falta de evidência de eficácia + fabricação.</span></div>
+        <div class="mst"><span class="mdate">dez/2025</span><span><b>[+]</b> HOPE-3 (Fase 3) dá positivo no topline; ação +370% no dia.</span></div>
+        <div class="mst"><span class="mdate">jul/2026</span><span><b>[–]</b> FDA questiona a estatística do HOPE-3; comitê vota 9-3 contra; ação −64%.</span></div>
+        <div class="mst"><span class="mdate">nov/2026</span><span><b>[ ? ]</b> Decisão final do FDA (PDUFA) em 22/nov, o evento que define tudo.</span></div>
+      </div>
+      <h4>Riscos</h4>
+      <div class="read tight"><ul class="f"><li><b>Risco binário total</b> na decisão de 22/nov/2026, depois de um comitê votar contra.</li><li>O FDA questionou a <b>integridade da estatística</b> do estudo, não só o tamanho do efeito.</li><li><b>Ativo único</b>; a plataforma de exossomo está em pausa.</li><li>Processo contra a própria parceira e <b>ações de acionistas</b> em cima.</li></ul></div>
+      <div class="grid2">
+        <div class="bb bull"><b>A favor:</b> mira uma doença fatal com alta necessidade, o dado de função de braço é o mais forte, e ao estreitar o pedido ainda pode arrancar uma aprovação em 22/nov, com ~US$540 mi de valor e ~US$238 mi de caixa, e uma aprovação destrava a ação com força.</div>
+        <div class="bb bear"><b>Contra:</b> comitê votou 9-3 contra, FDA questionou a integridade do dado, a empresa processa a própria parceira e é uma micro-cap queimando caixa com processos em cima. Uma 2ª rejeição seria quase existencial. É aposta binária, não posição de núcleo.</div>
+      </div>
+      <div class="refs"><b>Fontes:</b> Capricor (releases e resultados), FDA (AdCom e CRL), AJMC, STAT, pharmaphorum; preço e liquidez Yahoo Finance.</div>
+    </div>`;
+
   // wire interactive charts + annotations
   watch.forEach(w=>{
     const host=document.getElementById("wc-"+w.tk);
@@ -1383,7 +1399,7 @@ function renderCel(){
 }
 
 /* ===== tabs ===== */
-const RMAP={hip:renderHip,mercado:renderMkt,celulas:renderCel,xbi:renderXBI,macroteses:renderMacro,hangetf:renderHangETF,hangmkt:renderHangMkt,stock:renderStock,obesidade:renderObes,vac:renderVac};
+const RMAP={hip:renderHip,mercado:renderMkt,celulas:renderCel,xbi:renderXBI,macroteses:renderMacro,hangetf:renderHangETF,hangmkt:renderHangMkt,sdegraus:renderStock,obesidade:renderObes,vac:renderVac};
 const done={};
 function render(id){if(!done[id]&&RMAP[id]){RMAP[id]();done[id]=true;}}
 function activateSub(s){const sp=document.getElementById("sp-"+s);if(!sp)return;const par=sp.closest(".panel");par.querySelectorAll(".subpanel").forEach(x=>x.classList.remove("active"));sp.classList.add("active");par.querySelectorAll(".subtab").forEach(b=>b.setAttribute("aria-selected",b.dataset.s===s));render(s);window.scrollTo({top:0,behavior:"smooth"});}
