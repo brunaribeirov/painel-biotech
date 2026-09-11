@@ -1237,25 +1237,47 @@ function renderHangETF(){
   </section>`;
 }
 function renderHangMkt(){
+  const YR=y=>Date.UTC(y,0,1)/1000;
+  const RD=[
+    {name:"China",col:"var(--accent)",data:[[YR(2000),30],[YR(2008),180],[YR(2012),310],[YR(2016),450],[YR(2020),610],[YR(2024),1028]]},
+    {name:"EUA",col:"var(--ink)",data:[[YR(2000),267],[YR(2008),405],[YR(2012),430],[YR(2016),560],[YR(2020),730],[YR(2024),1009]]}
+  ];
   document.getElementById("hangseng-mkt").innerHTML=`
-  <p class="intro">A tese de fundo por trás do ETF: por que a biotech chinesa virou a fábrica de pipeline do Ocidente, o out-licensing que move tudo, e como um investidor pode se expor a essa onda.</p>
-  <section><div class="sec-h"><span class="sec-n">01</span><h2>O ano de 2025</h2></div>
+  <p class="intro">A tese de fundo por trás do ETF: por que a China virou uma potência em remédios, o out-licensing que move tudo, e como um investidor pode se expor a essa onda.</p>
+  <section><div class="sec-h"><span class="sec-n">01</span><h2>Por que a China virou potência em biofarma</h2></div>
+    <div class="read tight"><p>Em uma geração, a China saiu de <b>copiadora de genéricos</b> para uma das maiores fontes de inovação em remédios do mundo. Três forças explicam: <b>dinheiro</b> (o gasto em P&amp;D explodiu), <b>custo</b> (desenvolver é bem mais barato lá) e <b>escala clínica</b> (muito mais pacientes e ensaios). Foi essa base que tornou o out-licensing possível.</p></div>
+    <div class="card"><h3>A China ultrapassou os EUA em gasto com P&amp;D</h3><p class="cap"><b style="color:var(--accent)">▬ China</b> vs <b style="color:var(--ink)">▬ EUA</b> · gasto interno bruto em P&amp;D, US$ bi ajustado por PPP · 2000 a 2024</p>
+      ${multiLine(RD,{startTs:YR(2000)})}
+      <div class="read tight" style="margin-top:6px"><p>Em 2024 a China gastou <b>US$ 1,028 tri</b> em P&amp;D contra <b>US$ 1,009 tri</b> dos EUA, ultrapassando pela primeira vez. Não é só biofarma (é P&amp;D total), mas mostra a máquina de inovação por trás do setor.</p></div>
+      <div class="refs"><b>Fontes:</b> SwissInfo / OCDE (gasto em P&amp;D, PPP). Pontos intermediários aproximados a partir do gráfico original.</div></div>
+    <div class="card"><h3>Barato de desenvolver, e cada vez mais produtivo</h3>
+      <div style="display:flex;gap:10px;margin:2px 0 8px;flex-wrap:wrap">
+        <div style="flex:1;min-width:130px;text-align:center;background:var(--bg);border-radius:9px;padding:9px"><span style="font-family:var(--mono);font-size:19px;font-weight:600;color:var(--up)">−40%</span><br><span class="accq">custo de ensaios clínicos vs EUA/UE</span></div>
+        <div style="flex:1;min-width:130px;text-align:center;background:var(--bg);border-radius:9px;padding:9px"><span style="font-family:var(--mono);font-size:19px;font-weight:600;color:var(--accent-ink)">+200%</span><br><span class="accq">ensaios first-in-class 2019-2024</span></div>
+        <div style="flex:1;min-width:130px;text-align:center;background:var(--bg);border-radius:9px;padding:9px"><span style="font-family:var(--mono);font-size:19px;font-weight:600">31%</span><br><span class="accq">do pipeline global de remédios (2026)</span></div>
+      </div>
+      <p class="cap" style="margin:2px 0 2px">crescimento dos ensaios de remédios first-in-class (inéditos) por região, 2019 a 2024</p>
+      ${bars({"China":200,"EUA":45,"UE":14,"Japão":9},{highlight:["China"],hl:"var(--accent)",fmt:v=>"+"+v+"%"})}
+      <div class="read tight" style="margin-top:6px"><p>Rodar um ensaio clínico na China custa até <b>40% menos</b> que nos EUA ou na Europa, e os ensaios de remédios <b>inéditos</b> cresceram <b>+200%</b> de 2019 a 2024, muito acima dos EUA (+45%). Hoje a China responde por <b>~31% do pipeline global</b> (7.141 dos 22.940 remédios em desenvolvimento em 2026), só atrás dos EUA (51%), e já é <b>mais de um terço</b> do pipeline de remédios first-in-class. Barato, rápido e em escala: foi isso que fez o Ocidente parar de ignorar e começar a comprar.</p></div>
+      <div class="refs"><b>Fontes:</b> Porsche Consulting ("A ascensão da China na biofarma"); Citeline/Pharmaprojects (pipeline por país, 2026).</div></div>
+  </section>
+  <section><div class="sec-h"><span class="sec-n">02</span><h2>A virada de 2025</h2></div>
     <div class="read tight"><p>2025 foi o ano em que a biotech chinesa virou a chave. O que mudou a cabeça do mercado foi o <b>out-licensing</b>: em vez de tentar vender remédio no mundo todo sozinhas, as biotechs de Hong Kong passaram a <b>licenciar seus ativos para a big pharma ocidental</b>, e vários desses ativos são bem competitivos. Foram ~US$ 137 bi em deals de licenciamento no ano. Quando esse dinheiro começou a entrar, o mercado passou a pagar bem mais caro pelo índice.</p>
       <p>No fundo, foi um encontro de interesses. A China ficou <b>muito boa, e barata, em criar remédios promissores</b>; mas o dinheiro grande está no <b>mercado americano</b>, onde elas não têm estrutura pra vender. Do outro lado, as gigantes ocidentais estão <b>correndo atrás de pipeline porque as próprias patentes estão vencendo</b> (o patent cliff). Uma tem o remédio, a outra tem onde vender e o caixa pra bancar. Foi esse encaixe que fez os deals estourarem.</p></div>
   </section>
-  <section><div class="sec-h"><span class="sec-n">02</span><h2>O mercado chinês como pipeline do Ocidente</h2></div>
-    <div class="read tight"><p>Dá para ver a virada num número só: quantas vezes por ano uma biotech chinesa <b>licenciou um ativo para uma farmacêutica ocidental</b>. Era quase nada até 2019 (menos de 10 por ano) e aumentou fortemente.</p></div>
+  <section><div class="sec-h"><span class="sec-n">03</span><h2>O mercado chinês como pipeline do Ocidente</h2></div>
+    <div class="read tight"><p>Dá para ver a virada num número só: quantos ativos por ano uma farmacêutica global <b>licenciou de uma empresa chinesa</b>. Era quase nada até 2019 e explodiu depois.</p></div>
     <div class="grid2">
-      <div class="card"><h3>Deals de licenciamento China → Ocidente, por ano</h3><p class="cap">nº de ativos chineses licenciados para farma global. A parte cheia de 2026 é o realizado (~5 meses); a tracejada é o ritmo anualizado</p>
-        ${bars({"2016":5,"2017":6,"2018":7,"2019":8,"2020":39,"2021":50,"2022":51,"2023":70,"2024":94,"2025":157,"2026":39},{highlight:["2025"],expected:{"2026":94},hl:"var(--accent)"})}
-        <div class="refs"><b>Fontes:</b> SCMP/Reuters, PharmCube, PharmExec, Clarivate. Antes de 2020, "menos de 10 por ano" (ilustrativo).</div></div>
-      <div class="card"><h3>Valor dos deals (US$ bi/ano)</h3><p class="cap">o dinheiro por trás dos deals; a parte cheia de 2026 é o realizado, a tracejada é o ritmo anualizado</p>
-        ${bars({"2020":5,"2021":14,"2022":32,"2023":35,"2024":52,"2025":138,"2026":60},{highlight:["2025"],expected:{"2026":144},hl:"var(--accent)",fmt:v=>Math.round(v)})}
-        <div class="refs"><b>Fontes:</b> Reuters, SCMP, PharmCube (valores divulgados; a definição varia por fonte).</div></div>
+      <div class="card"><h3>Nº de deals de licenciamento na China, por ano</h3><p class="cap">acordos de licenciamento assinados por farmacêuticas globais com empresas chinesas</p>
+        ${bars({"2016":10,"2017":13,"2018":18,"2019":35,"2020":74,"2021":65,"2022":74,"2023":112,"2024":130,"2025":186},{highlight:["2025"],hl:"var(--accent)"})}
+        <div class="refs"><b>Fontes:</b> biopharmaapac / DealForma (2016-2025).</div></div>
+      <div class="card"><h3>Valor potencial dos deals (US$ bi/ano)</h3><p class="cap">valor total potencial, incluindo marcos futuros (milestones)</p>
+        ${bars({"2016":0.3,"2017":3.9,"2018":1,"2019":1,"2020":9.2,"2021":13.9,"2022":27.9,"2023":43,"2024":52.9,"2025":137.7},{highlight:["2025"],hl:"var(--accent)",fmt:v=>v%1===0?v:v.toFixed(1)})}
+        <div class="refs"><b>Fontes:</b> biopharmaapac / DealForma (valor potencial, 2016-2025).</div></div>
     </div>
-    <div class="read tight"><p>De <b>menos de 10 deals por ano</b> até 2019 para <b>157 em 2025</b>, e o valor saiu de ~US$ 14 bi (2021) para <b>~US$ 138 bi em 2025</b>. A China, que era ~3 a 5% do licenciamento global em 2020, virou <b>cerca de um terço de tudo</b> em 2024 e 2025. Foi assim que ela deixou de ser coadjuvante e virou a <b>principal fonte de pipeline pronto</b> para a big pharma ocidental, o combustível por trás do rali do índice. E 2026, mesmo parcial, está no ritmo de repetir o recorde (as barras tracejadas mostram onde deve fechar).</p>
-      <p>Um detalhe sobre quem gera esses ativos: eles estão cada vez mais em <b>estágio inicial</b> (pré-clínico e Fase 1). Ou seja, a inovação vem sobretudo da <b>ponta clínica/startup</b> da China, não das grandes já comerciais, embora em 2025 tenha havido algum retorno a ativos mais maduros (Fase 2/3), que a big pharma paga mais caro por já virem de-riscados. <span class="cap">Não há um dado público limpo separando "startup vs empresa com receita" por ano, então isto é a leitura por estágio dos ativos, não uma contagem fechada.</span></p></div>
-    <div class="card"><h3>Os maiores deals de licenciamento de 2025 e 2026</h3><p class="cap">acordos-símbolo de biotechs chinesas com a big pharma ocidental; o valor "até" inclui marcos futuros (milestones), quase sempre bem maior que a entrada paga à vista</p>
+    <div class="read tight"><p>De <b>10 deals</b> em 2016 para <b>186 em 2025</b>, e o valor de ~US$ 0,3 bi para <b>~US$ 137,7 bi</b>. A China, que era ~3 a 5% do licenciamento global em 2020, virou <b>cerca de um terço de tudo</b> em 2024 e 2025, a <b>principal fonte de pipeline pronto</b> para a big pharma ocidental, o combustível por trás do rali do índice.</p>
+      <p><b>Quem licencia são mais biotechs do que big pharma, mas as grandes também entram.</b> O grosso dos ativos vem das <b>biotechs de P&amp;D</b> (Akeso, 3SBio, Kelun, RemeGen, Alphamab), que não têm estrutura pra vender lá fora e monetizam licenciando. Mas as <b>grandes farmacêuticas chinesas</b> também fazem (CSPC com a AstraZeneca, Jiangsu Hengrui com a GSK, Sino Biopharm). E os ativos estão cada vez mais em <b>estágio inicial</b> (pré-clínico e Fase 1): a inovação vem sobretudo da ponta clínica/startup. <span class="cap">Não há dado público limpo separando "startup vs empresa com receita" por ano.</span></p></div>
+    <div class="card"><h3>Os maiores deals de licenciamento de 2025 e 2026</h3><p class="cap">acordos-símbolo de empresas chinesas com a big pharma ocidental; o valor "até" inclui marcos futuros, quase sempre bem maior que a entrada paga à vista</p>
       <div style="overflow-x:auto"><table>
         <tr><th>Comprador ocidental → chinesa</th><th>Ativo</th><th>Valor até</th></tr>
         <tr><td><b>AstraZeneca</b> → CSPC</td><td>plataforma de doença crônica com IA</td><td>~US$ 18,5 bi</td></tr>
@@ -1265,32 +1287,48 @@ function renderHangMkt(){
         <tr><td><b>Pathos AI</b> → Alphamab</td><td>plataforma com IA</td><td>~US$ 2,2 bi</td></tr>
         <tr><td><b>Merck</b> → Kelun-Biotech</td><td>7 ADCs de oncologia</td><td>por ativo</td></tr>
       </table></div>
-      <div class="read tight" style="margin-top:6px"><p>Repare no padrão: os compradores são as <b>gigantes ocidentais</b> (AstraZeneca, Pfizer, AbbVie, Merck), e o que elas levam são ativos de <b>oncologia e de plataformas com IA</b> das chinesas. E o ticket médio vem subindo forte (de ~US$ 25 mi por deal em 2021 para dezenas de milhões em 2026), sinal de que o Ocidente está pagando cada vez mais caro por essa ciência.</p></div>
-      <div class="refs"><b>Fontes:</b> KraneShares, Merck, Bamboo Works, Reuters (anúncios dos deals). Valores "até" incluem milestones e variam por fonte; a entrada à vista é uma fração do total.</div></div>
-    <div class="card"><h3>E o M&amp;A? A China prefere licenciar a comprar</h3>
-      <div class="read tight"><p>Diferente dos EUA, onde as gigantes <b>compram</b> as pequenas, na China a consolidação por aquisição é <b>pontual</b>. Aquisição de peso é rara: os players preferem <b>licenciar ou fazer joint venture</b> a comprar, e o M&amp;A transfronteiriço esbarra em barreiras regulatórias (revisões de segurança nacional nos EUA, a proposta BIOSECURE, tarifas), o que empurra o dinheiro para o licenciamento. Não existe série anual pública de M&amp;A doméstico; o que dá para ver são deals avulsos.</p>
-        <p>Os casos concretos mais relevantes:</p>
+      <div class="read tight" style="margin-top:6px"><p>Repare no padrão: os compradores são as <b>gigantes ocidentais</b>, e o que levam são ativos de <b>oncologia e de plataformas com IA</b>. O ticket médio vem subindo forte (de ~US$ 25 mi por deal em 2021 para dezenas de milhões em 2026), sinal de que o Ocidente paga cada vez mais caro por essa ciência.</p></div>
+      <div class="refs"><b>Fontes:</b> KraneShares, Merck, Bamboo Works, Reuters (anúncios dos deals). Valores "até" incluem milestones e variam por fonte.</div></div>
+    <div class="card"><h3>E o M&amp;A doméstico? Fraco. A estratégia é licenciar, não comprar</h3>
+      <div class="read tight"><p>Aqui está um contraste importante com os EUA: lá as gigantes <b>compram</b> as pequenas (é o motor do XBI, a hipótese H2). Na China, <b>quase não há isso</b>. A consolidação por aquisição é <b>pontual e defensiva</b>, e o M&amp;A transfronteiriço trava em barreiras regulatórias (BIOSECURE, revisões de segurança nos EUA, tarifas). O dinheiro grande vai todo para o <b>licenciamento</b>. Não existe nem série anual pública de M&amp;A doméstico, de tão pontual que é.</p>
+        <p>Os poucos casos concretos:</p>
         <ul class="f">
-          <li><b>Sino Biopharmaceutical → LaNova Medicines</b> (jul/2025, ~US$ 0,95 bi): chinesa comprando chinesa. A Sino levou os 95% restantes da LaNova pelo portfólio de anticorpos e biespecíficos de oncologia.</li>
-          <li><b>Fosun Pharma → Henlius</b> (jun/2024, ~US$ 1,71 bi): a Fosun fechou o capital da própria Henlius (anticorpos, biossimilares, PD-1). É o maior caso doméstico.</li>
-          <li><b>Desinvestimento de maduros:</b> multinacionais vendendo linhas antigas para locais. A UCB vendeu seu portfólio de neurologia e alergia na China (Keppra, Vimpat, Zyrtec) a um consórcio chinês e do Golfo por ~US$ 680 mi (fim/2024).</li>
+          <li><b>Sino Biopharmaceutical → LaNova Medicines</b> (jul/2025, ~US$ 0,95 bi): chinesa comprando chinesa, o portfólio de oncologia da LaNova.</li>
+          <li><b>Fosun Pharma → Henlius</b> (jun/2024, ~US$ 1,71 bi): a Fosun fechou o capital da própria Henlius. É o maior caso doméstico.</li>
+          <li><b>Desinvestimento de maduros:</b> a UCB vendeu seu portfólio de neurologia e alergia na China (Keppra, Vimpat, Zyrtec) a um consórcio chinês e do Golfo por ~US$ 680 mi (fim/2024).</li>
         </ul>
-        <p>Ou seja: o M&amp;A doméstico existe, mas é <b>bolt-on e portfólio maduro</b>, não uma onda de consolidação. O motor de crescimento da biotech chinesa é o licenciamento (gráficos acima), não a compra de empresas.</p></div>
-      <div class="refs"><b>Fontes:</b> Biotechgate (destaques de M&amp;A 2025); Goodwin (Life Sciences M&amp;A Trends in Greater China). Não há total anual público de M&amp;A doméstico; deals citados individualmente.</div></div>
+        <p>Ou seja: o M&amp;A doméstico é <b>bolt-on e portfólio maduro</b>, não uma onda de consolidação. O motor de crescimento é o licenciamento (gráficos acima), não a compra de empresas.</p></div>
+      <div class="refs"><b>Fontes:</b> Biotechgate, Goodwin (M&amp;A na Grande China). Não há total anual público de M&amp;A doméstico.</div></div>
     <div class="card"><h3>IPOs de biotech pré-receita em Hong Kong (Capítulo 18A), por ano</h3><p class="cap">o Capítulo 18A é a porta que Hong Kong abriu em 2018 para biotech sem receita abrir capital; antes disso não existia</p>
       ${bars({"2016":0,"2017":0,"2018":5,"2019":9,"2020":14,"2021":20,"2022":8,"2023":7,"2024":12,"2025":14},{highlight:["2021"],hl:"var(--accent)"})}
-      <div class="read tight" style="margin-top:6px"><p>Foi por aqui que dezenas de biotechs chinesas chegaram à bolsa: o pico foi 2021 (20 aberturas), depois veio o inverno de 2022 e 2023, e agora uma retomada em 2024 e 2025. É a fábrica de novas empresas que alimenta o pipeline, mesmo que a maioria delas seja pequena demais para entrar no índice das 30 maiores.</p></div>
-      <div class="refs"><b>Fontes:</b> HKEX; Vision Lifesciences, Skadden, PharmaBoardroom (contagem de IPOs 18A; 2026 ainda sem número fechado).</div></div>
+      <div class="read tight" style="margin-top:6px"><p>Foi por aqui que dezenas de biotechs chinesas chegaram à bolsa: o pico foi 2021 (20 aberturas), depois veio o inverno de 2022 e 2023, e agora uma retomada. É a fábrica de novas empresas que alimenta o pipeline, mesmo que a maioria seja pequena demais para entrar no índice das 30 maiores.</p></div>
+      <div class="refs"><b>Fontes:</b> HKEX; Vision Lifesciences, Skadden, PharmaBoardroom.</div></div>
   </section>
-  <section><div class="sec-h"><span class="sec-n">03</span><h2>Como investir nessa tese</h2></div>
-    <div class="read tight"><p>Se a ideia é <b>capturar o out-licensing</b> das biotechs chinesas, o Hang Seng não é a única opção, e talvez nem a melhor. O detalhe que muda tudo: <b>todos os ETFs de biotech China são ponderados por tamanho</b>, então acabam dominados por três gigantes (WuXi, de terceirização de P&amp;D, mais BeOne e Innovent) e <b>nenhum isola as small/mid caps</b> que fecham os deals, que é onde o valor está (cerca de 3/4 dos ativos licenciados são pré-clínica ou Fase 1).</p></div>
-    <div class="card"><h3>As opções, do mais acessível ao mais puro</h3><div class="read tight"><ul class="f">
-      <li><b>KURE (KraneShares, listado nos EUA, NYSE, 0,65%):</b> a forma prática para o investidor global, sem precisar de acesso a Hong Kong. É <b>healthcare amplo</b> (dilui com dispositivos e farma tradicional), mas carrega todos os grandes licenciadores. É o que a própria KraneShares vende como proxy do tema.</li>
-      <li><b>CSOP Hang Seng Biotech (3174 HK) e Global X China Biotech (2820 HK):</b> concentram mais nos licenciadores de fato (Innovent, BeOne, Akeso, CSPC, e o 3174 já pega 3SBio e Kelun). O 2820 tem taxa barata e clara (0,68%); a do 3174 não é confirmada e pode ser mais cara. Exigem <b>acesso a Hong Kong</b> e têm ~20% em WuXi (terceirização, tese correlata, mas não out-licensing).</li>
-      <li><b>Cesta própria de ações de Hong Kong</b> (Akeso, Innovent, CSPC, 3SBio, Kelun, Alphamab, Keymed, RemeGen) mais ADRs (BeOne/ONC, Zai Lab/ZLAB): a <b>única forma de sobreponderar de propósito</b> as small/mid que fecham os deals, já que os ETFs as subponderam por tamanho. Exige seleção nome a nome e há risco de delisting nos ADRs chineses.</li>
+  <section><div class="sec-h"><span class="sec-n">04</span><h2>Os riscos geopolíticos</h2></div>
+    <div class="card"><div class="read tight"><ul class="f">
+      <li><b>BIOSECURE Act:</b> virou lei em dezembro de 2025 (dentro do orçamento de defesa dos EUA). Proíbe o governo americano e seus contratados de usar serviços de certas empresas chinesas de biotech tidas como risco de segurança. A versão final passou a valer para quem estiver na lista de "empresas militares chinesas" do Departamento de Defesa. Por ora as WuXi não estão na lista, mas há relatos de que a WuXi AppTec entraria numa próxima atualização. É um risco vivo.</li>
+      <li><b>Delisting dos ADRs (lei HFCAA):</b> a SEC já sinalizou nomes como <b>BeiGene, Zai Lab e HutchMed</b> para risco de saída da bolsa americana por regras de auditoria. Quem investe via ADR precisa monitorar isso.</li>
+      <li><b>Tarifas e revisões de segurança nacional</b> tornam o M&amp;A transfronteiriço complicado, o que, ironicamente, empurra ainda mais o dinheiro para o licenciamento (que não transfere controle da empresa).</li>
+      <li><b>Governança (VIE):</b> muitas empresas chinesas usam estruturas em que o investidor estrangeiro não é dono direto da companhia, com menos transparência e menos proteção ao minoritário.</li>
     </ul></div></div>
+  </section>
+  <section><div class="sec-h"><span class="sec-n">05</span><h2>Como investir nessa tese</h2></div>
+    <div class="read tight"><p>Se a ideia é <b>capturar o out-licensing</b> das biotechs chinesas, o Hang Seng não é a única opção, e talvez nem a melhor. O detalhe que muda tudo: <b>todos os ETFs de biotech China são ponderados por tamanho</b>, então acabam dominados por três gigantes (WuXi, de terceirização, mais BeOne e Innovent) e <b>nenhum isola as small/mid caps</b> que fecham os deals, que é onde o valor está (cerca de 3/4 dos ativos licenciados são pré-clínica ou Fase 1).</p></div>
+    <div class="card"><h3>Comparando os veículos</h3>
+      <div style="overflow-x:auto"><table>
+        <tr><th>Veículo</th><th>Acesso</th><th>Taxa</th><th>Foco e exposição</th></tr>
+        <tr><td><b>KURE</b> (KraneShares)</td><td>EUA (NYSE)</td><td>0,65%</td><td>healthcare China amplo; carrega os licenciadores, mas dilui em dispositivos e farma tradicional</td></tr>
+        <tr><td><b>2820</b> (Global X)</td><td>Hong Kong</td><td>0,68%</td><td>biotech China; concentra mais nos licenciadores; ~20% em WuXi</td></tr>
+        <tr><td><b>3174</b> (CSOP)</td><td>Hong Kong</td><td>a confirmar</td><td>biotech China; o que mais pega 3SBio e Kelun; ~20% em WuXi</td></tr>
+        <tr><td><b>Cesta de ações</b></td><td>HK + ADRs (EUA)</td><td>só corretagem</td><td>a única forma de sobreponderar de propósito as small/mid que fecham os deals</td></tr>
+      </table></div>
+      <div class="read tight" style="margin-top:6px"><ul class="f">
+        <li><b>KURE:</b> a forma prática para o investidor global, sem precisar de acesso a Hong Kong. É o que a própria KraneShares vende como proxy do tema.</li>
+        <li><b>3174 / 2820:</b> concentram mais nos licenciadores de fato (Innovent, BeOne, Akeso, CSPC), mas exigem acesso a HK.</li>
+        <li><b>Cesta de ações</b> (Akeso, Innovent, CSPC, 3SBio, Kelun, Alphamab, Keymed, RemeGen) mais ADRs: exige seleção nome a nome e tem o risco de delisting dos ADRs.</li>
+      </ul></div></div>
     <div class="card keybox"><div class="read"><b>Resumo:</b> para o out-licensing puro, o <b>KURE</b> é o mais prático (EUA), o <b>3174 / 2820 de HK</b> concentram mais nos licenciadores, e uma <b>cesta de ações</b> é a única captura de verdade das small/mid. Nenhum ETF isola o tema, todos diluem em terceirização (WuXi) e large caps.</div></div>
-    <div class="refs"><b>Fontes:</b> KraneShares (KURE, deals e holdings), Global X (2820), CSOP/stockanalysis (3174), factsheets dos fundos. Pesos de carteira variam por data e fonte; as taxas do 3174/3069 e o status de delisting dos ADRs não foram confirmados, tratar como ordem de grandeza.</div></section>`;
+    <div class="refs"><b>Fontes:</b> KraneShares, Global X, CSOP/stockanalysis, factsheets. Pesos variam por data e fonte; as taxas do 3174/3069 e o status de delisting dos ADRs não foram confirmados, tratar como ordem de grandeza.</div></section>`;
 }
 
 /* ===== TAB: Células-tronco ===== */
