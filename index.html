@@ -1172,7 +1172,18 @@ function renderHangETF(){
       <div class="read tight" style="margin-top:6px"><p><b>O grande rali do HK biotech foi 2025</b> (+74%), não 2026. Depois de nascer perto do topo de 2021, o índice passou <b>três anos no vermelho</b> (2022-2024) e só virou em 2025, quando explodiu o out-licensing para a big pharma ocidental. Em <b>2026 está digerindo</b> esse salto (~+12% YTD), enquanto o XBI foi mais forte no ano (~+36%). Essa divergência entre os retornos demonstra bem a diversificação. <span class="cap">*2021 é parcial (desde mar).</span></p></div>
       <div class="refs"><b>Fontes:</b> Yahoo Finance; retornos anuais calculados.</div></div>
   </section>
-  <section><div class="sec-h"><span class="sec-n">03</span><h2>Valuation do ETF</h2></div>
+  <section><div class="sec-h"><span class="sec-n">03</span><h2>O que puxou a alta de 2025</h2></div>
+    <div class="card"><h3>Contribuição de cada nome = peso × retorno</h3><p class="cap">as 10 maiores contribuições para o índice em 2025, em pontos percentuais; o número à direita é o retorno da ação no ano</p>
+      ${diverging([{tk:"3SBio",v:16.2,move:289},{tk:"Innovent",v:11.4,move:122},{tk:"WuXi Bio",v:10.4,move:91},{tk:"Sino Biopharm",v:9.7,move:139},{tk:"CSPC",v:7.1,move:121},{tk:"BeOne",v:7.1,move:69},{tk:"Akeso",v:6.9,move:94},{tk:"Hansoh",v:4.8,move:121},{tk:"WuXi AppTec",v:4.3,move:93}])}
+      <div class="refs"><b>Fontes:</b> Yahoo Finance (retornos 2025 por ação); pesos aproximados do índice (HKEX, jul/2026).</div></div>
+    <div class="card"><h3>Os cases por trás da alta</h3><div class="read tight"><ul class="f">
+      <li><b>3SBio (+289%):</b> fechou com a Pfizer o licenciamento de um biespecífico PD-1/VEGF, um dos maiores deals de out-licensing já saídos da China (mais de US$ 1 bi só de entrada). Virou o símbolo da tese.</li>
+      <li><b>Akeso (+94%):</b> o ivonescimab, também um PD-1/VEGF, chegou a <b>bater o Keytruda</b> num estudo direto em câncer de pulmão na China. É o ativo que fez o Ocidente levar a biotech chinesa a sério (parceria com a Summit para fora da China).</li>
+      <li><b>Innovent (+122%):</b> além da oncologia, teve a aprovação na China da mazdutida (um GLP-1/glucagon) para obesidade, entrando na onda do GLP-1.</li>
+      <li><b>WuXi Bio e WuXi AppTec (~+90%):</b> terceirizam P&D e produção para o setor todo, então se beneficiam de todo mundo desenvolvendo mais.</li>
+    </ul></div></div>
+  </section>
+  <section><div class="sec-h"><span class="sec-n">04</span><h2>Valuation do ETF</h2></div>
     <div class="read tight"><p>Problema em avaliar financeiramente o índice: ele junta <b>empresa lucrativa com empresa que ainda dá prejuízo</b>. Quando se soma tudo, o lucro do conjunto fica pequeno perto do preço, e o P/E do índice sobe. Por isso o número cheio engana, e a leitura precisa ser <b>empresa por empresa</b>.</p></div>
     <div class="grid2">
       <div class="card keybox"><h3>O P/E do índice</h3>
@@ -1209,7 +1220,7 @@ function renderHangETF(){
     </div><div class="refs"><b>Fontes:</b> resultados das empresas; FierceBiotech (~US$ 136 bi de licenciamento outbound da China em 2025).</div></div>
     <div class="card keybox"><h3>Onde o preço faz mais sentido</h3><div class="read tight"><p>Tirando o ruído do licenciamento, o nome <b>mais limpo</b> em preço é a <b>WuXi AppTec</b>: P/E projetado ~18x contra lucro crescendo ~40%, um PEG baixo, e é receita de <b>serviço recorrente</b> (terceirização de P&D), não aposta binária. Já a <b>Innovent</b>, apesar da qualidade, negocia caro (P/E projetado ~49x) porque acabou de virar lucrativa. No conjunto, é um índice que <b>não está barato no headline</b>, mas tem bolsões de preço razoável nas comerciais que geram caixa, o que reforça a ideia dele como <b>satélite</b>, não núcleo.</p></div></div>
   </section>
-  <section><div class="sec-h"><span class="sec-n">04</span><h2>Riscos e por que interessa</h2></div>
+  <section><div class="sec-h"><span class="sec-n">05</span><h2>Riscos e por que interessa</h2></div>
     <div class="grid2">
       <div class="card"><h3>Riscos</h3><div class="read tight"><ul class="f">
         <li><b>Geopolítica (o Biosecure Act):</b> <b>virou lei em dezembro de 2025</b> (dentro do orçamento de defesa dos EUA). Ela proíbe agências e contratados do governo americano de usar serviços de certas empresas chinesas de biotech tidas como risco de segurança. Um detalhe da versão final: ela <b>não cita mais as WuXi pelo nome</b>, passou a valer para quem estiver na lista de "empresas militares chinesas" do Departamento de Defesa. Por ora as <b>WuXi</b> (WuXi AppTec e WuXi Biologics, juntas ~16% do índice) não estão nessa lista, mas há relatos de que a WuXi AppTec seria incluída na próxima atualização, o que a colocaria sob a lei. É um risco vivo.</li>
@@ -1231,15 +1242,6 @@ function renderHangMkt(){
   <section><div class="sec-h"><span class="sec-n">01</span><h2>O ano de 2025</h2></div>
     <div class="read tight"><p>2025 foi o ano em que a biotech chinesa virou a chave. O que mudou a cabeça do mercado foi o <b>out-licensing</b>: em vez de tentar vender remédio no mundo todo sozinhas, as biotechs de Hong Kong passaram a <b>licenciar seus ativos para a big pharma ocidental</b>, e vários desses ativos são bem competitivos. Foram ~US$ 137 bi em deals de licenciamento no ano. Quando esse dinheiro começou a entrar, o mercado passou a pagar bem mais caro pelo índice.</p>
       <p>No fundo, foi um encontro de interesses. A China ficou <b>muito boa, e barata, em criar remédios promissores</b>; mas o dinheiro grande está no <b>mercado americano</b>, onde elas não têm estrutura pra vender. Do outro lado, as gigantes ocidentais estão <b>correndo atrás de pipeline porque as próprias patentes estão vencendo</b> (o patent cliff). Uma tem o remédio, a outra tem onde vender e o caixa pra bancar. Foi esse encaixe que fez os deals estourarem.</p></div>
-    <div class="card"><h3>Quem puxou a alta de 2025 (contribuição = peso × retorno)</h3><p class="cap">as 10 maiores contribuições para o índice em 2025, em pontos percentuais; o número à direita é o retorno da ação no ano</p>
-      ${diverging([{tk:"3SBio",v:16.2,move:289},{tk:"Innovent",v:11.4,move:122},{tk:"WuXi Bio",v:10.4,move:91},{tk:"Sino Biopharm",v:9.7,move:139},{tk:"CSPC",v:7.1,move:121},{tk:"BeOne",v:7.1,move:69},{tk:"Akeso",v:6.9,move:94},{tk:"Hansoh",v:4.8,move:121},{tk:"WuXi AppTec",v:4.3,move:93}])}
-      <div class="refs"><b>Fontes:</b> Yahoo Finance (retornos 2025 por ação); pesos aproximados do índice (HKEX, jul/2026).</div></div>
-    <div class="card"><h3>Os cases por trás da alta</h3><div class="read tight"><ul class="f">
-      <li><b>3SBio (+289%):</b> fechou com a Pfizer o licenciamento de um biespecífico PD-1/VEGF, um dos maiores deals de out-licensing já saídos da China (mais de US$ 1 bi só de entrada). Virou o símbolo da tese.</li>
-      <li><b>Akeso (+94%):</b> o ivonescimab, também um PD-1/VEGF, chegou a <b>bater o Keytruda</b> num estudo direto em câncer de pulmão na China. É o ativo que fez o Ocidente levar a biotech chinesa a sério (parceria com a Summit para fora da China).</li>
-      <li><b>Innovent (+122%):</b> além da oncologia, teve a aprovação na China da mazdutida (um GLP-1/glucagon) para obesidade, entrando na onda do GLP-1.</li>
-      <li><b>WuXi Bio e WuXi AppTec (~+90%):</b> terceirizam P&D e produção para o setor todo, então se beneficiam de todo mundo desenvolvendo mais.</li>
-    </ul></div></div>
   </section>
   <section><div class="sec-h"><span class="sec-n">02</span><h2>O mercado chinês como pipeline do Ocidente</h2></div>
     <div class="read tight"><p>Dá para ver a virada num número só: quantas vezes por ano uma biotech chinesa <b>licenciou um ativo para uma farmacêutica ocidental</b>. Era quase nada até 2019 (menos de 10 por ano) e aumentou fortemente.</p></div>
@@ -1253,6 +1255,18 @@ function renderHangMkt(){
     </div>
     <div class="read tight"><p>De <b>menos de 10 deals por ano</b> até 2019 para <b>157 em 2025</b>, e o valor saiu de ~US$ 14 bi (2021) para <b>~US$ 138 bi em 2025</b>. A China, que era ~3 a 5% do licenciamento global em 2020, virou <b>cerca de um terço de tudo</b> em 2024 e 2025. Foi assim que ela deixou de ser coadjuvante e virou a <b>principal fonte de pipeline pronto</b> para a big pharma ocidental, o combustível por trás do rali do índice. E 2026, mesmo parcial, está no ritmo de repetir o recorde (as barras tracejadas mostram onde deve fechar).</p>
       <p>Um detalhe sobre quem gera esses ativos: eles estão cada vez mais em <b>estágio inicial</b> (pré-clínico e Fase 1). Ou seja, a inovação vem sobretudo da <b>ponta clínica/startup</b> da China, não das grandes já comerciais, embora em 2025 tenha havido algum retorno a ativos mais maduros (Fase 2/3), que a big pharma paga mais caro por já virem de-riscados. <span class="cap">Não há um dado público limpo separando "startup vs empresa com receita" por ano, então isto é a leitura por estágio dos ativos, não uma contagem fechada.</span></p></div>
+    <div class="card"><h3>Os maiores deals de licenciamento de 2025 e 2026</h3><p class="cap">acordos-símbolo de biotechs chinesas com a big pharma ocidental; o valor "até" inclui marcos futuros (milestones), quase sempre bem maior que a entrada paga à vista</p>
+      <div style="overflow-x:auto"><table>
+        <tr><th>Comprador ocidental → chinesa</th><th>Ativo</th><th>Valor até</th></tr>
+        <tr><td><b>AstraZeneca</b> → CSPC</td><td>plataforma de doença crônica com IA</td><td>~US$ 18,5 bi</td></tr>
+        <tr><td><b>Pfizer</b> → Innovent</td><td>12 moléculas de oncologia</td><td>~US$ 10,5 bi</td></tr>
+        <tr><td><b>Pfizer</b> → 3SBio</td><td>biespecífico PD-1/VEGF</td><td>~US$ 6 bi (&gt;US$ 1 bi à vista)</td></tr>
+        <tr><td><b>AbbVie</b> → RemeGen</td><td>anticorpo / ADC</td><td>~US$ 5,6 bi</td></tr>
+        <tr><td><b>Pathos AI</b> → Alphamab</td><td>plataforma com IA</td><td>~US$ 2,2 bi</td></tr>
+        <tr><td><b>Merck</b> → Kelun-Biotech</td><td>7 ADCs de oncologia</td><td>por ativo</td></tr>
+      </table></div>
+      <div class="read tight" style="margin-top:6px"><p>Repare no padrão: os compradores são as <b>gigantes ocidentais</b> (AstraZeneca, Pfizer, AbbVie, Merck), e o que elas levam são ativos de <b>oncologia e de plataformas com IA</b> das chinesas. E o ticket médio vem subindo forte (de ~US$ 25 mi por deal em 2021 para dezenas de milhões em 2026), sinal de que o Ocidente está pagando cada vez mais caro por essa ciência.</p></div>
+      <div class="refs"><b>Fontes:</b> KraneShares, Merck, Bamboo Works, Reuters (anúncios dos deals). Valores "até" incluem milestones e variam por fonte; a entrada à vista é uma fração do total.</div></div>
     <div class="card"><h3>E o M&amp;A? A China prefere licenciar a comprar</h3>
       <div class="read tight"><p>Diferente dos EUA, onde as gigantes <b>compram</b> as pequenas, na China a consolidação por aquisição é <b>pontual</b>. Aquisição de peso é rara: os players preferem <b>licenciar ou fazer joint venture</b> a comprar, e o M&amp;A transfronteiriço esbarra em barreiras regulatórias (revisões de segurança nacional nos EUA, a proposta BIOSECURE, tarifas), o que empurra o dinheiro para o licenciamento. Não existe série anual pública de M&amp;A doméstico; o que dá para ver são deals avulsos.</p>
         <p>Os casos concretos mais relevantes:</p>
