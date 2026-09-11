@@ -1215,6 +1215,17 @@ function renderHangETF(){
         <li>Aqui o <b>P/Rev diz mais que o P/E</b>, porque metade da lista ou não lucra ou teve o lucro de 2025 distorcido por um deal, o que deixa o P/E pouco confiável.</li>
       </ul></div></div>
     </div>
+    <div class="card"><h3>P/Rev do índice contra IBB e S&amp;P 500</h3>
+      <p class="cap">preço ÷ receita no nível do índice · <b style="color:var(--accent)">Hang Seng Biotech</b> vs biotech dos EUA (IBB) e o mercado amplo (S&amp;P 500)</p>
+      ${bars({a:7.0,b:6.5,c:3.8},{labels:["Hang Seng Bio","IBB","S&P 500"],highlight:["a"],hl:"var(--accent)",fmt:v=>v.toFixed(1).replace(".",",")+"x"})}
+      <div style="overflow-x:auto"><table>
+        <tr><th>Índice</th><th>P/Rev</th><th>P/Rev aj.</th><th>Como foi medido</th></tr>
+        <tr><td><b>Hang Seng Biotech</b></td><td class="v">~7,0x</td><td class="v">~7,5x</td><td>bottom-up: soma das capitalizações ÷ soma das receitas das 10 maiores (~72% do índice)</td></tr>
+        <tr><td><b>IBB</b> (biotech EUA)</td><td class="v">~6,5x</td><td class="v">=</td><td>mesmo método nas maiores holdings; a cauda pré-receita empurra o fundo cheio pra perto disso</td></tr>
+        <tr><td><b>S&amp;P 500</b></td><td class="v">~3,8x</td><td class="v">=</td><td>P/Rev do índice, publicado (multpl)</td></tr>
+      </table></div>
+      <div class="read tight" style="margin-top:6px"><p>Dois pontos. Primeiro, <b>os dois cestos de biotech ficam em ~6 a 7x receita, quase o dobro do S&amp;P</b> (~3,8x): o mercado paga mais por dólar de venda em biotech porque está comprando o pipeline que ainda não virou receita. Segundo, e menos intuitivo, o <b>Hang Seng não é mais barato que o IBB em P/Rev</b>, é até um pouco mais caro. O "desconto da China" que aparece no P/E vem do licenciamento inflando o lucro de 2025 (o P/E fica artificialmente baixo), não de as vendas serem baratas. Em cima da receita, biotech chinês e americano custam quase o mesmo. O ajuste de licenciamento só move o Hang Seng (de ~7,0 para ~7,5x), porque só nele a receita de 2025 carrega upfronts não-recorrentes relevantes; no IBB e no S&amp;P a receita é essencialmente recorrente, então não há o que ajustar.</p></div>
+      <div class="refs"><b>Fontes:</b> capitalização e receita por ação, stockanalysis (set/2026); S&amp;P 500 P/Rev, multpl (~3,8x). O P/Rev no nível de um índice de biotech não é publicado de graça (a cauda de empresas pré-receita distorce), por isso o número é bottom-up das maiores holdings, ordem de grandeza.</div></div>
     <div class="card"><h3>As 10 maiores do índice</h3><p class="cap">peso no índice (jul/2026); receita de 2025 convertida a US$ (~7,1 RMB/US$); "Cresc. 25" = variação da receita 2025 vs 2024</p>
       <div style="overflow-x:auto"><table>
         <tr><th>Empresa</th><th>Peso</th><th>Receita 25</th><th>Lucra?</th><th>Cresc. 25</th><th>P/Rev</th><th>P/Rev aj.</th></tr>
