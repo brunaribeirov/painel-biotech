@@ -424,13 +424,13 @@ function renderHip(){
      <div class="refs"><b>Fontes:</b> STAT News, CNBC, DealForma, GlobalData (M&amp;A ≥US$1bi); BioPharma Dive (IPOs). Totais de semestre/ano são firmes; a divisão por trimestre é estimada a partir dos deals divulgados.</div>`),
    3:accWrap("fechamento Q2/26 · jun/26",`
      <div class="ind"><h4>Termômetro de valuation <span class="accq">raio-X do XBI · 0 = barato, 100 = caro</span></h4>
-       <div style="max-width:210px;margin:2px auto 0">${rxGauge(87)}</div>${rxScoreChart(160,true)}
+       <div style="max-width:210px;margin:2px auto 0">${rxGauge(70)}</div>${rxScoreChart(160,true)}
        <div style="display:flex;gap:6px;justify-content:center;margin:2px 0 4px;flex-wrap:wrap">
          <span class="accq" style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:2px 9px">P/E: <b style="color:var(--up)">barato vs mercado</b> (contexto)</span>
          <span class="accq" style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:2px 9px">EV negativo: <b style="color:var(--down)">caro</b></span>
          <span class="accq" style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:2px 9px">pipeline: <b style="color:var(--down)">caro</b></span>
        </div>
-       <p class="accnote">O gauge é o score da <b>cauda pré-lucro</b> (69% do ETF: empresas abaixo do caixa + pipeline vs preço), a parte que dá pra medir com história: hoje <b style="color:var(--down)">~87, caro</b>, e a faixa laranja no gráfico é o último trimestre. A fatia com lucro (~31%) está <b style="color:var(--up)">barata vs mercado</b> pelo P/E e ameniza a leitura do ETF inteiro. Atualizado a cada trimestre; método e detalhe no bloco 07 da aba XBI US.</p></div>
+       <p class="accnote">O gauge é o <b>raio-X do ETF inteiro</b> (31% com lucro, pelo P/E, + 69% pré-lucro, por caixa e pipeline): hoje <b style="color:var(--down)">~70, caro</b>. A linha do gráfico é só a <b>cauda pré-lucro</b> (a parte com história), que está mais cara (~87) porque a fatia comercial, barata pelo P/E, puxa o total pra baixo; a faixa sombreada é o último trimestre. Atualizado a cada trimestre; método no bloco 07 da aba XBI US.</p></div>
      <div class="ind"><h4>Razão XBI / IBB <span class="accq">apetite small-cap vs large-cap</span></h4><span class="big">80,1</span> <span class="accq">média do Q2/26</span>
        ${sline(rt36,{H:150,bandLast:3,bandLabel:"últ. tri"})}
        <p class="accnote">Últimos 36 meses; a faixa sombreada é o último trimestre. A razão é XBI ÷ IBB × 100; quanto mais alta, mais o mercado paga relativamente pelas small-caps (XBI) do que pelas gigantes (IBB).</p></div>
@@ -893,7 +893,7 @@ function renderXBI(){
           <li><b>As com lucro (~31%):</b> aí o P/E funciona, então perguntamos se estão caras <b>contra o mercado</b>.</li>
           <li><b>As sem receita (~69%):</b> não têm lucro, então perguntamos duas coisas: <b>negociam abaixo do próprio caixa?</b> e <b>você paga caro ou barato pelo pipeline delas?</b></li>
         </ul>
-        <p>O <b>score principal</b> é o da cauda pré-lucro (empresas abaixo do caixa + pipeline vs preço), a parte com história e 69% do ETF: hoje <b style="color:var(--down)">~87, caro</b>. Não porque o preço subiu (isso seria preço disfarçado), e sim porque a cauda está <b>sem barganha de caixa</b> e com o <b>preço esticado contra o pipeline</b>. A fatia com lucro (~31%) está barata vs mercado pelo P/E, o que <b>ameniza</b> a leitura do ETF inteiro (fica em torno de ~70).</p></div>
+        <p>O <b>raio-X do ETF inteiro</b> está em <b style="color:var(--down)">~70, caro</b>: 31% com lucro (P/E, barato vs mercado) mais 69% pré-lucro (a cauda: abaixo do caixa + pipeline vs preço). Não porque o preço subiu (isso seria preço disfarçado), e sim porque a <b>cauda</b> está <b>sem barganha de caixa</b> e com o <b>preço esticado contra o pipeline</b> (a cauda sozinha está em ~87). A fatia comercial barata é o que <b>ameniza</b> o total para ~70.</p></div>
       <div class="refs"><b>Base:</b> factsheets da SSGA (P/E); Stifel e RA Capital (abaixo do caixa); clinicaltrials.gov (pipeline); Yahoo Finance (cota). Cálculo nosso.</div></div>
 
     <div class="card"><h3>1 · A fatia com lucro, pelo P/E forward <span class="accq">contexto</span></h3><p class="cap">P/E forward do fundo ao longo do tempo · linha pontilhada = S&amp;P 500 (~22x)</p>
@@ -935,7 +935,7 @@ function renderXBI(){
           <li><b>Preço por programa, peso 50%.</b> Divide o índice de preço do XBI pelo índice de pipeline (nº de ensaios em Fase 2/3 do setor nos últimos 12 meses), os dois em base 100 no fim de 2016. Esse "preço por programa" vira um percentil: se hoje ele está mais alto que em 90% dos trimestres, a perna dá 90.</li>
           <li><b>Empresas abaixo do caixa, peso 50%.</b> O percentil de quão <b>poucas</b> empresas estão abaixo do caixa (invertido, porque poucas = caro).</li>
         </ul>
-        <p><b>Exemplo com o trimestre atual:</b> preço por programa no percentil <b>~94</b> e abaixo-do-caixa em <b>~80</b>, então score = 0,5 × 94 + 0,5 × 80 = <b style="color:var(--down)">~87</b>. Antes de 2021 só existe a perna do pipeline (o abaixo-do-caixa não existia), então lá o score é só ela.</p>
+        <p><b>Exemplo com o trimestre atual.</b> A cauda pré-lucro: preço por programa no percentil <b>~94</b> e abaixo-do-caixa em <b>~80</b>, então a cauda = 0,5 × 94 + 0,5 × 80 = <b>~87</b>. O <b>ETF inteiro</b> pondera 31% da fatia com lucro (P/E, ~35, barata vs mercado) com 69% da cauda: 0,31 × 35 + 0,69 × 87 = <b style="color:var(--down)">~70</b>, que é o número do gauge. Antes de 2021 só existe a perna do pipeline (o abaixo-do-caixa não existia).</p>
         <p class="accq">O P/E da fatia comercial não entra nessa conta (não tem história confiável); fica como contexto à parte, e é o que faz o ETF inteiro (~70) ficar abaixo do score da cauda (~87).</p></div>
       <div class="refs"><b>Método:</b> percentil sobre a amostra trimestral 2016-2026, pesos 50/50 nas duas pernas de valor. clinicaltrials.gov, Stifel/RA Capital, Yahoo Finance.</div></div>
   </section>
@@ -1257,7 +1257,7 @@ function renderHangMkt(){
         <div style="flex:1;min-width:130px;text-align:center;background:var(--bg);border-radius:9px;padding:9px"><span style="font-family:var(--mono);font-size:19px;font-weight:600">31%</span><br><span class="accq">do pipeline global de remédios (2026)</span></div>
       </div>
       <p class="cap" style="margin:2px 0 2px">crescimento dos ensaios de remédios first-in-class (inéditos) por região, 2019 a 2024</p>
-      ${bars({"China":200,"EUA":45,"UE":14,"Japão":9},{highlight:["China"],hl:"var(--accent)",fmt:v=>"+"+v+"%"})}
+      ${bars({"a":200,"b":45,"c":14,"d":9},{labels:["China","EUA","UE","Japão"],highlight:["a"],hl:"var(--accent)",fmt:v=>Math.round(v)+"%"})}
       <div class="read tight" style="margin-top:6px"><p>Rodar um ensaio clínico na China custa até <b>40% menos</b> que nos EUA ou na Europa, e os ensaios de remédios <b>inéditos</b> cresceram <b>+200%</b> de 2019 a 2024, muito acima dos EUA (+45%). Hoje a China responde por <b>~31% do pipeline global</b> (7.141 dos 22.940 remédios em desenvolvimento em 2026), só atrás dos EUA (51%), e já é <b>mais de um terço</b> do pipeline de remédios first-in-class. Barato, rápido e em escala: foi isso que fez o Ocidente parar de ignorar e começar a comprar.</p></div>
       <div class="refs"><b>Fontes:</b> Porsche Consulting ("A ascensão da China na biofarma"); Citeline/Pharmaprojects (pipeline por país, 2026).</div></div>
   </section>
@@ -1287,7 +1287,7 @@ function renderHangMkt(){
         <tr><td><b>Pathos AI</b> → Alphamab</td><td>plataforma com IA</td><td>~US$ 2,2 bi</td></tr>
         <tr><td><b>Merck</b> → Kelun-Biotech</td><td>7 ADCs de oncologia</td><td>por ativo</td></tr>
       </table></div>
-      <div class="read tight" style="margin-top:6px"><p>Repare no padrão: os compradores são as <b>gigantes ocidentais</b>, e o que levam são ativos de <b>oncologia e de plataformas com IA</b>. O ticket médio vem subindo forte (de ~US$ 25 mi por deal em 2021 para dezenas de milhões em 2026), sinal de que o Ocidente paga cada vez mais caro por essa ciência.</p></div>
+      <div class="read tight" style="margin-top:6px"><p>O padrão é claro: os compradores são as <b>gigantes ocidentais</b>, e o que levam são ativos de <b>oncologia e de plataformas com IA</b>. O ticket médio vem subindo forte (de ~US$ 25 mi por deal em 2021 para dezenas de milhões em 2026), sinal de que o Ocidente paga cada vez mais caro por essa ciência.</p></div>
       <div class="refs"><b>Fontes:</b> KraneShares, Merck, Bamboo Works, Reuters (anúncios dos deals). Valores "até" incluem milestones e variam por fonte.</div></div>
     <div class="card"><h3>E o M&amp;A doméstico? Fraco. A estratégia é licenciar, não comprar</h3>
       <div class="read tight"><p>Aqui está um contraste importante com os EUA: lá as gigantes <b>compram</b> as pequenas (é o motor do XBI, a hipótese H2). Na China, <b>quase não há isso</b>. A consolidação por aquisição é <b>pontual e defensiva</b>, e o M&amp;A transfronteiriço trava em barreiras regulatórias (BIOSECURE, revisões de segurança nos EUA, tarifas). O dinheiro grande vai todo para o <b>licenciamento</b>. Não existe nem série anual pública de M&amp;A doméstico, de tão pontual que é.</p>
@@ -1322,11 +1322,23 @@ function renderHangMkt(){
         <tr><td><b>3174</b> (CSOP)</td><td>Hong Kong</td><td>a confirmar</td><td>biotech China; o que mais pega 3SBio e Kelun; ~20% em WuXi</td></tr>
         <tr><td><b>Cesta de ações</b></td><td>HK + ADRs (EUA)</td><td>só corretagem</td><td>a única forma de sobreponderar de propósito as small/mid que fecham os deals</td></tr>
       </table></div>
-      <div class="read tight" style="margin-top:6px"><ul class="f">
-        <li><b>KURE:</b> a forma prática para o investidor global, sem precisar de acesso a Hong Kong. É o que a própria KraneShares vende como proxy do tema.</li>
-        <li><b>3174 / 2820:</b> concentram mais nos licenciadores de fato (Innovent, BeOne, Akeso, CSPC), mas exigem acesso a HK.</li>
-        <li><b>Cesta de ações</b> (Akeso, Innovent, CSPC, 3SBio, Kelun, Alphamab, Keymed, RemeGen) mais ADRs: exige seleção nome a nome e tem o risco de delisting dos ADRs.</li>
-      </ul></div></div>
+      </div>
+    <div class="card"><h3>KURE — KraneShares MSCI All China Health Care</h3><div class="read tight">
+      <p><b>Acesso:</b> EUA (NYSE) · <b>taxa</b> 0,65% · <b>~50 empresas</b>. Comprável em qualquer corretora internacional, sem precisar de Hong Kong.</p>
+      <p><b>O que é:</b> não é só biotech, é <b>saúde China ampla</b> (biotech ~37%, mais dispositivos como a Mindray e farma tradicional). Ponderado por tamanho, então é <b>large-cap</b>: no topo ficam WuXi (terceirização de P&amp;D), BeOne, Innovent, Hengrui.</p>
+      <p><b>Tese:</b> a forma prática de dizer "quero exposição à saúde chinesa e ao out-licensing" sem complicação. O custo é diluir o tema com dispositivos e farma tradicional. É o que a própria KraneShares vende como proxy.</p></div></div>
+    <div class="card"><h3>2820 (HK) — Global X China Biotech</h3><div class="read tight">
+      <p><b>Acesso:</b> Hong Kong · <b>taxa</b> 0,68% · <b>~30 empresas</b>. Exige corretora com acesso a HK.</p>
+      <p><b>O que é:</b> biotech China focado (mais puro que o KURE, sem dispositivos). Também cap-weighted e <b>large/mid</b>: dominado por WuXi, BeOne, Innovent, Akeso, com ~20% em WuXi.</p>
+      <p><b>Tese:</b> mais concentrado nos licenciadores de fato que o KURE, com taxa barata e clara. Um bom meio-termo pra quem tem acesso a HK e quer biotech puro.</p></div></div>
+    <div class="card"><h3>3174 (HK) — CSOP Hang Seng Biotech</h3><div class="read tight">
+      <p><b>Acesso:</b> Hong Kong · <b>taxa</b> a confirmar (pode ser mais cara) · <b>~31 empresas</b>. É o ETF que replica o Hang Seng Biotech, o que você já conhecia.</p>
+      <p><b>O que é:</b> biotech China, cap-weighted, <b>large/mid</b>, mas é o que <b>mais pega os small/mid licenciadores</b> como 3SBio e Kelun perto do topo. AUM menor (~US$ 124 mi), então menos líquido.</p>
+      <p><b>Tese:</b> a maior sobreposição com os nomes que fecham deals, entre os ETFs. O preço é a liquidez menor e a taxa não confirmada.</p></div></div>
+    <div class="card"><h3>Cesta de ações própria</h3><div class="read tight">
+      <p><b>Acesso:</b> HK (a maioria) + ADRs nos EUA · <b>custo</b> só corretagem · <b>quantas você quiser</b> (tipicamente 8 a 15 nomes).</p>
+      <p><b>O que é:</b> você escolhe as ações: Akeso, Innovent, CSPC, 3SBio, Kelun, Alphamab, Keymed, RemeGen, mais ADRs como BeOne (ONC) e Zai Lab (ZLAB). É a <b>única forma de ir para as small/mid de propósito</b>, que os ETFs subponderam por serem cap-weighted.</p>
+      <p><b>Tese:</b> a captura mais pura do out-licensing das small/mid, e a única que permite sobreponderar quem realmente fecha os deals. O custo é selecionar nome a nome, o risco idiossincrático (uma tese por empresa) e o risco de delisting dos ADRs chineses.</p></div></div>
     <div class="card keybox"><div class="read"><b>Resumo:</b> para o out-licensing puro, o <b>KURE</b> é o mais prático (EUA), o <b>3174 / 2820 de HK</b> concentram mais nos licenciadores, e uma <b>cesta de ações</b> é a única captura de verdade das small/mid. Nenhum ETF isola o tema, todos diluem em terceirização (WuXi) e large caps.</div></div>
     <div class="refs"><b>Fontes:</b> KraneShares, Global X, CSOP/stockanalysis, factsheets. Pesos variam por data e fonte; as taxas do 3174/3069 e o status de delisting dos ADRs não foram confirmados, tratar como ordem de grandeza.</div></section>`;
 }
