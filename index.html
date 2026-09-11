@@ -38,6 +38,11 @@
   .tab[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:#fff;}
   :root[data-theme="dark"] .tab[aria-selected="true"],:root:not([data-theme="light"]) .tab[aria-selected="true"]{color:#06131c;}
   .panel{display:none;} .panel.active{display:block;}
+  .subtabs{display:flex;gap:2px;flex-wrap:wrap;margin:16px 0 2px;border-bottom:1px solid var(--border);}
+  .subtab{font:inherit;font-size:12.5px;font-weight:600;padding:7px 15px;border:none;border-bottom:2px solid transparent;background:none;color:var(--muted);cursor:pointer;transition:all .15s;margin-bottom:-1px;}
+  .subtab:hover{color:var(--accent-ink);}
+  .subtab[aria-selected="true"]{color:var(--accent-ink);border-bottom-color:var(--accent);}
+  .subpanel{display:none;} .subpanel.active{display:block;}
   .intro{color:var(--ink-2);font-size:13.5px;margin:14px 0 4px;max-width:80ch;}
   section{margin:24px 0;}
   .sec-h{display:flex;align-items:center;gap:11px;border-bottom:2px solid var(--border);padding-bottom:7px;margin-bottom:12px;}
@@ -124,25 +129,52 @@
 
   <div class="tabs" role="tablist">
     <button class="tab" role="tab" aria-selected="true" data-p="hip">Hipóteses</button>
-    <button class="tab" role="tab" aria-selected="false" data-p="mercado">Visão de mercado</button>
+    <button class="tab" role="tab" aria-selected="false" data-p="vmg">Visão de Mercado Global</button>
     <button class="tab" role="tab" aria-selected="false" data-p="xbi">XBI US</button>
-    <button class="tab" role="tab" aria-selected="false" data-p="macroteses">Possíveis Macro-Teses</button>
-    <button class="tab" role="tab" aria-selected="false" data-p="hangseng">Hang Seng Biotech</button>
+    <button class="tab" role="tab" aria-selected="false" data-p="china">China</button>
     <button class="tab" role="tab" aria-selected="false" data-p="stock">Stock picking</button>
-    <button class="tab" role="tab" aria-selected="false" data-p="obesidade">Case GLP-1</button>
-    <button class="tab" role="tab" aria-selected="false" data-p="vac">Case Moderna</button>
-    <button class="tab" role="tab" aria-selected="false" data-p="celulas">Células-tronco</button>
+    <button class="tab" role="tab" aria-selected="false" data-p="cases">Cases</button>
   </div>
 
   <div class="panel active" id="p-hip"><div id="hip"></div></div>
-  <div class="panel" id="p-mercado"><div id="mkt"></div></div>
-  <div class="panel" id="p-xbi"><div id="xbi"></div></div>
-  <div class="panel" id="p-macroteses"><div id="macroteses"></div></div>
-  <div class="panel" id="p-hangseng"><div id="hangseng"></div></div>
+
+  <div class="panel" id="p-vmg">
+    <div class="subtabs">
+      <button class="subtab" aria-selected="true" data-s="mercado">Panorama</button>
+      <button class="subtab" aria-selected="false" data-s="celulas">Células-tronco</button>
+    </div>
+    <div class="subpanel active" id="sp-mercado"><div id="mkt"></div></div>
+    <div class="subpanel" id="sp-celulas"><div id="celulas"></div></div>
+  </div>
+
+  <div class="panel" id="p-xbi">
+    <div class="subtabs">
+      <button class="subtab" aria-selected="true" data-s="xbi">XBI US</button>
+      <button class="subtab" aria-selected="false" data-s="macroteses">Macro-Teses</button>
+    </div>
+    <div class="subpanel active" id="sp-xbi"><div id="xbi"></div></div>
+    <div class="subpanel" id="sp-macroteses"><div id="macroteses"></div></div>
+  </div>
+
+  <div class="panel" id="p-china">
+    <div class="subtabs">
+      <button class="subtab" aria-selected="true" data-s="hangetf">Hang Seng ETF</button>
+      <button class="subtab" aria-selected="false" data-s="hangmkt">Visão de Mercado</button>
+    </div>
+    <div class="subpanel active" id="sp-hangetf"><div id="hangseng-etf"></div></div>
+    <div class="subpanel" id="sp-hangmkt"><div id="hangseng-mkt"></div></div>
+  </div>
+
   <div class="panel" id="p-stock"><div id="stock"></div></div>
-  <div class="panel" id="p-obesidade"><div id="obes"></div></div>
-  <div class="panel" id="p-vac"><div id="vac"></div></div>
-  <div class="panel" id="p-celulas"><div id="celulas"></div></div>
+
+  <div class="panel" id="p-cases">
+    <div class="subtabs">
+      <button class="subtab" aria-selected="true" data-s="obesidade">Case GLP-1</button>
+      <button class="subtab" aria-selected="false" data-s="vac">Case Moderna</button>
+    </div>
+    <div class="subpanel active" id="sp-obesidade"><div id="obes"></div></div>
+    <div class="subpanel" id="sp-vac"><div id="vac"></div></div>
+  </div>
 
 </div>
 
@@ -1113,13 +1145,14 @@ function renderMacro(){
 }
 
 /* ===== TAB: Hang Seng Biotech ===== */
-function renderHang(){
+function renderHangETF(){
+
   const A=ANALYTICS;
   const xbi=A.macro.xbi.filter(p=>p[0]>=1614556800);
   const cmp=[{name:"XBI (EUA)",col:"var(--ink)",data:xbi},{name:"Hang Seng (HK)",col:"var(--accent)",data:HANGSENG.series}];
   const yrs=[2021,2022,2023,2024,2025,2026];
   const cell=v=>v==null?'<td>n/d</td>':'<td class="v" style="color:'+(v>=0?'var(--up)':'var(--down)')+'">'+(v>0?'+':'')+v+'%</td>';
-  document.getElementById("hangseng").innerHTML=`
+  document.getElementById("hangseng-etf").innerHTML=`
   <p class="intro">O "XBI da China": um índice de biotechs listadas em Hong Kong. Serve para comparar a biotech dos EUA com a da China e pensar diversificação global.</p>
   <section><div class="sec-h"><span class="sec-n">01</span><h2>A tese do ETF</h2></div>
     <div class="read tight"><p>O <b>Hang Seng Biotech Index</b> (índice de dez/2019; o ETF que o replica veio depois, em mar/2021) reúne as <b>30 maiores biotechs listadas em Hong Kong</b>. Se difere do XBI em: é <b>cap-weight e concentrado</b> (as 10 maiores são ~2/3 do índice) e é bem mais <b>maduro comercialmente</b>. Das 30, <b>cerca de 28 já têm receita ou produto no mercado</b> (farmacêutica chinesa lucrativa como Sino Biopharm, CSPC e Hansoh, mais as gigantes de terceirização de P&D WuXi Bio e WuXi AppTec) e <b>só 2 são pré-receita</b> (as que carregam o marcador 18A "-B": DualityBio e MicroPort MedBot). É quase o oposto do XBI, onde a maioria ainda não vende nada. O motor do rali recente é o <b>out-licensing</b>: as farmacêuticas ocidentais descobriram que sai mais barato comprar pipeline pela metade pronto das chinesas (~US$ 137 bi em deals em 2025). Não há ETF listado nos EUA que replique o índice.</p>
@@ -1139,47 +1172,7 @@ function renderHang(){
       <div class="read tight" style="margin-top:6px"><p><b>O grande rali do HK biotech foi 2025</b> (+74%), não 2026. Depois de nascer perto do topo de 2021, o índice passou <b>três anos no vermelho</b> (2022-2024) e só virou em 2025, quando explodiu o out-licensing para a big pharma ocidental. Em <b>2026 está digerindo</b> esse salto (~+12% YTD), enquanto o XBI foi mais forte no ano (~+36%). Essa divergência entre os retornos demonstra bem a diversificação. <span class="cap">*2021 é parcial (desde mar).</span></p></div>
       <div class="refs"><b>Fontes:</b> Yahoo Finance; retornos anuais calculados.</div></div>
   </section>
-  <section><div class="sec-h"><span class="sec-n">03</span><h2>O ano de 2025</h2></div>
-    <div class="read tight"><p>2025 foi o ano em que a biotech chinesa virou a chave. O que mudou a cabeça do mercado foi o <b>out-licensing</b>: em vez de tentar vender remédio no mundo todo sozinhas, as biotechs de Hong Kong passaram a <b>licenciar seus ativos para a big pharma ocidental</b>, e vários desses ativos são bem competitivos. Foram ~US$ 137 bi em deals de licenciamento no ano. Quando esse dinheiro começou a entrar, o mercado passou a pagar bem mais caro pelo índice.</p>
-      <p>No fundo, foi um encontro de interesses. A China ficou <b>muito boa, e barata, em criar remédios promissores</b>; mas o dinheiro grande está no <b>mercado americano</b>, onde elas não têm estrutura pra vender. Do outro lado, as gigantes ocidentais estão <b>correndo atrás de pipeline porque as próprias patentes estão vencendo</b> (o patent cliff). Uma tem o remédio, a outra tem onde vender e o caixa pra bancar. Foi esse encaixe que fez os deals estourarem.</p></div>
-    <div class="card"><h3>Quem puxou a alta de 2025 (contribuição = peso × retorno)</h3><p class="cap">as 10 maiores contribuições para o índice em 2025, em pontos percentuais; o número à direita é o retorno da ação no ano</p>
-      ${diverging([{tk:"3SBio",v:16.2,move:289},{tk:"Innovent",v:11.4,move:122},{tk:"WuXi Bio",v:10.4,move:91},{tk:"Sino Biopharm",v:9.7,move:139},{tk:"CSPC",v:7.1,move:121},{tk:"BeOne",v:7.1,move:69},{tk:"Akeso",v:6.9,move:94},{tk:"Hansoh",v:4.8,move:121},{tk:"WuXi AppTec",v:4.3,move:93}])}
-      <div class="refs"><b>Fontes:</b> Yahoo Finance (retornos 2025 por ação); pesos aproximados do índice (HKEX, jul/2026).</div></div>
-    <div class="card"><h3>Os cases por trás da alta</h3><div class="read tight"><ul class="f">
-      <li><b>3SBio (+289%):</b> fechou com a Pfizer o licenciamento de um biespecífico PD-1/VEGF, um dos maiores deals de out-licensing já saídos da China (mais de US$ 1 bi só de entrada). Virou o símbolo da tese.</li>
-      <li><b>Akeso (+94%):</b> o ivonescimab, também um PD-1/VEGF, chegou a <b>bater o Keytruda</b> num estudo direto em câncer de pulmão na China. É o ativo que fez o Ocidente levar a biotech chinesa a sério (parceria com a Summit para fora da China).</li>
-      <li><b>Innovent (+122%):</b> além da oncologia, teve a aprovação na China da mazdutida (um GLP-1/glucagon) para obesidade, entrando na onda do GLP-1.</li>
-      <li><b>WuXi Bio e WuXi AppTec (~+90%):</b> terceirizam P&D e produção para o setor todo, então se beneficiam de todo mundo desenvolvendo mais.</li>
-    </ul></div></div>
-  </section>
-  <section><div class="sec-h"><span class="sec-n">04</span><h2>O mercado chinês como pipeline do Ocidente</h2></div>
-    <div class="read tight"><p>Dá para ver a virada num número só: quantas vezes por ano uma biotech chinesa <b>licenciou um ativo para uma farmacêutica ocidental</b>. Era quase nada até 2019 (menos de 10 por ano) e aumentou fortemente.</p></div>
-    <div class="grid2">
-      <div class="card"><h3>Deals de licenciamento China → Ocidente, por ano</h3><p class="cap">nº de ativos chineses licenciados para farma global. A parte cheia de 2026 é o realizado (~5 meses); a tracejada é o ritmo anualizado</p>
-        ${bars({"2016":5,"2017":6,"2018":7,"2019":8,"2020":39,"2021":50,"2022":51,"2023":70,"2024":94,"2025":157,"2026":39},{highlight:["2025"],expected:{"2026":94},hl:"var(--accent)"})}
-        <div class="refs"><b>Fontes:</b> SCMP/Reuters, PharmCube, PharmExec, Clarivate. Antes de 2020, "menos de 10 por ano" (ilustrativo).</div></div>
-      <div class="card"><h3>Valor dos deals (US$ bi/ano)</h3><p class="cap">o dinheiro por trás dos deals; a parte cheia de 2026 é o realizado, a tracejada é o ritmo anualizado</p>
-        ${bars({"2020":5,"2021":14,"2022":32,"2023":35,"2024":52,"2025":138,"2026":60},{highlight:["2025"],expected:{"2026":144},hl:"var(--accent)",fmt:v=>Math.round(v)})}
-        <div class="refs"><b>Fontes:</b> Reuters, SCMP, PharmCube (valores divulgados; a definição varia por fonte).</div></div>
-    </div>
-    <div class="read tight"><p>De <b>menos de 10 deals por ano</b> até 2019 para <b>157 em 2025</b>, e o valor saiu de ~US$ 14 bi (2021) para <b>~US$ 138 bi em 2025</b>. A China, que era ~3 a 5% do licenciamento global em 2020, virou <b>cerca de um terço de tudo</b> em 2024 e 2025. Foi assim que ela deixou de ser coadjuvante e virou a <b>principal fonte de pipeline pronto</b> para a big pharma ocidental, o combustível por trás do rali do índice. E 2026, mesmo parcial, está no ritmo de repetir o recorde (as barras tracejadas mostram onde deve fechar).</p>
-      <p>Um detalhe sobre quem gera esses ativos: eles estão cada vez mais em <b>estágio inicial</b> (pré-clínico e Fase 1). Ou seja, a inovação vem sobretudo da <b>ponta clínica/startup</b> da China, não das grandes já comerciais, embora em 2025 tenha havido algum retorno a ativos mais maduros (Fase 2/3), que a big pharma paga mais caro por já virem de-riscados. <span class="cap">Não há um dado público limpo separando "startup vs empresa com receita" por ano, então isto é a leitura por estágio dos ativos, não uma contagem fechada.</span></p></div>
-    <div class="card"><h3>E o M&amp;A? A China prefere licenciar a comprar</h3>
-      <div class="read tight"><p>Diferente dos EUA, onde as gigantes <b>compram</b> as pequenas, na China a consolidação por aquisição é <b>pontual</b>. Aquisição de peso é rara: os players preferem <b>licenciar ou fazer joint venture</b> a comprar, e o M&amp;A transfronteiriço esbarra em barreiras regulatórias (revisões de segurança nacional nos EUA, a proposta BIOSECURE, tarifas), o que empurra o dinheiro para o licenciamento. Não existe série anual pública de M&amp;A doméstico; o que dá para ver são deals avulsos.</p>
-        <p>Os casos concretos mais relevantes:</p>
-        <ul class="f">
-          <li><b>Sino Biopharmaceutical → LaNova Medicines</b> (jul/2025, ~US$ 0,95 bi): chinesa comprando chinesa. A Sino levou os 95% restantes da LaNova pelo portfólio de anticorpos e biespecíficos de oncologia.</li>
-          <li><b>Fosun Pharma → Henlius</b> (jun/2024, ~US$ 1,71 bi): a Fosun fechou o capital da própria Henlius (anticorpos, biossimilares, PD-1). É o maior caso doméstico.</li>
-          <li><b>Desinvestimento de maduros:</b> multinacionais vendendo linhas antigas para locais. A UCB vendeu seu portfólio de neurologia e alergia na China (Keppra, Vimpat, Zyrtec) a um consórcio chinês e do Golfo por ~US$ 680 mi (fim/2024).</li>
-        </ul>
-        <p>Ou seja: o M&amp;A doméstico existe, mas é <b>bolt-on e portfólio maduro</b>, não uma onda de consolidação. O motor de crescimento da biotech chinesa é o licenciamento (gráficos acima), não a compra de empresas.</p></div>
-      <div class="refs"><b>Fontes:</b> Biotechgate (destaques de M&amp;A 2025); Goodwin (Life Sciences M&amp;A Trends in Greater China). Não há total anual público de M&amp;A doméstico; deals citados individualmente.</div></div>
-    <div class="card"><h3>IPOs de biotech pré-receita em Hong Kong (Capítulo 18A), por ano</h3><p class="cap">o Capítulo 18A é a porta que Hong Kong abriu em 2018 para biotech sem receita abrir capital; antes disso não existia</p>
-      ${bars({"2016":0,"2017":0,"2018":5,"2019":9,"2020":14,"2021":20,"2022":8,"2023":7,"2024":12,"2025":14},{highlight:["2021"],hl:"var(--accent)"})}
-      <div class="read tight" style="margin-top:6px"><p>Foi por aqui que dezenas de biotechs chinesas chegaram à bolsa: o pico foi 2021 (20 aberturas), depois veio o inverno de 2022 e 2023, e agora uma retomada em 2024 e 2025. É a fábrica de novas empresas que alimenta o pipeline, mesmo que a maioria delas seja pequena demais para entrar no índice das 30 maiores.</p></div>
-      <div class="refs"><b>Fontes:</b> HKEX; Vision Lifesciences, Skadden, PharmaBoardroom (contagem de IPOs 18A; 2026 ainda sem número fechado).</div></div>
-  </section>
-  <section><div class="sec-h"><span class="sec-n">05</span><h2>Valuation do ETF</h2></div>
+  <section><div class="sec-h"><span class="sec-n">03</span><h2>Valuation do ETF</h2></div>
     <div class="read tight"><p>Problema em avaliar financeiramente o índice: ele junta <b>empresa lucrativa com empresa que ainda dá prejuízo</b>. Quando se soma tudo, o lucro do conjunto fica pequeno perto do preço, e o P/E do índice sobe. Por isso o número cheio engana, e a leitura precisa ser <b>empresa por empresa</b>.</p></div>
     <div class="grid2">
       <div class="card keybox"><h3>O P/E do índice</h3>
@@ -1216,7 +1209,7 @@ function renderHang(){
     </div><div class="refs"><b>Fontes:</b> resultados das empresas; FierceBiotech (~US$ 136 bi de licenciamento outbound da China em 2025).</div></div>
     <div class="card keybox"><h3>Onde o preço faz mais sentido</h3><div class="read tight"><p>Tirando o ruído do licenciamento, o nome <b>mais limpo</b> em preço é a <b>WuXi AppTec</b>: P/E projetado ~18x contra lucro crescendo ~40%, um PEG baixo, e é receita de <b>serviço recorrente</b> (terceirização de P&D), não aposta binária. Já a <b>Innovent</b>, apesar da qualidade, negocia caro (P/E projetado ~49x) porque acabou de virar lucrativa. No conjunto, é um índice que <b>não está barato no headline</b>, mas tem bolsões de preço razoável nas comerciais que geram caixa, o que reforça a ideia dele como <b>satélite</b>, não núcleo.</p></div></div>
   </section>
-  <section><div class="sec-h"><span class="sec-n">06</span><h2>Riscos e por que interessa</h2></div>
+  <section><div class="sec-h"><span class="sec-n">04</span><h2>Riscos e por que interessa</h2></div>
     <div class="grid2">
       <div class="card"><h3>Riscos</h3><div class="read tight"><ul class="f">
         <li><b>Geopolítica (o Biosecure Act):</b> <b>virou lei em dezembro de 2025</b> (dentro do orçamento de defesa dos EUA). Ela proíbe agências e contratados do governo americano de usar serviços de certas empresas chinesas de biotech tidas como risco de segurança. Um detalhe da versão final: ela <b>não cita mais as WuXi pelo nome</b>, passou a valer para quem estiver na lista de "empresas militares chinesas" do Departamento de Defesa. Por ora as <b>WuXi</b> (WuXi AppTec e WuXi Biologics, juntas ~16% do índice) não estão nessa lista, mas há relatos de que a WuXi AppTec seria incluída na próxima atualização, o que a colocaria sob a lei. É um risco vivo.</li>
@@ -1231,6 +1224,59 @@ function renderHang(){
       </ul></div></div>
     </div>
   </section>`;
+}
+function renderHangMkt(){
+  document.getElementById("hangseng-mkt").innerHTML=`
+  <p class="intro">A tese de fundo por trás do ETF: por que a biotech chinesa virou a fábrica de pipeline do Ocidente, o out-licensing que move tudo, e como um investidor pode se expor a essa onda.</p>
+  <section><div class="sec-h"><span class="sec-n">01</span><h2>O ano de 2025</h2></div>
+    <div class="read tight"><p>2025 foi o ano em que a biotech chinesa virou a chave. O que mudou a cabeça do mercado foi o <b>out-licensing</b>: em vez de tentar vender remédio no mundo todo sozinhas, as biotechs de Hong Kong passaram a <b>licenciar seus ativos para a big pharma ocidental</b>, e vários desses ativos são bem competitivos. Foram ~US$ 137 bi em deals de licenciamento no ano. Quando esse dinheiro começou a entrar, o mercado passou a pagar bem mais caro pelo índice.</p>
+      <p>No fundo, foi um encontro de interesses. A China ficou <b>muito boa, e barata, em criar remédios promissores</b>; mas o dinheiro grande está no <b>mercado americano</b>, onde elas não têm estrutura pra vender. Do outro lado, as gigantes ocidentais estão <b>correndo atrás de pipeline porque as próprias patentes estão vencendo</b> (o patent cliff). Uma tem o remédio, a outra tem onde vender e o caixa pra bancar. Foi esse encaixe que fez os deals estourarem.</p></div>
+    <div class="card"><h3>Quem puxou a alta de 2025 (contribuição = peso × retorno)</h3><p class="cap">as 10 maiores contribuições para o índice em 2025, em pontos percentuais; o número à direita é o retorno da ação no ano</p>
+      ${diverging([{tk:"3SBio",v:16.2,move:289},{tk:"Innovent",v:11.4,move:122},{tk:"WuXi Bio",v:10.4,move:91},{tk:"Sino Biopharm",v:9.7,move:139},{tk:"CSPC",v:7.1,move:121},{tk:"BeOne",v:7.1,move:69},{tk:"Akeso",v:6.9,move:94},{tk:"Hansoh",v:4.8,move:121},{tk:"WuXi AppTec",v:4.3,move:93}])}
+      <div class="refs"><b>Fontes:</b> Yahoo Finance (retornos 2025 por ação); pesos aproximados do índice (HKEX, jul/2026).</div></div>
+    <div class="card"><h3>Os cases por trás da alta</h3><div class="read tight"><ul class="f">
+      <li><b>3SBio (+289%):</b> fechou com a Pfizer o licenciamento de um biespecífico PD-1/VEGF, um dos maiores deals de out-licensing já saídos da China (mais de US$ 1 bi só de entrada). Virou o símbolo da tese.</li>
+      <li><b>Akeso (+94%):</b> o ivonescimab, também um PD-1/VEGF, chegou a <b>bater o Keytruda</b> num estudo direto em câncer de pulmão na China. É o ativo que fez o Ocidente levar a biotech chinesa a sério (parceria com a Summit para fora da China).</li>
+      <li><b>Innovent (+122%):</b> além da oncologia, teve a aprovação na China da mazdutida (um GLP-1/glucagon) para obesidade, entrando na onda do GLP-1.</li>
+      <li><b>WuXi Bio e WuXi AppTec (~+90%):</b> terceirizam P&D e produção para o setor todo, então se beneficiam de todo mundo desenvolvendo mais.</li>
+    </ul></div></div>
+  </section>
+  <section><div class="sec-h"><span class="sec-n">02</span><h2>O mercado chinês como pipeline do Ocidente</h2></div>
+    <div class="read tight"><p>Dá para ver a virada num número só: quantas vezes por ano uma biotech chinesa <b>licenciou um ativo para uma farmacêutica ocidental</b>. Era quase nada até 2019 (menos de 10 por ano) e aumentou fortemente.</p></div>
+    <div class="grid2">
+      <div class="card"><h3>Deals de licenciamento China → Ocidente, por ano</h3><p class="cap">nº de ativos chineses licenciados para farma global. A parte cheia de 2026 é o realizado (~5 meses); a tracejada é o ritmo anualizado</p>
+        ${bars({"2016":5,"2017":6,"2018":7,"2019":8,"2020":39,"2021":50,"2022":51,"2023":70,"2024":94,"2025":157,"2026":39},{highlight:["2025"],expected:{"2026":94},hl:"var(--accent)"})}
+        <div class="refs"><b>Fontes:</b> SCMP/Reuters, PharmCube, PharmExec, Clarivate. Antes de 2020, "menos de 10 por ano" (ilustrativo).</div></div>
+      <div class="card"><h3>Valor dos deals (US$ bi/ano)</h3><p class="cap">o dinheiro por trás dos deals; a parte cheia de 2026 é o realizado, a tracejada é o ritmo anualizado</p>
+        ${bars({"2020":5,"2021":14,"2022":32,"2023":35,"2024":52,"2025":138,"2026":60},{highlight:["2025"],expected:{"2026":144},hl:"var(--accent)",fmt:v=>Math.round(v)})}
+        <div class="refs"><b>Fontes:</b> Reuters, SCMP, PharmCube (valores divulgados; a definição varia por fonte).</div></div>
+    </div>
+    <div class="read tight"><p>De <b>menos de 10 deals por ano</b> até 2019 para <b>157 em 2025</b>, e o valor saiu de ~US$ 14 bi (2021) para <b>~US$ 138 bi em 2025</b>. A China, que era ~3 a 5% do licenciamento global em 2020, virou <b>cerca de um terço de tudo</b> em 2024 e 2025. Foi assim que ela deixou de ser coadjuvante e virou a <b>principal fonte de pipeline pronto</b> para a big pharma ocidental, o combustível por trás do rali do índice. E 2026, mesmo parcial, está no ritmo de repetir o recorde (as barras tracejadas mostram onde deve fechar).</p>
+      <p>Um detalhe sobre quem gera esses ativos: eles estão cada vez mais em <b>estágio inicial</b> (pré-clínico e Fase 1). Ou seja, a inovação vem sobretudo da <b>ponta clínica/startup</b> da China, não das grandes já comerciais, embora em 2025 tenha havido algum retorno a ativos mais maduros (Fase 2/3), que a big pharma paga mais caro por já virem de-riscados. <span class="cap">Não há um dado público limpo separando "startup vs empresa com receita" por ano, então isto é a leitura por estágio dos ativos, não uma contagem fechada.</span></p></div>
+    <div class="card"><h3>E o M&amp;A? A China prefere licenciar a comprar</h3>
+      <div class="read tight"><p>Diferente dos EUA, onde as gigantes <b>compram</b> as pequenas, na China a consolidação por aquisição é <b>pontual</b>. Aquisição de peso é rara: os players preferem <b>licenciar ou fazer joint venture</b> a comprar, e o M&amp;A transfronteiriço esbarra em barreiras regulatórias (revisões de segurança nacional nos EUA, a proposta BIOSECURE, tarifas), o que empurra o dinheiro para o licenciamento. Não existe série anual pública de M&amp;A doméstico; o que dá para ver são deals avulsos.</p>
+        <p>Os casos concretos mais relevantes:</p>
+        <ul class="f">
+          <li><b>Sino Biopharmaceutical → LaNova Medicines</b> (jul/2025, ~US$ 0,95 bi): chinesa comprando chinesa. A Sino levou os 95% restantes da LaNova pelo portfólio de anticorpos e biespecíficos de oncologia.</li>
+          <li><b>Fosun Pharma → Henlius</b> (jun/2024, ~US$ 1,71 bi): a Fosun fechou o capital da própria Henlius (anticorpos, biossimilares, PD-1). É o maior caso doméstico.</li>
+          <li><b>Desinvestimento de maduros:</b> multinacionais vendendo linhas antigas para locais. A UCB vendeu seu portfólio de neurologia e alergia na China (Keppra, Vimpat, Zyrtec) a um consórcio chinês e do Golfo por ~US$ 680 mi (fim/2024).</li>
+        </ul>
+        <p>Ou seja: o M&amp;A doméstico existe, mas é <b>bolt-on e portfólio maduro</b>, não uma onda de consolidação. O motor de crescimento da biotech chinesa é o licenciamento (gráficos acima), não a compra de empresas.</p></div>
+      <div class="refs"><b>Fontes:</b> Biotechgate (destaques de M&amp;A 2025); Goodwin (Life Sciences M&amp;A Trends in Greater China). Não há total anual público de M&amp;A doméstico; deals citados individualmente.</div></div>
+    <div class="card"><h3>IPOs de biotech pré-receita em Hong Kong (Capítulo 18A), por ano</h3><p class="cap">o Capítulo 18A é a porta que Hong Kong abriu em 2018 para biotech sem receita abrir capital; antes disso não existia</p>
+      ${bars({"2016":0,"2017":0,"2018":5,"2019":9,"2020":14,"2021":20,"2022":8,"2023":7,"2024":12,"2025":14},{highlight:["2021"],hl:"var(--accent)"})}
+      <div class="read tight" style="margin-top:6px"><p>Foi por aqui que dezenas de biotechs chinesas chegaram à bolsa: o pico foi 2021 (20 aberturas), depois veio o inverno de 2022 e 2023, e agora uma retomada em 2024 e 2025. É a fábrica de novas empresas que alimenta o pipeline, mesmo que a maioria delas seja pequena demais para entrar no índice das 30 maiores.</p></div>
+      <div class="refs"><b>Fontes:</b> HKEX; Vision Lifesciences, Skadden, PharmaBoardroom (contagem de IPOs 18A; 2026 ainda sem número fechado).</div></div>
+  </section>
+  <section><div class="sec-h"><span class="sec-n">03</span><h2>Como investir nessa tese</h2></div>
+    <div class="read tight"><p>Se a ideia é <b>capturar o out-licensing</b> das biotechs chinesas, o Hang Seng não é a única opção, e talvez nem a melhor. O detalhe que muda tudo: <b>todos os ETFs de biotech China são ponderados por tamanho</b>, então acabam dominados por três gigantes (WuXi, de terceirização de P&amp;D, mais BeOne e Innovent) e <b>nenhum isola as small/mid caps</b> que fecham os deals, que é onde o valor está (cerca de 3/4 dos ativos licenciados são pré-clínica ou Fase 1).</p></div>
+    <div class="card"><h3>As opções, do mais acessível ao mais puro</h3><div class="read tight"><ul class="f">
+      <li><b>KURE (KraneShares, listado nos EUA, NYSE, 0,65%):</b> a forma prática para o investidor global, sem precisar de acesso a Hong Kong. É <b>healthcare amplo</b> (dilui com dispositivos e farma tradicional), mas carrega todos os grandes licenciadores. É o que a própria KraneShares vende como proxy do tema.</li>
+      <li><b>CSOP Hang Seng Biotech (3174 HK) e Global X China Biotech (2820 HK):</b> concentram mais nos licenciadores de fato (Innovent, BeOne, Akeso, CSPC, e o 3174 já pega 3SBio e Kelun). O 2820 tem taxa barata e clara (0,68%); a do 3174 não é confirmada e pode ser mais cara. Exigem <b>acesso a Hong Kong</b> e têm ~20% em WuXi (terceirização, tese correlata, mas não out-licensing).</li>
+      <li><b>Cesta própria de ações de Hong Kong</b> (Akeso, Innovent, CSPC, 3SBio, Kelun, Alphamab, Keymed, RemeGen) mais ADRs (BeOne/ONC, Zai Lab/ZLAB): a <b>única forma de sobreponderar de propósito</b> as small/mid que fecham os deals, já que os ETFs as subponderam por tamanho. Exige seleção nome a nome e há risco de delisting nos ADRs chineses.</li>
+    </ul></div></div>
+    <div class="card keybox"><div class="read"><b>Resumo:</b> para o out-licensing puro, o <b>KURE</b> é o mais prático (EUA), o <b>3174 / 2820 de HK</b> concentram mais nos licenciadores, e uma <b>cesta de ações</b> é a única captura de verdade das small/mid. Nenhum ETF isola o tema, todos diluem em terceirização (WuXi) e large caps.</div></div>
+    <div class="refs"><b>Fontes:</b> KraneShares (KURE, deals e holdings), Global X (2820), CSOP/stockanalysis (3174), factsheets dos fundos. Pesos de carteira variam por data e fonte; as taxas do 3174/3069 e o status de delisting dos ADRs não foram confirmados, tratar como ordem de grandeza.</div></section>`;
 }
 
 /* ===== TAB: Células-tronco ===== */
@@ -1273,10 +1319,13 @@ function renderCel(){
 }
 
 /* ===== tabs ===== */
-const R={hip:renderHip,mercado:renderMkt,stock:renderStock,xbi:renderXBI,obesidade:renderObes,vac:renderVac,macroteses:renderMacro,hangseng:renderHang,celulas:renderCel};
+const RMAP={hip:renderHip,mercado:renderMkt,celulas:renderCel,xbi:renderXBI,macroteses:renderMacro,hangetf:renderHangETF,hangmkt:renderHangMkt,stock:renderStock,obesidade:renderObes,vac:renderVac};
 const done={};
-function activate(p){document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));document.getElementById("p-"+p).classList.add("active");if(!done[p]){R[p]();done[p]=true;}window.scrollTo({top:0,behavior:"smooth"});}
-document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{document.querySelectorAll(".tab").forEach(x=>x.setAttribute("aria-selected",x===t));activate(t.dataset.p);});
+function render(id){if(!done[id]&&RMAP[id]){RMAP[id]();done[id]=true;}}
+function activateSub(s){const sp=document.getElementById("sp-"+s);if(!sp)return;const par=sp.closest(".panel");par.querySelectorAll(".subpanel").forEach(x=>x.classList.remove("active"));sp.classList.add("active");par.querySelectorAll(".subtab").forEach(b=>b.setAttribute("aria-selected",b.dataset.s===s));render(s);window.scrollTo({top:0,behavior:"smooth"});}
+function activate(p){document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));const par=document.getElementById("p-"+p);par.classList.add("active");document.querySelectorAll(".tab").forEach(b=>b.setAttribute("aria-selected",b.dataset.p===p));const sub=par.querySelector(".subtabs");if(sub){activateSub(sub.querySelector(".subtab").dataset.s);}else{render(p);}window.scrollTo({top:0,behavior:"smooth"});}
+document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>activate(t.dataset.p));
+document.querySelectorAll(".subtab").forEach(t=>t.onclick=()=>activateSub(t.dataset.s));
 document.getElementById("themebtn").onclick=()=>{const c=document.documentElement.getAttribute("data-theme");const nx=c==="dark"?"light":(c==="light"?"dark":(matchMedia("(prefers-color-scheme: dark)").matches?"light":"dark"));document.documentElement.setAttribute("data-theme",nx);};
 activate("hip");
 </script>
