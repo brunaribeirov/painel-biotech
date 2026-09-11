@@ -946,13 +946,15 @@ function renderXBI(){
       <div class="read tight" style="margin-top:6px"><p>Score <b style="color:var(--down)">alto/caro em 2020-2021</b>, e o XBI caiu nos anos seguintes. Score <b style="color:var(--up)">baixo/barato em 2022-2023</b>, e o XBI subiu forte. Hoje está de novo na <b style="color:var(--down)">faixa cara</b>. <span class="accq">A linha histórica é a valuation da cauda (pipeline o tempo todo, mais o EV a partir de 2021, quando ele passa a existir); o P/E entra só como contexto de hoje.</span></p></div>
       <div class="refs"><b>Fontes:</b> clinicaltrials.gov, Stifel/RA Capital, Yahoo Finance; cálculo nosso.</div></div>
     <div class="card"><h3>Como o score é calculado, na conta exata</h3>
-      <div class="read tight"><p>O score de cada trimestre é a <b>média de duas pernas</b>, cada uma virada em <b>percentil de 0 a 100</b> contra a própria história trimestral, orientadas para "quanto maior, mais caro":</p>
+      <div class="read tight"><p>A conta tem <b>dois andares</b>. Primeiro monta-se o score da <b>cauda pré-lucro</b> (~69% do ETF); depois junta-se a <b>fatia com lucro</b> (~31%) para chegar no número do gauge. Cada perna vira um <b>percentil de 0 a 100</b> contra a própria história trimestral (2016-2026), sempre orientada para "quanto maior, mais caro".</p>
+        <p><b>Andar 1, a cauda pré-lucro.</b> É a média de duas pernas:</p>
         <ul class="f">
-          <li><b>Preço por programa, peso 50%.</b> Divide o índice de preço do XBI pelo índice de pipeline (nº de ensaios em Fase 2/3 do setor nos últimos 12 meses), os dois em base 100 no fim de 2016. Esse "preço por programa" vira um percentil: se hoje ele está mais alto que em 90% dos trimestres, a perna dá 90.</li>
-          <li><b>Empresas abaixo do caixa, peso 50%.</b> O percentil de quão <b>poucas</b> empresas estão abaixo do caixa (invertido, porque poucas = caro).</li>
+          <li><b>Preço por programa (dá ~94), peso 50%.</b> O preço do XBI, em base 100 no fim de 2016, está hoje em <b>268</b>. O pipeline (ensaios em Fase 2/3 do setor nos últimos 12 meses), na mesma base 100, está em <b>141</b>. A razão 268 ÷ 141 = <b>1,9</b>: o preço subiu quase o dobro do pipeline que ele deveria estar pagando. Esse 1,9 vira percentil contra a série toda, e só <b>2 trimestres</b> (o pico de 2021) foram mais caros por programa. Logo hoje está no percentil <b>~94</b>: mais caro que 94% da história.</li>
+          <li><b>Empresas abaixo do caixa (dá ~80), peso 50%.</b> Conta quantas empresas do setor valem menos que o caixa no balanço (dá para comprar o negócio de graça). No fundo de 2022 eram <b>~29%</b> do setor, muita pechincha. Hoje são só <b>~8%</b>, quase o mínimo da série. Poucas pechinchas = caro, então o sinal é invertido: como só um período teve ainda menos pechincha, hoje fica no percentil <b>~80</b> de caro.</li>
         </ul>
-        <p><b>Exemplo com o trimestre atual.</b> A cauda pré-lucro: preço por programa no percentil <b>~94</b> e abaixo-do-caixa em <b>~80</b>, então a cauda = 0,5 × 94 + 0,5 × 80 = <b>~87</b>. O <b>ETF inteiro</b> pondera 31% da fatia com lucro (P/E, ~35, barata vs mercado) com 69% da cauda: 0,31 × 35 + 0,69 × 87 = <b style="color:var(--down)">~70</b>, que é o número do gauge. Antes de 2021 só existe a perna do pipeline (o abaixo-do-caixa não existia).</p>
-        <p class="accq">O P/E da fatia comercial não entra nessa conta (não tem história confiável); fica como contexto à parte, e é o que faz o ETF inteiro (~70) ficar abaixo do score da cauda (~87).</p></div>
+        <p>Cauda = 0,5 × 94 + 0,5 × 80 = <b>~87</b>.</p>
+        <p><b>Andar 2, juntando a fatia com lucro para fechar em 70.</b> Os ~31% de empresas que já dão lucro se medem por P/E, não por caixa nem pipeline. O P/E forward do XBI está em <b>18,8x</b> contra <b>~22x</b> do S&P 500, um desconto de ~15%. Num eixo onde <b>50 = em linha com o mercado</b> e abaixo disso = mais barata, esse desconto cai em <b>~35</b>. É um <b>julgamento, não um percentil</b>: o P/E do XBI não tem história confiável para ranquear, então entra leve, só para não ignorar a fatia lucrativa. Fechando os dois andares: 0,31 × 35 + 0,69 × 87 = <b style="color:var(--down)">~70</b>, o número do gauge. É a fatia com lucro (35, barata) que puxa o ETF inteiro para baixo dos 87 da cauda.</p>
+        <p class="accq">Antes de 2021 a cauda usa só a perna do pipeline (o dado de abaixo-do-caixa não existia).</p></div>
       <div class="refs"><b>Método:</b> percentil sobre a amostra trimestral 2016-2026, pesos 50/50 nas duas pernas de valor. clinicaltrials.gov, Stifel/RA Capital, Yahoo Finance.</div></div>
   </section>
 `;
@@ -1336,8 +1338,14 @@ function renderHangMkt(){
         <tr><td><b>KURE</b> (KraneShares)</td><td>EUA (NYSE)</td><td>0,65%</td><td>healthcare China amplo; carrega os licenciadores, mas dilui em dispositivos e farma tradicional</td></tr>
         <tr><td><b>2820</b> (Global X)</td><td>Hong Kong</td><td>0,68%</td><td>biotech China; concentra mais nos licenciadores; ~20% em WuXi</td></tr>
         <tr><td><b>3174</b> (CSOP)</td><td>Hong Kong</td><td>a confirmar</td><td>biotech China; o que mais pega 3SBio e Kelun; ~20% em WuXi</td></tr>
-        <tr><td><b>Cesta de ações</b></td><td>HK + ADRs (EUA)</td><td>só corretagem</td><td>a única forma de sobreponderar de propósito as small/mid que fecham os deals</td></tr>
       </table></div>
+      <p class="cap" style="margin-top:14px"><b>Histórico, base 100 no fim de 2021:</b> <b style="color:var(--accent)">▬ 2820</b> · <b style="color:var(--up)">▬ 3174</b> · <b style="color:var(--muted)">▬ KURE</b></p>
+      ${multiLine([
+        {name:"2820",col:"var(--accent)",data:[[Date.UTC(2021,11,31)/1e3,67.71],[Date.UTC(2022,11,31)/1e3,63.88],[Date.UTC(2023,11,31)/1e3,39.94],[Date.UTC(2024,11,31)/1e3,44.32],[Date.UTC(2025,11,31)/1e3,63.44],[Date.UTC(2026,8,11)/1e3,70.14]]},
+        {name:"3174",col:"var(--up)",data:[[Date.UTC(2021,11,31)/1e3,3.95],[Date.UTC(2022,11,31)/1e3,3.63],[Date.UTC(2023,11,31)/1e3,1.71],[Date.UTC(2024,11,31)/1e3,1.91],[Date.UTC(2025,11,31)/1e3,3.70],[Date.UTC(2026,8,11)/1e3,3.56]]},
+        {name:"KURE",col:"var(--muted)",data:[[Date.UTC(2021,11,31)/1e3,28.70],[Date.UTC(2022,11,31)/1e3,21.39],[Date.UTC(2023,11,31)/1e3,17.49],[Date.UTC(2024,11,31)/1e3,14.19],[Date.UTC(2025,11,31)/1e3,17.04],[Date.UTC(2026,8,11)/1e3,17.74]]}
+      ],{startTs:Date.UTC(2021,11,31)/1e3,hline:100})}
+      <div class="read tight"><p>Os dois biotech puros (2820 e 3174) andam quase colados: despencaram para ~45 no fundo de 2023-2024 e voltaram para perto de 100 na alta de 2025, o retrato do out-licensing reprecificando o setor. O <b>KURE</b> (saúde ampla) ficou para trás, ainda ~40% abaixo de 2021, porque carrega dispositivos e farma tradicional que não pegaram esse repique. Ou seja: para a tese de out-licensing, os veículos de biotech puro capturam melhor o movimento; o KURE dilui.</p></div>
       </div>
     <div class="card"><h3>KURE · KraneShares MSCI All China Health Care</h3><div class="read tight">
       <p><b>Acesso:</b> EUA (NYSE) · <b>taxa</b> 0,65% · <b>~50 empresas</b>. Comprável em qualquer corretora internacional, sem precisar de Hong Kong.</p>
@@ -1351,12 +1359,8 @@ function renderHangMkt(){
       <p><b>Acesso:</b> Hong Kong · <b>taxa</b> a confirmar (pode ser mais cara) · <b>~31 empresas</b>. É o ETF que replica o Hang Seng Biotech, o que você já conhecia.</p>
       <p><b>O que é:</b> biotech China, cap-weighted, <b>large/mid</b>, mas é o que <b>mais pega os small/mid licenciadores</b> como 3SBio e Kelun perto do topo. AUM menor (~US$ 124 mi), então menos líquido.</p>
       <p><b>Tese:</b> a maior sobreposição com os nomes que fecham deals, entre os ETFs. O preço é a liquidez menor e a taxa não confirmada.</p></div></div>
-    <div class="card"><h3>Cesta de ações própria</h3><div class="read tight">
-      <p><b>Acesso:</b> HK (a maioria) + ADRs nos EUA · <b>custo</b> só corretagem · <b>quantas você quiser</b> (tipicamente 8 a 15 nomes).</p>
-      <p><b>O que é:</b> você escolhe as ações: Akeso, Innovent, CSPC, 3SBio, Kelun, Alphamab, Keymed, RemeGen, mais ADRs como BeOne (ONC) e Zai Lab (ZLAB). É a <b>única forma de ir para as small/mid de propósito</b>, que os ETFs subponderam por serem cap-weighted.</p>
-      <p><b>Tese:</b> a captura mais pura do out-licensing das small/mid, e a única que permite sobreponderar quem realmente fecha os deals. O custo é selecionar nome a nome, o risco idiossincrático (uma tese por empresa) e o risco de delisting dos ADRs chineses.</p></div></div>
-    <div class="card keybox"><div class="read"><b>Resumo:</b> para o out-licensing puro, o <b>KURE</b> é o mais prático (EUA), o <b>3174 / 2820 de HK</b> concentram mais nos licenciadores, e uma <b>cesta de ações</b> é a única captura de verdade das small/mid. Nenhum ETF isola o tema, todos diluem em terceirização (WuXi) e large caps.</div></div>
-    <div class="refs"><b>Fontes:</b> KraneShares, Global X, CSOP/stockanalysis, factsheets. Pesos variam por data e fonte; as taxas do 3174/3069 e o status de delisting dos ADRs não foram confirmados, tratar como ordem de grandeza.</div></section>`;
+    <div class="card keybox"><div class="read"><b>Resumo:</b> para o out-licensing puro, o <b>KURE</b> é o mais prático (EUA) e o <b>3174 / 2820 de HK</b> concentram mais nos licenciadores. Nenhum ETF isola o tema, todos diluem em terceirização (WuXi) e large caps, e subponderam as small/mid que fecham os deals por serem ponderados por tamanho.</div></div>
+    <div class="refs"><b>Fontes:</b> KraneShares, Global X, CSOP/stockanalysis, factsheets; histórico de preço via Yahoo Finance (fechamentos mensais, não ajustados por dividendo). Pesos variam por data e fonte; as taxas do 3174/3069 e o status de delisting dos ADRs não foram confirmados, tratar como ordem de grandeza.</div></section>`;
 }
 
 /* ===== TAB: Células-tronco ===== */
